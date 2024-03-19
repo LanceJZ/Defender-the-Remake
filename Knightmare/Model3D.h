@@ -32,7 +32,7 @@ public:
 
 private:
 	Model TheModel = {};
-	Camera* TheCamera = {};
+	Camera* TheCamera3D = {};
 
 	virtual void AddChildren(Model3D* child);
 };

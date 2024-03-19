@@ -1,6 +1,7 @@
 #pragma once
 #include "Globals.h"
-#include "Model3D.h"
+#include "Common.h"
+#include "Utilities.h"
 
 class ThePlayer : public Model3D
 {
@@ -29,6 +30,27 @@ public:
 
 private:
 	int NextNewLifeScore = 10000;
+	bool FacingRight = true;
+	bool ChangedFacing = false;
+	bool RotateFacing = false;
+	int SmartBombs = 0;
+	float MoveToOffset = 1000;
+	float HorzSpeed = 30.0f;
+	float HorzMaxSpeed = 200.0f;
+	float HorzDrag = 2.0f;
+	float ForwardAcceleration = 40.0f;
+	float MaxForwardV = 1000.0f;
+	float ForwardDrag = 20.0f;
+	float AirDrag = 0.004f;
+
+	void Thrust();
+	void ThrustOff();
+	void Reverse();
+	void MoveLeft();
+	void MoveRight();
+	void RotateShipFacing();
+
+	void CameraMovement(float deltaTime);
 
 	void Gamepad();
 	void Keyboard();

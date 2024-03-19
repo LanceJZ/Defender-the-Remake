@@ -19,6 +19,8 @@ bool ThePlayer::BeginRun()
 {
 	Model3D::BeginRun();
 
+	Reset();
+
 	return false;
 }
 
@@ -38,6 +40,10 @@ void ThePlayer::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
 
+	if (RotateFacing)
+		RotateShipFacing();
+
+	CameraMovement(deltaTime);
 }
 
 void ThePlayer::Draw()
@@ -76,6 +82,18 @@ void ThePlayer::Reset()
 	Position = { 0, 0, 0 };
 	Velocity = { 0, 0, 0 };
 	Enabled = true;
+
+	BeenHit = false;
+	ThrustOff();
+	Position = { 0, 0, 0 };
+	Velocity = { 0, 0, 0 };
+	Acceleration = { 0, 0, 0 };
+	FacingRight = true;
+	RotationY = (PI * 2) - 0.045f;
+	Enabled = true;
+	//Radar.Enabled = true;
+	//BackCollusion.Enabled = true;
+	//FrontCollusion.Enabled = true;
 }
 
 void ThePlayer::NewGame()
@@ -85,6 +103,152 @@ void ThePlayer::NewGame()
 	Score = 0;
 	GameOver = false;
 	Reset();
+}
+
+void ThePlayer::Thrust()
+{
+	if (FacingRight)
+	{
+		MoveRight();
+	}
+	else
+	{
+		MoveLeft();
+	}
+}
+
+void ThePlayer::ThrustOff()
+{
+	if (Velocity.x > 0)
+	{
+		Acceleration.x = -ForwardAcceleration / (ForwardDrag / (Velocity.x * AirDrag));
+	}
+	else if (Velocity.x < 0)
+	{
+		Acceleration.x = ForwardAcceleration / (ForwardDrag / -(Velocity.x * AirDrag));
+	}
+
+	//Flame.Enabled = false;
+}
+
+void ThePlayer::Reverse()
+{
+	if (FacingRight)
+	{
+		FacingRight = false;
+	}
+	else
+	{
+		FacingRight = true;
+	}
+
+	MoveToOffset = 0.01f;
+	RotateFacing = true;
+	ChangedFacing = true;
+}
+
+void ThePlayer::MoveLeft()
+{
+	if (Velocity.x > -MaxForwardV)
+	{
+		Acceleration.x = -HorzSpeed;
+		//Flame.Enabled = true;
+	}
+	else
+	{
+		Acceleration.x = 0;
+	}
+}
+
+void ThePlayer::MoveRight()
+{
+	if (Velocity.x < MaxForwardV)
+	{
+		Acceleration.x = HorzSpeed;
+		//Flame.Enabled = true;
+	}
+	else
+	{
+		Acceleration.x = 0;
+	}
+}
+
+void ThePlayer::RotateShipFacing()
+{
+	float rotateSpeed = 0.055f;
+
+	if (FacingRight)
+	{
+		if (RotationY < (PI * 2) -0.045f)
+		{
+			RotationY += rotateSpeed;
+		}
+		else
+		{
+			RotateFacing = false;
+		}
+
+		//BackCollusion.Position.x = -24.0f;
+	}
+	else
+	{
+		if (RotationY > PI)
+		{
+			RotationY -= rotateSpeed;
+		}
+		else
+		{
+			RotateFacing = false;
+		}
+
+		//BackCollusion.Position.x = 24.0f;
+	}
+}
+
+void ThePlayer::CameraMovement(float deltaTime)
+{
+	float facingOffset = GetScreenWidth() * 0.2f;
+
+	if (ChangedFacing)
+	{
+		if (FacingRight)
+		{
+			if (TheCamera.position.x < X() + facingOffset - 0.05f)
+			{
+				TheCamera.position.x = (X() - facingOffset) + (facingOffset * MoveToOffset);
+			}
+			else
+			{
+				ChangedFacing = false;
+			}
+		}
+		else
+		{
+			if (TheCamera.position.x > X() - facingOffset + 0.05f)
+			{
+				TheCamera.position.x = (X() + facingOffset) - (facingOffset * MoveToOffset);
+			}
+			else
+			{
+				ChangedFacing = false;
+			}
+		}
+
+		MoveToOffset += 0.02f;
+	}
+	else
+	{
+		if (FacingRight)
+		{
+			TheCamera.position.x = X() + facingOffset;
+		}
+		else
+		{
+			TheCamera.position.x = X() - facingOffset;
+		}
+	}
+
+	TheCamera.target.x = TheCamera.position.x;
 }
 
 void ThePlayer::Gamepad()
@@ -151,5 +315,19 @@ void ThePlayer::Keyboard()
 	}
 	else
 	{
+	}
+
+	if (IsKeyDown(KEY_LEFT_SHIFT))
+	{
+		Thrust();
+	}
+	else
+	{
+		ThrustOff();
+	}
+
+	if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_LEFT))
+	{
+		Reverse();
 	}
 }

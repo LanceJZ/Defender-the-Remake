@@ -46,7 +46,7 @@ bool Model3D::BeginRun()
 
 bool Model3D::SetCamera(Camera* camera)
 {
-	TheCamera = camera;
+	TheCamera3D = camera;
 
 	return false;
 }
@@ -66,7 +66,7 @@ void Model3D::Draw()
 	{
 		Entity::Draw();
 
-		if (TheCamera == nullptr)
+		if (TheCamera3D == nullptr)
 		{
 			TraceLog(LOG_INFO, "***************\n");
 			TraceLog(LOG_ERROR,
@@ -88,15 +88,15 @@ void Model3D::Draw()
 					radius += parent->Radius;
 				}
 
-				if (TheCamera->position.x > parentTest.x + radius + Radius + ViewableArea.x
-					|| TheCamera->position.x < parentTest.x + -radius + -Radius + -ViewableArea.x)
+				if (TheCamera3D->position.x > parentTest.x + radius + Radius + ViewableArea.x
+					|| TheCamera3D->position.x < parentTest.x + -radius + -Radius + -ViewableArea.x)
 				{
 					WasCulled = true;
 					return;
 				}
 
-				if (TheCamera->position.y > parentTest.y + radius + Radius + ViewableArea.y ||
-					TheCamera->position.y < parentTest.y + -radius + -Radius + -ViewableArea.y)
+				if (TheCamera3D->position.y > parentTest.y + radius + Radius + ViewableArea.y ||
+					TheCamera3D->position.y < parentTest.y + -radius + -Radius + -ViewableArea.y)
 				{
 					WasCulled = true;
 					return;
@@ -104,15 +104,15 @@ void Model3D::Draw()
 			}
 			else
 			{
-				if (TheCamera->position.x > Position.x + Radius + ViewableArea.x
-					|| TheCamera->position.x < Position.x + -Radius + -ViewableArea.x)
+				if (TheCamera3D->position.x > Position.x + Radius + ViewableArea.x
+					|| TheCamera3D->position.x < Position.x + -Radius + -ViewableArea.x)
 				{
 					WasCulled = true;
 					return;
 				}
 
-				if (TheCamera->position.y > Position.y + Radius + ViewableArea.y ||
-					TheCamera->position.y < Position.y + -Radius + -ViewableArea.y)
+				if (TheCamera3D->position.y > Position.y + Radius + ViewableArea.y ||
+					TheCamera3D->position.y < Position.y + -Radius + -ViewableArea.y)
 				{
 					WasCulled = true;
 					return;
@@ -169,7 +169,7 @@ Model& Model3D::GetModel()
 
 Camera* Model3D::GetCamera()
 {
-	return TheCamera;
+	return TheCamera3D;
 }
 
 void Model3D::Spawn(Vector3 pos, Vector3 vel)

@@ -15,7 +15,7 @@ bool Game::Initialize(Utilities &utilities, GameLogic* gameLogic) //Initialize
 
 	Common::Initialize(&utilities);
 
-	float multi = 4.0f;
+	float multi = 7.0f;
 	FieldSize = { GetScreenWidth() * multi, (float)GetScreenHeight() };
 
 	//When adding classes to EM, must be pointer to heap,IE: Name = new Class().
