@@ -51,6 +51,10 @@ bool Game::Load()
 		BackGround->SetLandParts(land, radarLand, i);
 	}
 
+	BackGround->SetPlayer(Player);
+	BackGround->SetRadar(TheManagers.CM.LoadAndGetModel("RadarOutline"),
+		TheManagers.CM.LoadAndGetModel("UIBottomSides"));
+	BackGround->SetUIBackface(TheManagers.CM.LoadAndGetModel("UIBackface"));
 
 
 	return true;

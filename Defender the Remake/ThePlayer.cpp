@@ -43,6 +43,9 @@ void ThePlayer::Update(float deltaTime)
 	if (RotateFacing)
 		RotateShipFacing();
 
+	ScreenEdgeBoundY(GetScreenHeight() * 0.161f, GetScreenHeight() * 0.015f);
+	CheckPlayfieldSidesWarp(4.0f, 3.0f);
+
 	CameraMovement(deltaTime);
 }
 
