@@ -2,6 +2,7 @@
 #include "Globals.h"
 #include "Common.h"
 #include "Utilities.h"
+#include "Shot.h"
 
 class ThePlayer : public Model3D
 {

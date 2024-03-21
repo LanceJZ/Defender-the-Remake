@@ -149,7 +149,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Enemy.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EnemyControl.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Shot.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -166,7 +174,15 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Enemy.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EnemyControl.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Shot.h">
       <SubType>
       </SubType>
     </ClInclude>

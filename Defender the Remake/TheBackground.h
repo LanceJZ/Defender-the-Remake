@@ -25,6 +25,7 @@ public:
 private:
 	bool AllDead = false;
 	int NumberOfStars = 0;
+	float LandRadarScale = 0.3167f;
 
 	size_t LandPartsID[9] = { 0 };
 	size_t RadarLandPartsID[14] = { 0 };
@@ -40,7 +41,7 @@ private:
 
 	ThePlayer* Player = nullptr;
 
-	Vector2 UpdateRadar(float x, float y);
+	float UpdateRadar(float x);
 	void CreateAllTheStars();
 	void UpdateAllTheStars(float deltaTime);
 };

@@ -8,7 +8,7 @@ TheBackground::TheBackground()
 		LandPartsID[i] = TheManagers.EM.AddModel3D(LandParts[i] = DBG_NEW Model3D());
 	}
 
-	for (size_t i = 0; i < 12; i++)
+	for (size_t i = 0; i < 14; i++)
 	{
 		RadarLandPartsID[i] = TheManagers.EM.AddModel3D(RadarLandParts[i] = DBG_NEW Model3D());
 	}
@@ -29,7 +29,7 @@ void TheBackground::SetLandParts(Model landPart, Model radarLandPart, int index)
 {
 	LandParts[index]->SetModel(landPart, 5.0f);
 	LandParts[index]->Radius = 128.0f * 5.0f;
-	//RadarLandParts[index]->SetModel(radarLandPart);
+	RadarLandParts[index]->SetModel(radarLandPart, LandRadarScale);
 }
 
 void TheBackground::SetUIBackface(Model model)
@@ -67,6 +67,11 @@ bool TheBackground::BeginRun()
 	LandParts[8]->SetModel(LandParts[6]->GetModel(), 5.0f);
 	LandParts[8]->Radius = 128.0f * 5.0f;
 
+	for (int i = 7; i < 14; i++)
+	{
+		RadarLandParts[i]->SetModel(RadarLandParts[i - 7]->GetModel(), LandRadarScale);
+	}
+
 	float landY = (GetScreenHeight() / 2.0f) - 160.0f;
 
 	for (int i = 0; i < 7; i++)
@@ -78,7 +83,15 @@ bool TheBackground::BeginRun()
 	LandParts[7]->Position = { GetScreenWidth() * 4.0f, landY, -40.0f};
 	LandParts[8]->Position = { -GetScreenWidth() * 4.0f, landY, -40.0f};
 
-	float UIZ = 50.0f;
+	float y = ((LandParts[0]->Position.y * 0.148f) + (-GetScreenHeight() * 0.4376f));
+
+	for (auto &radar : RadarLandParts)
+	{
+		radar->Y(y);
+		radar->Z(50.0f);
+	}
+
+	float UIZ = -50.0f;
 
 	UIBackfaceL->Position = { 0.0f , -GetScreenHeight() / 2.333f, UIZ };
 	UIBackfaceR->Position = UIBackfaceL->Position;
@@ -105,6 +118,21 @@ void TheBackground::Update()
 	UIBackfaceR->X(TheCamera.position.x + (sWidth / 2.790f));
 	RadarLeft->X(TheCamera.position.x - (sWidth / 2.3f));
 	RadarRight->X(TheCamera.position.x + (sWidth / 2.3f));
+
+	for (int i = 0; i < 7; i++)
+	{
+		RadarLandParts[i]->X(UpdateRadar(LandParts[i]->X()));
+	}
+
+	for (int i = 7; i < 11; i++)
+	{
+		RadarLandParts[i]->X(UpdateRadar(LandParts[i - 7]->X() + (GetScreenWidth() * 7)));
+	}
+
+	for (int i = 11; i < 14; i++)
+	{
+		RadarLandParts[i]->X(UpdateRadar(LandParts[i - 7]->X() - (GetScreenWidth() * 7)));
+	}
 }
 
 void TheBackground::AllThePersonManDead()
@@ -115,7 +143,7 @@ void TheBackground::NewLevel()
 {
 }
 
-Vector2 TheBackground::UpdateRadar(float x, float y)
+float TheBackground::UpdateRadar(float x)
 {
 	float comp = 0.062f;
 	float ww = 7.0f;
@@ -134,9 +162,7 @@ Vector2 TheBackground::UpdateRadar(float x, float y)
 		x = (x + swwwcalc);
 	}
 
-	y = ((y * 0.148f) + (GetScreenHeight() * 0.4376f));
-
-	return { x, y };
+	return x;
 }
 
 void TheBackground::CreateAllTheStars()
