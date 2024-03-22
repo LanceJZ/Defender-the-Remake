@@ -168,6 +168,18 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TheLander.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TheMutant.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ThePerson.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ThePlayer.cpp">
       <SubType>
       </SubType>
@@ -190,6 +202,18 @@
     <ClInclude Include="GameLogic.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="TheBackground.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TheLander.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TheMutant.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ThePerson.h">
       <SubType>
       </SubType>
     </ClInclude>

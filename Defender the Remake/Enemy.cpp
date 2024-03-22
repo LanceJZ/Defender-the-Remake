@@ -57,6 +57,14 @@ void Enemy::Draw()
 
 }
 
+void Enemy::Hit()
+{
+}
+
+void Enemy::Reset()
+{
+}
+
 void Enemy::Spawn(Vector3 position)
 {
 	Entity::Spawn(position);

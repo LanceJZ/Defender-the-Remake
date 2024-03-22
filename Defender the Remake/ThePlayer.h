@@ -12,6 +12,7 @@ public:
 
 	bool NewLife = false;
 	bool GameOver = false;
+	bool SmartBombFired = false;
 
 	int Score { 0 };
 	int HighScore { 0 };

@@ -21,10 +21,13 @@ public:
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
 
-	void Spawn(Vector3 position);
+	virtual void Spawn(Vector3 position);
 
-	void Update(float deltaTime);
-	void Draw();
+	virtual void Update(float deltaTime);
+	virtual void Draw();
+
+	virtual void Hit();
+	virtual void Reset();
 
 protected:
 	size_t ShotTimerID = 0;
