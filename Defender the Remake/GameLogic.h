@@ -4,6 +4,7 @@
 #include "Utilities.h"
 #include "ThePlayer.h"
 #include "EnemyControl.h"
+#include "ThePerson.h"
 
 class GameLogic : public Common
 {
@@ -11,8 +12,10 @@ public:
 	GameLogic();
 	virtual ~GameLogic();
 
+
 	void SetPlayer(ThePlayer* player);
 	void SetEnemies(EnemyControl* enemies);
+	void SetPersonModel(Model model);
 
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
@@ -20,10 +23,14 @@ public:
 	void Update();
 
 private:
+	size_t PeopleIDs[10] = { 0 };
 	Vector2 AdjustedFieldSize = {};
 
+	Model PersonModel = { 0 };
 	ThePlayer* Player = {};
 	EnemyControl* Enemies = {};
+	ThePerson* People[10] = { nullptr };
 
+	void UpdatePersonMan();
 };
 

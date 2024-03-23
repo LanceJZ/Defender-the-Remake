@@ -2,10 +2,22 @@
 
 ThePlayer::ThePlayer()
 {
+	TheManagers.EM.AddModel3D(Flame = DBG_NEW Model3D());
 }
 
 ThePlayer::~ThePlayer()
 {
+}
+
+void ThePlayer::SetShotModels(Model shotModel, Model tailModel)
+{
+	ShotModel = shotModel;
+	ShotTailModel = tailModel;
+}
+
+void ThePlayer::SetFlameModel(Model model)
+{
+	Flame->SetModel(model);
 }
 
 bool ThePlayer::Initialize(Utilities* utilities)

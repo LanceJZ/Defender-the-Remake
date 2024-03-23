@@ -37,6 +37,9 @@ bool Game::Initialize(Utilities &utilities, GameLogic* gameLogic) //Initialize
 bool Game::Load()
 {
 	Player->SetModel(TheManagers.CM.LoadAndGetModel("Player Ship"));
+	Player->SetFlameModel(TheManagers.CM.LoadAndGetModel("Player Flame"));
+	Player->SetShotModels(TheManagers.CM.LoadAndGetModel("Player Shot"),
+		TheManagers.CM.LoadAndGetModel("Player Shot Tail"));
 
 	for (size_t i = 0; i < 7; i++)
 	{

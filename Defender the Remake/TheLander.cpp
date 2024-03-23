@@ -8,6 +8,14 @@ TheLander::~TheLander()
 {
 }
 
+void TheLander::SetPeople(ThePerson* people[10])
+{
+	for (int i = 0; i < 10; i++)
+	{
+		People[i] = people[i];
+	}
+}
+
 bool TheLander::Initialize(Utilities* utilities)
 {
 	Enemy::Initialize(utilities);

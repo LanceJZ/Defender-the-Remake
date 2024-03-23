@@ -14,6 +14,14 @@ void EnemyControl::SetPlayer(ThePlayer* player)
 	Player = player;
 }
 
+void EnemyControl::SetPeople(ThePerson* people[10])
+{
+	for (int i = 0; i < 10; i++)
+	{
+		People[i] = people[i];
+	}
+}
+
 void EnemyControl::SetLanderModel(Model model)
 {
 	LanderModel = model;
@@ -27,11 +35,6 @@ void EnemyControl::SetMutantModel(Model model)
 void EnemyControl::SetShotModel(Model model)
 {
 	ShotModel = model;
-}
-
-void EnemyControl::SetPersonModel(Model model)
-{
-	PersonModel = model;
 }
 
 bool EnemyControl::Initialize(Utilities* utilities)
@@ -53,7 +56,6 @@ void EnemyControl::Update()
 
 	UpdateLander();
 	UpdateMutant();
-	UpdatePerson();
 
 	if (Player->BeenHit)
 	{
@@ -67,6 +69,10 @@ void EnemyControl::Update()
 
 }
 
+void EnemyControl::AllDead()
+{
+}
+
 void EnemyControl::NewGame()
 {
 }
@@ -76,10 +82,6 @@ void EnemyControl::UpdateLander()
 }
 
 void EnemyControl::UpdateMutant()
-{
-}
-
-void EnemyControl::UpdatePerson()
 {
 }
 
@@ -123,9 +125,5 @@ void EnemyControl::PlayerHitReset()
 }
 
 void EnemyControl::Reset()
-{
-}
-
-void EnemyControl::AllDead()
 {
 }

@@ -18,6 +18,9 @@ public:
 	int HighScore { 0 };
 	int Lives { 0 };
 
+	void SetShotModels(Model shotModel, Model tailModel);
+	void SetFlameModel(Model model);
+
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
 
@@ -44,6 +47,10 @@ private:
 	float MaxForwardV = 1000.0f;
 	float ForwardDrag = 20.0f;
 	float AirDrag = 0.004f;
+
+	Model3D* Flame = {};
+	Model ShotModel = {};
+	Model ShotTailModel = {};
 
 	void Thrust();
 	void ThrustOff();
