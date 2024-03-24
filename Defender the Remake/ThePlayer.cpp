@@ -31,6 +31,8 @@ bool ThePlayer::BeginRun()
 {
 	Model3D::BeginRun();
 
+	Flame->SetParent(this);
+	Flame->X(-56.0f);
 	Reset();
 
 	return false;
@@ -104,7 +106,7 @@ void ThePlayer::Reset()
 	Velocity = { 0, 0, 0 };
 	Acceleration = { 0, 0, 0 };
 	FacingRight = true;
-	RotationY = (PI * 2) - 0.045f;
+	RotationY = (PI * 2);
 	Enabled = true;
 	//Radar.Enabled = true;
 	//BackCollusion.Enabled = true;
@@ -143,7 +145,7 @@ void ThePlayer::ThrustOff()
 		Acceleration.x = ForwardAcceleration / (ForwardDrag / -(Velocity.x * AirDrag));
 	}
 
-	//Flame.Enabled = false;
+	Flame->Enabled = false;
 }
 
 void ThePlayer::Reverse()
@@ -167,7 +169,7 @@ void ThePlayer::MoveLeft()
 	if (Velocity.x > -MaxForwardV)
 	{
 		Acceleration.x = -HorzSpeed;
-		//Flame.Enabled = true;
+		Flame->Enabled = true;
 	}
 	else
 	{
@@ -180,7 +182,7 @@ void ThePlayer::MoveRight()
 	if (Velocity.x < MaxForwardV)
 	{
 		Acceleration.x = HorzSpeed;
-		//Flame.Enabled = true;
+		Flame->Enabled = true;
 	}
 	else
 	{
@@ -190,11 +192,11 @@ void ThePlayer::MoveRight()
 
 void ThePlayer::RotateShipFacing()
 {
-	float rotateSpeed = 0.055f;
+	float rotateSpeed = 0.045f;
 
 	if (FacingRight)
 	{
-		if (RotationY < (PI * 2) -0.045f)
+		if (RotationY < (PI * 2))
 		{
 			RotationY += rotateSpeed;
 		}

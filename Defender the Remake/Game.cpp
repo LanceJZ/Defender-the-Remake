@@ -41,6 +41,8 @@ bool Game::Load()
 	Player->SetShotModels(TheManagers.CM.LoadAndGetModel("Player Shot"),
 		TheManagers.CM.LoadAndGetModel("Player Shot Tail"));
 
+	Logic->SetPersonModel(TheManagers.CM.LoadAndGetModel("Person"));
+
 	for (size_t i = 0; i < 7; i++)
 	{
 		std::string name = "Ground";

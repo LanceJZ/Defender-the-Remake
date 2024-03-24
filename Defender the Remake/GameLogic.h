@@ -32,5 +32,7 @@ private:
 	ThePerson* People[10] = { nullptr };
 
 	void UpdatePersonMan();
+	void SpawnPersonMan(int count);
+	void SetupPersonMan();
 };
 

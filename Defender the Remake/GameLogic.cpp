@@ -32,15 +32,17 @@ bool GameLogic::Initialize(Utilities* utilities)
 	Common::Initialize(utilities);
 
 	AdjustedFieldSize = Vector2Multiply(FieldSize, { 0.5f, 0.5f });
-	Enemies->SetPeople(People);
 
 	return false;
 }
 
 bool GameLogic::BeginRun()
 {
+	Enemies->SetPeople(People);
 
-	return false;
+	SetupPersonMan();
+
+	return true;
 }
 
 void GameLogic::Update()
@@ -52,4 +54,24 @@ void GameLogic::Update()
 
 void GameLogic::UpdatePersonMan()
 {
+}
+
+void GameLogic::SpawnPersonMan(int count)
+{
+	for (int i = 0; i < count; i++)
+	{
+		float x = GetRandomFloat(-AdjustedFieldSize.x, AdjustedFieldSize.x);
+		float y = GetScreenHeight() * 0.49f;
+		People[i]->Position = { x, y, 0.0f };
+	}
+}
+
+void GameLogic::SetupPersonMan()
+{
+	for (auto person : People)
+	{
+		person->SetModel(PersonModel);
+	}
+
+	SpawnPersonMan(10);
 }
