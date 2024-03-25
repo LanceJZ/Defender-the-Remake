@@ -159,6 +159,21 @@ void EntityManager::Draw2D()
 	}
 }
 
+void EntityManager::ResetTimer(size_t id)
+{
+	Timers[id]->Reset();
+}
+
+void EntityManager::SetTimer(size_t id, float amount)
+{
+	Timers[id]->Set(amount);
+}
+
+bool EntityManager::TimerElapsed(size_t id)
+{
+	return Timers[id]->Elapsed();
+}
+
 size_t EntityManager::AddEntity(Entity* entity)
 {
 	size_t entityNumber = Entities.size();

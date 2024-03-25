@@ -2,7 +2,7 @@
 
 EnemyControl::EnemyControl()
 {
-
+	SpawnTimerID = TheManagers.EM.AddTimer();
 }
 
 EnemyControl::~EnemyControl()
@@ -41,13 +41,18 @@ bool EnemyControl::Initialize(Utilities* utilities)
 {
 	Common::Initialize(utilities);
 
-	return false;
+	AdjustedFieldSize = Vector2Multiply(FieldSize, { 0.5f, 0.5f });
+
+	return true;
 }
 
 bool EnemyControl::BeginRun()
 {
+	Common::BeginRun();
 
-	return false;
+	Reset();
+
+	return true;
 }
 
 void EnemyControl::Update()
@@ -67,6 +72,15 @@ void EnemyControl::Update()
 		SmartBomb();
 	}
 
+	if (TheManagers.EM.TimerElapsed(SpawnTimerID))
+	{
+		TheManagers.EM.ResetTimer(SpawnTimerID);
+
+		if (NumberSpawned < TotalSpawn)
+		{
+			SpawnMoreLanders();
+		}
+	}
 }
 
 void EnemyControl::AllDead()
@@ -126,4 +140,55 @@ void EnemyControl::PlayerHitReset()
 
 void EnemyControl::Reset()
 {
+	TheManagers.EM.SetTimer(SpawnTimerID, SpawnTimerAmount);
+}
+
+void EnemyControl::SpawnMoreLanders()
+{
+	int spawn = 5;
+
+	if (NumberSpawned + spawn > TotalSpawn)
+	{
+		spawn = TotalSpawn - NumberSpawned;
+	}
+
+	NumberSpawned += spawn;
+	SpawnLanders(spawn);
+	TheManagers.EM.ResetTimer(SpawnTimerID);
+}
+
+void EnemyControl::SpawnLanders(int count)
+{
+	for (int i = 0; i < count; i++)
+	{
+		bool spawnNew = true;
+		int landerNumber = 0;
+		int landerSpawnNumber = (int)Landers.size();
+
+		for (const auto& lander : Landers)
+		{
+			if (!lander->Enabled)
+			{
+				spawnNew = false;
+				landerSpawnNumber = landerNumber;
+				break;
+			}
+
+			landerNumber++;
+		}
+
+		if (spawnNew)
+		{
+			Landers.push_back(DBG_NEW TheLander());
+			TheManagers.EM.AddModel3D(Landers[landerSpawnNumber], LanderModel);
+			Landers[landerSpawnNumber]->SetPlayer(Player);
+			Landers[landerSpawnNumber]->SetPeople(People);
+			Landers[landerSpawnNumber]->Initialize(TheUtilities);
+			Landers[landerSpawnNumber]->BeginRun();
+		}
+
+		float x = GetRandomFloat(-AdjustedFieldSize.x, AdjustedFieldSize.x);
+		float y = -GetScreenHeight() * 0.333f;
+		Landers[landerSpawnNumber]->Spawn({x, y, 0.0f});
+	}
 }

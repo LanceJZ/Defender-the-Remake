@@ -32,6 +32,15 @@ public:
 	void NewGame();
 
 private:
+	size_t SpawnTimerID = 0;
+
+	int TotalSpawn = 10;
+	int NumberSpawned = 0;
+	int NumberMutants = 0;
+	float SpawnTimerAmount = 10.0f;
+
+	Vector2 AdjustedFieldSize = {};
+
 	Model LanderModel = { 0 };
 	Model MutantModel = { 0 };
 	Model ShotModel = { 0 };
@@ -45,5 +54,8 @@ private:
 	void SmartBomb();
 	void PlayerHitReset();
 	void Reset();
+
+	void SpawnMoreLanders();
+	void SpawnLanders(int count);
 };
 

@@ -10,10 +10,10 @@ public:
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
 
-	void Spawn(Vector3 position);
-
 	void Update(float deltaTime);
 	void Draw();
+
+	void Spawn(Vector3 position);
 
 private:
 

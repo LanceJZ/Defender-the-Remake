@@ -32,6 +32,10 @@ public:
 	void Draw3D();
 	void Draw2D();
 
+	void ResetTimer(size_t id);
+	void SetTimer(size_t id, float amount);
+	bool TimerElapsed(size_t id);
+
 	size_t AddEntity(Entity* entity);
 	size_t AddEntity();
 	size_t AddLineModel(LineModel* model);
@@ -53,11 +57,12 @@ public:
 	std::vector<Entity*> Entities = {};
 	std::vector<LineModel*> LineModels = {};
 	std::vector<Model3D*> Model3Ds = {};
-	std::vector<Timer*> Timers = {};
 	std::vector<Common*> Commons = {};
 
 private:
 	Utilities* TheUtilities = {};
 	Camera* TheCamera = {};
+
+	std::vector<Timer*> Timers = {};
 };
 
