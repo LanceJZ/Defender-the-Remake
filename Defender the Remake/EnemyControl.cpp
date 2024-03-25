@@ -71,16 +71,6 @@ void EnemyControl::Update()
 	{
 		SmartBomb();
 	}
-
-	if (TheManagers.EM.TimerElapsed(SpawnTimerID))
-	{
-		TheManagers.EM.ResetTimer(SpawnTimerID);
-
-		if (NumberSpawned < TotalSpawn)
-		{
-			SpawnMoreLanders();
-		}
-	}
 }
 
 void EnemyControl::AllDead()
@@ -93,6 +83,15 @@ void EnemyControl::NewGame()
 
 void EnemyControl::UpdateLander()
 {
+	if (TheManagers.EM.TimerElapsed(SpawnTimerID))
+	{
+		TheManagers.EM.ResetTimer(SpawnTimerID);
+
+		if (NumberSpawned < TotalSpawn)
+		{
+			SpawnMoreLanders();
+		}
+	}
 }
 
 void EnemyControl::UpdateMutant()

@@ -8,6 +8,11 @@ ThePerson::~ThePerson()
 {
 }
 
+void ThePerson::SetPlayer(ThePlayer* player)
+{
+	Player = player;
+}
+
 bool ThePerson::Initialize(Utilities* utilities)
 {
 	Model3D::Initialize(utilities);
@@ -38,4 +43,16 @@ void ThePerson::Spawn(Vector3 position)
 {
 	Entity::Spawn(position);
 
+}
+
+void ThePerson::Dropped()
+{
+}
+
+void ThePerson::Destroy()
+{
+}
+
+void ThePerson::Reset()
+{
 }
