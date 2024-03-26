@@ -38,9 +38,11 @@ void TheLander::Update(float deltaTime)
 	{
 	case StateList::LoweringToSeek:
 		GoToSeek();
+		CheckPlayfieldSidesWarp(4.0f, 3.0f);
 		break;
 	case StateList::Seek:
 		SeekPersonMan();
+		CheckPlayfieldSidesWarp(4.0f, 3.0f);
 		break;
 	case StateList::FoundPersonMan:
 		GoingDown();
@@ -147,10 +149,24 @@ void TheLander::GoingDown()
 
 void TheLander::GrabPersonMan()
 {
+	People[PersonTargetID]->Y(Y() + 25.0f);
+
+	if (Y() < -FieldSize.y * 0.333f)
+	{
+		State = StateList::Mutate;
+		Velocity.y = 0.0f;
+		People[PersonTargetID]->Velocity.y = -60.0f;
+	}
 }
 
 void TheLander::SpawnMutant()
 {
+	if (People[PersonTargetID]->Y() < Y())
+	{
+		People[PersonTargetID]->Enabled = false;
+		People[PersonTargetID]->Velocity.y = 0.0f;
+		MutateLander = true;
+	}
 }
 
 void TheLander::FireShot()

@@ -57,5 +57,6 @@ private:
 
 	void SpawnMoreLanders();
 	void SpawnLanders(int count);
+	void SpawnMutant(Vector3 position);
 };
 

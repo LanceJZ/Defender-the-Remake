@@ -92,6 +92,20 @@ void EnemyControl::UpdateLander()
 			SpawnMoreLanders();
 		}
 	}
+
+	for (auto lander : Landers)
+	{
+		if (lander->Enabled)
+		{
+			if (lander->MutateLander)
+			{
+				lander-> Enabled = false;
+				lander->MutateLander = false;
+				SpawnMutant(lander->Position);
+				break;
+			}
+		}
+	}
 }
 
 void EnemyControl::UpdateMutant()
@@ -190,4 +204,32 @@ void EnemyControl::SpawnLanders(int count)
 		float y = -GetScreenHeight() * 0.333f;
 		Landers[landerSpawnNumber]->Spawn({x, y, 0.0f});
 	}
+}
+
+void EnemyControl::SpawnMutant(Vector3 position)
+{
+	bool spawnNew = true;
+	int mutantNumber = 0;
+	int mutantSpawnNumber = (int)Mutants.size();
+
+	for (const auto& mutant : Mutants)
+	{
+		if (!mutant->Enabled)
+		{
+			spawnNew = false;
+			mutantSpawnNumber = mutantNumber;
+			break;
+		}
+	}
+
+	if (spawnNew)
+	{
+		Mutants.push_back(DBG_NEW TheMutant());
+		TheManagers.EM.AddModel3D(Mutants[mutantSpawnNumber], MutantModel);
+		Mutants[mutantSpawnNumber]->SetPlayer(Player);
+		Mutants[mutantSpawnNumber]->Initialize(TheUtilities);
+		Mutants[mutantSpawnNumber]->BeginRun();
+	}
+
+	Mutants[mutantSpawnNumber]->Spawn(position);
 }

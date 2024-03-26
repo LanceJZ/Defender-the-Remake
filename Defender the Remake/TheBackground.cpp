@@ -10,7 +10,8 @@ TheBackground::TheBackground()
 
 	for (size_t i = 0; i < 14; i++)
 	{
-		RadarLandPartsID[i] = TheManagers.EM.AddModel3D(RadarLandParts[i] = DBG_NEW Model3D());
+		RadarLandPartsID[i] = TheManagers.EM.AddModel3D(RadarLandParts[i] =
+			DBG_NEW Model3D());
 	}
 
 	TheManagers.EM.AddModel3D(UIBackfaceL = DBG_NEW Model3D());
@@ -77,11 +78,11 @@ bool TheBackground::BeginRun()
 	for (int i = 0; i < 7; i++)
 	{
 		LandParts[i]->Position = { (-GetScreenWidth() * 3.0f) + (GetScreenWidth() * i),
-			landY, -40.0f};
+			landY, 40.0f};
 	}
 
-	LandParts[7]->Position = { GetScreenWidth() * 4.0f, landY, -40.0f};
-	LandParts[8]->Position = { -GetScreenWidth() * 4.0f, landY, -40.0f};
+	LandParts[7]->Position = { GetScreenWidth() * 4.0f, landY, 40.0f};
+	LandParts[8]->Position = { -GetScreenWidth() * 4.0f, landY, 40.0f};
 
 	float y = ((LandParts[0]->Position.y * 0.148f) + (-GetScreenHeight() * 0.4376f));
 
