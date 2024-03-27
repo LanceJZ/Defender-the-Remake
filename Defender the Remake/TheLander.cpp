@@ -99,6 +99,12 @@ void TheLander::GoToSeek()
 		State = StateList::Seek;
 		Velocity.y = 0.0f;
 	}
+
+	if (TheManagers.EM.TimerElapsed(ShotTimerID))
+	{
+		TheManagers.EM.ResetTimer(ShotTimerID, GetRandomFloat(2.75f, 4.75f));
+		FireShot();
+	}
 }
 
 void TheLander::SeekPersonMan()
@@ -118,6 +124,12 @@ void TheLander::SeekPersonMan()
 				People[i]->State = ThePerson::TargetedByLander;
 			}
 		}
+	}
+
+	if (TheManagers.EM.TimerElapsed(ShotTimerID))
+	{
+		TheManagers.EM.ResetTimer(ShotTimerID, GetRandomFloat(2.0f, 3.5f));
+		FireShot();
 	}
 }
 
@@ -145,6 +157,12 @@ void TheLander::GoingDown()
 		Velocity.y = GetRandomFloat(-60.0f, -40.0f);
 		Velocity.x = 0.0f;
 	}
+
+	if (TheManagers.EM.TimerElapsed(ShotTimerID))
+	{
+		FireShot();
+		TheManagers.EM.ResetTimer(ShotTimerID, GetRandomFloat(0.5f, 1.5f));
+	}
 }
 
 void TheLander::GrabPersonMan()
@@ -157,6 +175,12 @@ void TheLander::GrabPersonMan()
 		Velocity.y = 0.0f;
 		People[PersonTargetID]->Velocity.y = -60.0f;
 	}
+
+	if (TheManagers.EM.TimerElapsed(ShotTimerID))
+	{
+		FireShot();
+		TheManagers.EM.ResetTimer(ShotTimerID, GetRandomFloat(0.25f, 1.0f));
+	}
 }
 
 void TheLander::SpawnMutant()
@@ -167,10 +191,6 @@ void TheLander::SpawnMutant()
 		People[PersonTargetID]->Velocity.y = 0.0f;
 		MutateLander = true;
 	}
-}
-
-void TheLander::FireShot()
-{
 }
 
 bool TheLander::CheckCollision()

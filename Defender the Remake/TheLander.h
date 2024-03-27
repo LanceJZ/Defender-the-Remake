@@ -44,7 +44,6 @@ private:
 	void GoingDown();
 	void GrabPersonMan();
 	void SpawnMutant();
-	void FireShot();
 	bool CheckCollision();
 	void Destroy();
 };

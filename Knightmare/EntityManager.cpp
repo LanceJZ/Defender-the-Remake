@@ -164,6 +164,11 @@ void EntityManager::ResetTimer(size_t id)
 	Timers[id]->Reset();
 }
 
+void EntityManager::ResetTimer(size_t id, float amount)
+{
+	Timers[id]->Reset(amount);
+}
+
 void EntityManager::SetTimer(size_t id, float amount)
 {
 	Timers[id]->Set(amount);

@@ -27,6 +27,10 @@ void Shot::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
 
+	if (TheManagers.EM.TimerElapsed(LifeTimerID))
+	{
+		Enabled = false;
+	}
 }
 
 void Shot::Draw()
@@ -39,6 +43,8 @@ void Shot::EnemySpawn(Vector3 position, Vector3 velocity, float lifeTime)
 {
 	Entity::Spawn(position);
 
+	Velocity = velocity;
+	TheManagers.EM.ResetTimer(LifeTimerID, lifeTime);
 }
 
 void Shot::PlayerSpawn(Vector3 position, Vector3 velocity, bool facingRight)

@@ -12,7 +12,7 @@ public:
 
 	bool CountChange = false;
 	int ScoreAmount = 0;
-	Shot* Shots[4] = { nullptr };
+	Shot* Shots[8] = { nullptr };
 
 	void SetPlayer(ThePlayer* player);
 	void SetRadarModel(Model model);
@@ -34,8 +34,11 @@ protected:
 
 	ThePlayer* Player = nullptr;
 
+	virtual void FireShot();
+	virtual bool CheckCollision();
+	virtual void Destroy();
 
 private:
-
-
+	float GetShotAngle(Vector3 position);
+	float AimedShot(Vector3 position);
 };

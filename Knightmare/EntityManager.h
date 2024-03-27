@@ -33,6 +33,7 @@ public:
 	void Draw2D();
 
 	void ResetTimer(size_t id);
+	void ResetTimer(size_t id, float amount);
 	void SetTimer(size_t id, float amount);
 	bool TimerElapsed(size_t id);
 

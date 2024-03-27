@@ -196,6 +196,7 @@ void EnemyControl::SpawnLanders(int count)
 			TheManagers.EM.AddModel3D(Landers[landerSpawnNumber], LanderModel);
 			Landers[landerSpawnNumber]->SetPlayer(Player);
 			Landers[landerSpawnNumber]->SetPeople(People);
+			Landers[landerSpawnNumber]->SetShotModel(ShotModel);
 			Landers[landerSpawnNumber]->Initialize(TheUtilities);
 			Landers[landerSpawnNumber]->BeginRun();
 		}
@@ -227,6 +228,7 @@ void EnemyControl::SpawnMutant(Vector3 position)
 		Mutants.push_back(DBG_NEW TheMutant());
 		TheManagers.EM.AddModel3D(Mutants[mutantSpawnNumber], MutantModel);
 		Mutants[mutantSpawnNumber]->SetPlayer(Player);
+		Mutants[mutantSpawnNumber]->SetShotModel(ShotModel);
 		Mutants[mutantSpawnNumber]->Initialize(TheUtilities);
 		Mutants[mutantSpawnNumber]->BeginRun();
 	}
