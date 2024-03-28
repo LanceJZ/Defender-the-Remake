@@ -36,19 +36,6 @@ bool Game::Initialize(Utilities &utilities, GameLogic* gameLogic) //Initialize
 
 bool Game::Load()
 {
-	Player->SetModel(TheManagers.CM.LoadAndGetModel("Player Ship"));
-	Player->SetFlameModel(TheManagers.CM.LoadAndGetModel("Player Flame"));
-	Player->SetShotModels(TheManagers.CM.LoadAndGetModel("Player Shot"),
-		TheManagers.CM.LoadAndGetModel("Player Shot Tail"));
-
-	Logic->SetPersonModel(TheManagers.CM.LoadAndGetModel("Person"));
-
-	//Model shot = TheManagers.CM.LoadAndGetModel("Shot");
-
-	Enemies->SetLanderModel(TheManagers.CM.LoadAndGetModel("Lander"));
-	Enemies->SetMutantModel(TheManagers.CM.LoadAndGetModel("Mutant"));
-	Enemies->SetShotModel(TheManagers.CM.LoadAndGetModel("Shot"));
-
 	for (size_t i = 0; i < 7; i++)
 	{
 		std::string name = "Ground";
@@ -67,6 +54,20 @@ bool Game::Load()
 		TheManagers.CM.LoadAndGetModel("UIBottomSides"));
 	BackGround->SetUIBackface(TheManagers.CM.LoadAndGetModel("UIBackface"));
 
+	Player->SetModel(TheManagers.CM.LoadAndGetModel("Player Ship"));
+	Player->SetFlameModel(TheManagers.CM.LoadAndGetModel("Player Flame"));
+	Player->SetShotModels(TheManagers.CM.LoadAndGetModel("Player Shot"),
+		TheManagers.CM.LoadAndGetModel("Player Shot Tail"));
+
+	Logic->SetPersonModel(TheManagers.CM.LoadAndGetModel("Person"));
+
+	//Model shot = TheManagers.CM.LoadAndGetModel("Shot");
+
+	Enemies->SetLanderModel(TheManagers.CM.LoadAndGetModel("Lander"));
+	Enemies->SetMutantModel(TheManagers.CM.LoadAndGetModel("Mutant"));
+	Enemies->SetShotModel(TheManagers.CM.LoadAndGetModel("Shot"));
+	Enemies->SetLanderRadarModel(TheManagers.CM.LoadAndGetModel("Lander Radar"));
+	Enemies->SetMutantRadarModel(TheManagers.CM.LoadAndGetModel("Mutant Radar"));
 
 	return true;
 }

@@ -39,6 +39,18 @@ protected:
 	virtual void Destroy();
 
 private:
+	float Xmultiplier = 0;
+	float MirrorMultiplier = 0;
+	float HeightMultiplier = 0;
+	float WidthOffset = 0;
+	float WidthCameraOffset = 0;
+	float WidthMirrorOffset = 0;
+	float WidthMirrorModifierOffset = 0;
+
+	Model3D* MirrorR = {};
+	Model3D* MirrorL = {};
+	Model3D* Radar = {};
+
 	float GetShotAngle(Vector3 position);
 	float AimedShot(Vector3 position);
 };

@@ -64,7 +64,7 @@ void TheLander::Draw()
 
 void TheLander::Spawn(Vector3 position)
 {
-	Entity::Spawn(position);
+	Enemy::Spawn(position);
 
 	State = StateList::LoweringToSeek;
 

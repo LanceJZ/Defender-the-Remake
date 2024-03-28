@@ -37,6 +37,16 @@ void EnemyControl::SetShotModel(Model model)
 	ShotModel = model;
 }
 
+void EnemyControl::SetLanderRadarModel(Model model)
+{
+	RadarLanderModel = model;
+}
+
+void EnemyControl::SetMutantRadarModel(Model model)
+{
+	RadarMutantModel = model;
+}
+
 bool EnemyControl::Initialize(Utilities* utilities)
 {
 	Common::Initialize(utilities);
@@ -85,7 +95,7 @@ void EnemyControl::UpdateLander()
 {
 	if (TheManagers.EM.TimerElapsed(SpawnTimerID))
 	{
-		TheManagers.EM.ResetTimer(SpawnTimerID);
+		TheManagers.EM.ResetTimer(SpawnTimerID, SpawnTimerAmount);
 
 		if (NumberSpawned < TotalSpawn)
 		{
@@ -153,7 +163,7 @@ void EnemyControl::PlayerHitReset()
 
 void EnemyControl::Reset()
 {
-	TheManagers.EM.SetTimer(SpawnTimerID, SpawnTimerAmount);
+	TheManagers.EM.ResetTimer(SpawnTimerID, 2.0f);
 }
 
 void EnemyControl::SpawnMoreLanders()
@@ -197,6 +207,7 @@ void EnemyControl::SpawnLanders(int count)
 			Landers[landerSpawnNumber]->SetPlayer(Player);
 			Landers[landerSpawnNumber]->SetPeople(People);
 			Landers[landerSpawnNumber]->SetShotModel(ShotModel);
+			Landers[landerSpawnNumber]->SetRadarModel(RadarLanderModel);
 			Landers[landerSpawnNumber]->Initialize(TheUtilities);
 			Landers[landerSpawnNumber]->BeginRun();
 		}
@@ -229,6 +240,7 @@ void EnemyControl::SpawnMutant(Vector3 position)
 		TheManagers.EM.AddModel3D(Mutants[mutantSpawnNumber], MutantModel);
 		Mutants[mutantSpawnNumber]->SetPlayer(Player);
 		Mutants[mutantSpawnNumber]->SetShotModel(ShotModel);
+		Mutants[mutantSpawnNumber]->SetRadarModel(RadarMutantModel);
 		Mutants[mutantSpawnNumber]->Initialize(TheUtilities);
 		Mutants[mutantSpawnNumber]->BeginRun();
 	}

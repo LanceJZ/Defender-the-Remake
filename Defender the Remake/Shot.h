@@ -18,6 +18,9 @@ public:
 
 private:
 	size_t LifeTimerID = 0;
+	float Xmultiplier = 0;
+	float MirrorMultiplier = 0;
 
-
+	Model3D* MirrorR = {};
+	Model3D* MirrorL = {};
 };

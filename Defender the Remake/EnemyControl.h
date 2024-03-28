@@ -22,6 +22,8 @@ public:
 	void SetLanderModel(Model model);
 	void SetMutantModel(Model model);
 	void SetShotModel(Model model);
+	void SetLanderRadarModel(Model model);
+	void SetMutantRadarModel(Model model);
 
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
@@ -44,6 +46,8 @@ private:
 	Model LanderModel = { 0 };
 	Model MutantModel = { 0 };
 	Model ShotModel = { 0 };
+	Model RadarLanderModel = { 0 };
+	Model RadarMutantModel = { 0 };
 
 	ThePlayer* Player = nullptr;
 	ThePerson* People[10] = {};
