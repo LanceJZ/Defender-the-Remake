@@ -12,7 +12,8 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
-	void Spawn(Vector3 position);
+	virtual void Spawn(Vector3 position);
+	virtual void Destroy();
 
 	bool CirclesIntersect(Entity& target);
 	bool CirclesIntersectBullet(Entity& target);

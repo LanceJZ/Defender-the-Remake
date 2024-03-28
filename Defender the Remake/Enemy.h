@@ -12,7 +12,7 @@ public:
 
 	bool CountChange = false;
 	int ScoreAmount = 0;
-	Shot* Shots[8] = { nullptr };
+	Shot* Shots[12] = { nullptr };
 
 	void SetPlayer(ThePlayer* player);
 	void SetRadarModel(Model model);

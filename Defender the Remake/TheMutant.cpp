@@ -34,7 +34,7 @@ void TheMutant::Update(float deltaTime)
 	if (TheManagers.EM.TimerElapsed(ShotTimerID))
 	{
 		FireShot();
-		TheManagers.EM.SetTimer(ShotTimerID, GetRandomFloat(0.3f, 1.5f));
+		TheManagers.EM.ResetTimer(ShotTimerID, GetRandomFloat(0.25f, 0.5f));
 	}
 }
 
@@ -60,7 +60,7 @@ void TheMutant::ChasePlayer()
 
 	if (TheManagers.EM.TimerElapsed(ChangeSpeedTimerID))
 	{
-		TheManagers.EM.SetTimer(ChangeSpeedTimerID, GetRandomFloat(0.3f, 2.5f));
+		TheManagers.EM.ResetTimer(ChangeSpeedTimerID, GetRandomFloat(0.3f, 2.5f));
 		Speed = GetRandomFloat(150.0f, 350.0f);
 		DistanceY = GetRandomFloat(100.0f, 150.0f);
 	}

@@ -2,7 +2,7 @@
 
 Enemy::Enemy()
 {
-	for (size_t i = 0; i < 8; i++)
+	for (size_t i = 0; i < 12; i++)
 	{
 		TheManagers.EM.AddModel3D(Shots[i] = DBG_NEW Shot());
 	}
@@ -174,8 +174,9 @@ void Enemy::Spawn(Vector3 position)
 
 void Enemy::Destroy()
 {
+	Entity::Destroy();
+
 	MirrorL->Enabled = false;
 	MirrorR->Enabled = false;
 	Radar->Enabled = false;
-	Enabled = false;
 }
