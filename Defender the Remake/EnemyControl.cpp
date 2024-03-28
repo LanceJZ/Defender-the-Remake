@@ -109,8 +109,7 @@ void EnemyControl::UpdateLander()
 		{
 			if (lander->MutateLander)
 			{
-				lander-> Enabled = false;
-				lander->MutateLander = false;
+				lander->Reset();
 				SpawnMutant(lander->Position);
 				break;
 			}

@@ -86,6 +86,8 @@ void TheLander::Spawn(Vector3 position)
 
 void TheLander::Reset()
 {
+	Enemy::Reset();
+	Destroy();
 }
 
 void TheLander::Hit()
@@ -200,4 +202,6 @@ bool TheLander::CheckCollision()
 
 void TheLander::Destroy()
 {
+	Enemy::Destroy();
+	MutateLander = false;
 }

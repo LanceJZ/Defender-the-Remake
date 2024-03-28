@@ -160,6 +160,7 @@ void Enemy::Hit()
 
 void Enemy::Reset()
 {
+
 }
 
 void Enemy::Spawn(Vector3 position)
@@ -176,4 +177,5 @@ void Enemy::Destroy()
 	MirrorL->Enabled = false;
 	MirrorR->Enabled = false;
 	Radar->Enabled = false;
+	Enabled = false;
 }
