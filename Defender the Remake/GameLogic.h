@@ -16,6 +16,7 @@ public:
 	void SetPlayer(ThePlayer* player);
 	void SetEnemies(EnemyControl* enemies);
 	void SetPersonModel(Model model);
+	void SetPersonRadarModel(Model model);
 
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
@@ -27,6 +28,7 @@ private:
 	Vector2 AdjustedFieldSize = {};
 
 	Model PersonModel = { 0 };
+	Model PersonRadarModel = { 0 };
 	ThePlayer* Player = {};
 	EnemyControl* Enemies = {};
 	ThePerson* People[10] = { nullptr };

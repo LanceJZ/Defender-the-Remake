@@ -189,7 +189,7 @@ void TheLander::SpawnMutant()
 {
 	if (People[PersonTargetID]->Y() < Y())
 	{
-		People[PersonTargetID]->Enabled = false;
+		People[PersonTargetID]->Destroy();
 		People[PersonTargetID]->Velocity.y = 0.0f;
 		MutateLander = true;
 	}

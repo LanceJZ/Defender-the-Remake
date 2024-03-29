@@ -11,23 +11,23 @@ Game::~Game()
 bool Game::Initialize(Utilities &utilities, GameLogic* gameLogic) //Initialize
 {
 	TheUtilities = &utilities;
-	Logic = gameLogic;
+	//Logic = gameLogic; //This is not bing used yet.
 
 	Common::Initialize(&utilities);
 
-	float multi = 7.0f;
-	FieldSize = { GetScreenWidth() * multi, (float)GetScreenHeight() };
-
 	//When adding classes to EM, must be pointer to heap,IE: Name = new Class().
-	LogicID = TheManagers.EM.AddCommon(Logic = DBG_NEW GameLogic());
-	BackGroundID = TheManagers.EM.AddCommon(BackGround = DBG_NEW TheBackground());
-	EnemiesID = TheManagers.EM.AddCommon(Enemies = DBG_NEW EnemyControl());
 	PlayerID = TheManagers.EM.AddModel3D(Player = DBG_NEW ThePlayer());
+	LogicID = TheManagers.EM.AddCommon(Logic = DBG_NEW GameLogic());
+	EnemiesID = TheManagers.EM.AddCommon(Enemies = DBG_NEW EnemyControl());
+	BackGroundID = TheManagers.EM.AddCommon(BackGround = DBG_NEW TheBackground());
 
 	Logic->SetPlayer(Player);
 	Logic->SetEnemies(Enemies);
 
 	Enemies->SetPlayer(Player);
+
+	float multi = 7.0f;
+	FieldSize = { GetScreenWidth() * multi, (float)GetScreenHeight() };
 
 	//Any Entities added after this point need this method fired manually.
 	TheManagers.Initialize();
@@ -36,6 +36,24 @@ bool Game::Initialize(Utilities &utilities, GameLogic* gameLogic) //Initialize
 
 bool Game::Load()
 {
+	Player->SetModel(TheManagers.CM.LoadAndGetModel("Player Ship"));
+	Player->SetRadarModel(TheManagers.CM.LoadAndGetModel("Player Radar"));
+	Player->SetFlameModel(TheManagers.CM.LoadAndGetModel("Player Flame"));
+	Player->SetShotModels(TheManagers.CM.LoadAndGetModel("Player Shot"),
+		TheManagers.CM.LoadAndGetModel("Player Shot Tail"));
+
+	Logic->SetPlayer(Player);
+	Logic->SetPersonModel(TheManagers.CM.LoadAndGetModel("Person"));
+	Logic->SetPersonRadarModel(TheManagers.CM.LoadAndGetModel("Person Radar"));
+
+	//Model shot = TheManagers.CM.LoadAndGetModel("Shot");
+
+	Enemies->SetLanderModel(TheManagers.CM.LoadAndGetModel("Lander"));
+	Enemies->SetMutantModel(TheManagers.CM.LoadAndGetModel("Mutant"));
+	Enemies->SetShotModel(TheManagers.CM.LoadAndGetModel("Shot"));
+	Enemies->SetLanderRadarModel(TheManagers.CM.LoadAndGetModel("Lander Radar"));
+	Enemies->SetMutantRadarModel(TheManagers.CM.LoadAndGetModel("Mutant Radar"));
+
 	for (size_t i = 0; i < 7; i++)
 	{
 		std::string name = "Ground";
@@ -54,21 +72,6 @@ bool Game::Load()
 		TheManagers.CM.LoadAndGetModel("UIBottomSides"));
 	BackGround->SetUIBackface(TheManagers.CM.LoadAndGetModel("UIBackface"));
 
-	Player->SetModel(TheManagers.CM.LoadAndGetModel("Player Ship"));
-	Player->SetFlameModel(TheManagers.CM.LoadAndGetModel("Player Flame"));
-	Player->SetShotModels(TheManagers.CM.LoadAndGetModel("Player Shot"),
-		TheManagers.CM.LoadAndGetModel("Player Shot Tail"));
-
-	Logic->SetPersonModel(TheManagers.CM.LoadAndGetModel("Person"));
-
-	//Model shot = TheManagers.CM.LoadAndGetModel("Shot");
-
-	Enemies->SetLanderModel(TheManagers.CM.LoadAndGetModel("Lander"));
-	Enemies->SetMutantModel(TheManagers.CM.LoadAndGetModel("Mutant"));
-	Enemies->SetShotModel(TheManagers.CM.LoadAndGetModel("Shot"));
-	Enemies->SetLanderRadarModel(TheManagers.CM.LoadAndGetModel("Lander Radar"));
-	Enemies->SetMutantRadarModel(TheManagers.CM.LoadAndGetModel("Mutant Radar"));
-
 	return true;
 }
 
@@ -76,7 +79,6 @@ bool Game::BeginRun()
 {
 	//Any Entities added after this point need this method fired manually.
 	TheManagers.BeginRun();
-
 
 	NewGame();
 

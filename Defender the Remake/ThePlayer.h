@@ -20,6 +20,7 @@ public:
 
 	void SetShotModels(Model shotModel, Model tailModel);
 	void SetFlameModel(Model model);
+	void SetRadarModel(Model model);
 
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
@@ -39,6 +40,7 @@ private:
 	bool ChangedFacing = false;
 	bool RotateFacing = false;
 	int SmartBombs = 0;
+	float CameraFacingOffset = 0.0f;
 	float MoveToOffset = 1000;
 	float HorzSpeed = 30.0f;
 	float HorzMaxSpeed = 200.0f;
@@ -47,8 +49,10 @@ private:
 	float MaxForwardV = 1000.0f;
 	float ForwardDrag = 20.0f;
 	float AirDrag = 0.004f;
+	float RadarModifier = 0.0f;
 
 	Model3D* Flame = {};
+	Model3D* Radar = {};
 	Model ShotModel = {};
 	Model ShotTailModel = {};
 
@@ -60,6 +64,7 @@ private:
 	void RotateShipFacing();
 
 	void CameraMovement(float deltaTime);
+	void RadarMovement(float deltaTime);
 
 	void Gamepad();
 	void Keyboard();

@@ -27,20 +27,33 @@ void GameLogic::SetPersonModel(Model model)
 	PersonModel = model;
 }
 
+void GameLogic::SetPersonRadarModel(Model model)
+{
+	PersonRadarModel = model;
+}
+
 bool GameLogic::Initialize(Utilities* utilities)
 {
 	Common::Initialize(utilities);
 
 	AdjustedFieldSize = Vector2Multiply(FieldSize, { 0.5f, 0.5f });
 
+	for (auto person : People)
+	{
+		person->Initialize(utilities);
+	}
+
 	return false;
 }
 
 bool GameLogic::BeginRun()
 {
+	Common::BeginRun();
+
 	Enemies->SetPeople(People);
 
 	SetupPersonMan();
+	SpawnPersonMan(10);
 
 	return true;
 }
@@ -70,8 +83,8 @@ void GameLogic::SetupPersonMan()
 {
 	for (auto person : People)
 	{
+		person->SetPlayer(Player);
 		person->SetModel(PersonModel);
+		person->SetRadarModel(PersonRadarModel);
 	}
-
-	SpawnPersonMan(10);
 }

@@ -39,8 +39,6 @@ protected:
 	virtual void Destroy();
 
 private:
-	float Xmultiplier = 0;
-	float MirrorMultiplier = 0;
 	float HeightMultiplier = 0;
 	float WidthOffset = 0;
 	float WidthCameraOffset = 0;

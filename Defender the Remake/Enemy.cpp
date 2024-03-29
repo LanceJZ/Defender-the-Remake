@@ -47,14 +47,13 @@ bool Enemy::Initialize(Utilities* utilities)
 
 	Radar->Initialize(utilities);
 
-	Xmultiplier = GetScreenWidth() * 2.75f;
-	MirrorMultiplier = GetScreenWidth() * 7.0f;
+	float mirrorMultiplier = GetScreenWidth() * 7.0f;
 
 	MirrorL->SetModel(GetModel());
 	MirrorR->SetModel(GetModel());
 
-	MirrorL->X(X() - MirrorMultiplier);
-	MirrorR->X(X() + MirrorMultiplier);
+	MirrorL->X(X() - mirrorMultiplier);
+	MirrorR->X(X() + mirrorMultiplier);
 
 	MirrorL->SetParent(this);
 	MirrorR->SetParent(this);
@@ -62,12 +61,10 @@ bool Enemy::Initialize(Utilities* utilities)
 	float comp = 0.062f;
 	float ww = 3.5f;
 	float swww = (GetScreenWidth() * ww);
-	float swcalc = swww * comp;
-	float swwwcalc = (swww * 2) * comp;
 
-	WidthOffset = swwwcalc;
+	WidthOffset = (swww * 2) * comp;
 	WidthCameraOffset = comp;
-	WidthMirrorOffset = swcalc;
+	WidthMirrorOffset = swww * comp;
 	HeightMultiplier = GetScreenHeight() * 0.4376f;
 
 	return true;
@@ -96,7 +93,7 @@ void Enemy::Update(float deltaTime)
 		Radar->Position.x += WidthOffset;
 	}
 
-	Radar->Y((Y() * 0.148f) - HeightMultiplier);
+	Radar->Y((Y() * 0.158f) - HeightMultiplier);
 
 	CheckPlayfieldSidesWarp(4.0f, 3.0f);
 	CheckCollision();

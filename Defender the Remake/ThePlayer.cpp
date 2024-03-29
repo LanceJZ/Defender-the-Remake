@@ -3,6 +3,7 @@
 ThePlayer::ThePlayer()
 {
 	TheManagers.EM.AddModel3D(Flame = DBG_NEW Model3D());
+	TheManagers.EM.AddModel3D(Radar = DBG_NEW Model3D());
 }
 
 ThePlayer::~ThePlayer()
@@ -20,11 +21,21 @@ void ThePlayer::SetFlameModel(Model model)
 	Flame->SetModel(model);
 }
 
+void ThePlayer::SetRadarModel(Model model)
+{
+	Radar->SetModel(model);
+}
+
 bool ThePlayer::Initialize(Utilities* utilities)
 {
 	Model3D::Initialize(utilities);
 
-	return false;
+	Radar->Initialize(utilities);
+	RadarModifier = GetScreenHeight() * 0.4374f;
+	CameraFacingOffset = GetScreenWidth() * 0.2f;
+
+
+	return true;
 }
 
 bool ThePlayer::BeginRun()
@@ -35,7 +46,7 @@ bool ThePlayer::BeginRun()
 	Flame->X(-56.0f);
 	Reset();
 
-	return false;
+	return true;
 }
 
 void ThePlayer::Input()
@@ -61,6 +72,7 @@ void ThePlayer::Update(float deltaTime)
 	CheckPlayfieldSidesWarp(4.0f, 3.0f);
 
 	CameraMovement(deltaTime);
+	RadarMovement(deltaTime);
 }
 
 void ThePlayer::Draw()
@@ -224,15 +236,14 @@ void ThePlayer::RotateShipFacing()
 
 void ThePlayer::CameraMovement(float deltaTime)
 {
-	float facingOffset = GetScreenWidth() * 0.2f;
-
 	if (ChangedFacing)
 	{
 		if (FacingRight)
 		{
-			if (TheCamera.position.x < X() + facingOffset - 0.05f)
+			if (TheCamera.position.x < X() + CameraFacingOffset - 0.05f)
 			{
-				TheCamera.position.x = (X() - facingOffset) + (facingOffset * MoveToOffset);
+				TheCamera.position.x = (X() - CameraFacingOffset) +
+					(CameraFacingOffset * MoveToOffset);
 			}
 			else
 			{
@@ -241,9 +252,10 @@ void ThePlayer::CameraMovement(float deltaTime)
 		}
 		else
 		{
-			if (TheCamera.position.x > X() - facingOffset + 0.05f)
+			if (TheCamera.position.x > X() - CameraFacingOffset + 0.05f)
 			{
-				TheCamera.position.x = (X() + facingOffset) - (facingOffset * MoveToOffset);
+				TheCamera.position.x = (X() + CameraFacingOffset) -
+					(CameraFacingOffset * MoveToOffset);
 			}
 			else
 			{
@@ -257,15 +269,21 @@ void ThePlayer::CameraMovement(float deltaTime)
 	{
 		if (FacingRight)
 		{
-			TheCamera.position.x = X() + facingOffset;
+			TheCamera.position.x = X() + CameraFacingOffset;
 		}
 		else
 		{
-			TheCamera.position.x = X() - facingOffset;
+			TheCamera.position.x = X() - CameraFacingOffset;
 		}
 	}
 
 	TheCamera.target.x = TheCamera.position.x;
+}
+
+void ThePlayer::RadarMovement(float deltaTime)
+{
+	Radar->X(TheCamera.position.x);
+	Radar->Y((Y() * 0.158f) - RadarModifier);
 }
 
 void ThePlayer::Gamepad()

@@ -84,7 +84,7 @@ bool TheBackground::BeginRun()
 	LandParts[7]->Position = { GetScreenWidth() * 4.0f, landY, 40.0f};
 	LandParts[8]->Position = { -GetScreenWidth() * 4.0f, landY, 40.0f};
 
-	float y = ((LandParts[0]->Position.y * 0.148f) + (-GetScreenHeight() * 0.4376f));
+	float y = ((LandParts[0]->Position.y * 0.158f) + (-GetScreenHeight() * 0.4376f));
 
 	for (auto &radar : RadarLandParts)
 	{
