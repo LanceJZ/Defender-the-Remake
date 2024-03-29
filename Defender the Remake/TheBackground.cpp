@@ -84,7 +84,8 @@ bool TheBackground::BeginRun()
 	LandParts[7]->Position = { GetScreenWidth() * 4.0f, landY, 40.0f};
 	LandParts[8]->Position = { -GetScreenWidth() * 4.0f, landY, 40.0f};
 
-	float y = ((LandParts[0]->Position.y * 0.158f) + (-GetScreenHeight() * 0.4376f));
+	float y = ((LandParts[0]->Position.y * 0.158f) +
+		(-GetScreenHeight() * 0.4376f)) + 10.0f;
 
 	for (auto &radar : RadarLandParts)
 	{
@@ -127,12 +128,14 @@ void TheBackground::Update()
 
 	for (int i = 7; i < 11; i++)
 	{
-		RadarLandParts[i]->X(UpdateRadar(LandParts[i - 7]->X() + (GetScreenWidth() * 7)));
+		RadarLandParts[i]->X(UpdateRadar(LandParts[i - 7]->X() +
+			(GetScreenWidth() * 7)));
 	}
 
 	for (int i = 11; i < 14; i++)
 	{
-		RadarLandParts[i]->X(UpdateRadar(LandParts[i - 7]->X() - (GetScreenWidth() * 7)));
+		RadarLandParts[i]->X(UpdateRadar(LandParts[i - 7]->X() -
+			(GetScreenWidth() * 7)));
 	}
 }
 
@@ -146,7 +149,7 @@ void TheBackground::NewLevel()
 
 float TheBackground::UpdateRadar(float x)
 {
-	float comp = 0.062f;
+	float comp = 0.064f;
 	float ww = 7.0f;
 	float swww = (GetScreenWidth() * ww);
 	float swcalc = (swww * comp);

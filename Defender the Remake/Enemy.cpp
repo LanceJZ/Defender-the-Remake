@@ -58,7 +58,7 @@ bool Enemy::Initialize(Utilities* utilities)
 	MirrorL->SetParent(this);
 	MirrorR->SetParent(this);
 
-	float comp = 0.062f;
+	float comp = 0.064f;
 	float ww = 3.5f;
 	float swww = (GetScreenWidth() * ww);
 
