@@ -85,18 +85,20 @@ void Model3D::Draw()
 				for (auto parent : Parents)
 				{
 					parentTest = Vector3Add(parent->Position, parentTest);
-					radius += parent->Radius;
+					radius += parent->VerticesSize;
 				}
 
-				if (TheCamera3D->position.x > parentTest.x + radius + Radius + ViewableArea.x
-					|| TheCamera3D->position.x < parentTest.x + -radius + -Radius + -ViewableArea.x)
+				if (TheCamera3D->position.x > parentTest.x + radius + VerticesSize +
+					ViewableArea.x || TheCamera3D->position.x < parentTest.x + -radius +
+					-VerticesSize + -ViewableArea.x)
 				{
 					WasCulled = true;
 					return;
 				}
 
-				if (TheCamera3D->position.y > parentTest.y + radius + Radius + ViewableArea.y ||
-					TheCamera3D->position.y < parentTest.y + -radius + -Radius + -ViewableArea.y)
+				if (TheCamera3D->position.y > parentTest.y + radius + VerticesSize +
+					ViewableArea.y || TheCamera3D->position.y < parentTest.y + -radius +
+					-VerticesSize + -ViewableArea.y)
 				{
 					WasCulled = true;
 					return;
@@ -104,15 +106,15 @@ void Model3D::Draw()
 			}
 			else
 			{
-				if (TheCamera3D->position.x > Position.x + Radius + ViewableArea.x
-					|| TheCamera3D->position.x < Position.x + -Radius + -ViewableArea.x)
+				if (TheCamera3D->position.x > Position.x + VerticesSize + ViewableArea.x
+					|| TheCamera3D->position.x < Position.x + -VerticesSize + -ViewableArea.x)
 				{
 					WasCulled = true;
 					return;
 				}
 
-				if (TheCamera3D->position.y > Position.y + Radius + ViewableArea.y ||
-					TheCamera3D->position.y < Position.y + -Radius + -ViewableArea.y)
+				if (TheCamera3D->position.y > Position.y + VerticesSize + ViewableArea.y ||
+					TheCamera3D->position.y < Position.y + -VerticesSize + -ViewableArea.y)
 				{
 					WasCulled = true;
 					return;
@@ -147,8 +149,14 @@ void Model3D::Draw()
 
 void Model3D::SetModel(Model &model, float scale)
 {
+	if (model.meshes == nullptr)
+	{
+		return;
+	}
+
 	TheModel = model;
 	ModelScale = scale;
+	VerticesSize = (*model.meshes->vertices * -1.0f) * scale;
 }
 
 void Model3D::SetModel(Model& model)

@@ -17,6 +17,7 @@ public:
 	float Scale = 1;
 	float MaxSpeed = 0;
 	float Radius = 0;
+	float VerticesSize = 0;
 	float WindowWidth = 0;
 	float WindowHeight = 0;
 	float RotationX = 0;

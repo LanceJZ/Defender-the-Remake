@@ -29,7 +29,6 @@ TheBackground::~TheBackground()
 void TheBackground::SetLandParts(Model landPart, Model radarLandPart, int index)
 {
 	LandParts[index]->SetModel(landPart, 5.0f);
-	LandParts[index]->Radius = 128.0f * 5.0f;
 	RadarLandParts[index]->SetModel(radarLandPart, LandRadarScale);
 }
 
@@ -64,9 +63,7 @@ bool TheBackground::BeginRun()
 	Common::BeginRun();
 
 	LandParts[7]->SetModel(LandParts[0]->GetModel(), 5.0f);
-	LandParts[7]->Radius = 128.0f * 5.0f;
 	LandParts[8]->SetModel(LandParts[6]->GetModel(), 5.0f);
-	LandParts[8]->Radius = 128.0f * 5.0f;
 
 	for (int i = 7; i < 14; i++)
 	{
