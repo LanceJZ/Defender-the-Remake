@@ -303,25 +303,25 @@ void PositionedObject::RotateVelocity(Vector3& position, float turnSpeed, float 
 
 void PositionedObject::CheckPlayfieldSidesWarp(float left, float right)
 {
-	if (X() > GetScreenWidth() * right + (GetScreenWidth() * 0.5f))
+	if (X() > WindowWidth * right)
 	{
-		X(-GetScreenWidth() * left + (GetScreenWidth() * 0.5f));
+		X(-WindowWidth * left);
 	}
-	else if (X() < -GetScreenWidth() * left + (GetScreenWidth() * 0.5f))
+	else if (X() < -WindowWidth * left)
 	{
-		X(GetScreenWidth() * right + (GetScreenWidth() * 0.5f));
+		X(WindowWidth * right);
 	}
 }
 
 void PositionedObject::CheckPlayfieldHeightWarp(float top, float bottom)
 {
-	if (Y() > GetScreenHeight() * top + (GetScreenHeight() * 0.5f))
+	if (Y() > WindowHeight * bottom)
 	{
-		Y(-GetScreenHeight() * bottom + (GetScreenHeight() * 0.5f));
+		Y(-WindowHeight * top);
 	}
-	else if (Y() < -GetScreenHeight() * bottom + (GetScreenHeight() * 0.5f))
+	else if (Y() < -WindowHeight * top)
 	{
-		Y(GetScreenHeight() * top + (GetScreenHeight() * 0.5f));
+		Y(WindowHeight * bottom);
 	}
 }
 

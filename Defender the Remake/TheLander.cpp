@@ -38,11 +38,9 @@ void TheLander::Update(float deltaTime)
 	{
 	case StateList::LoweringToSeek:
 		GoToSeek();
-		CheckPlayfieldSidesWarp(4.0f, 3.0f);
 		break;
 	case StateList::Seek:
 		SeekPersonMan();
-		CheckPlayfieldSidesWarp(4.0f, 3.0f);
 		break;
 	case StateList::FoundPersonMan:
 		GoingDown();

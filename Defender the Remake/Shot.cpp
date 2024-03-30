@@ -28,6 +28,8 @@ bool Shot::Initialize(Utilities* utilities)
 	MirrorL->SetParent(this);
 	MirrorR->SetParent(this);
 
+	WindowHeight = GetScreenHeight() * 0.5f;
+
 	return true;
 }
 
@@ -44,9 +46,12 @@ void Shot::Update(float deltaTime)
 
 	if (TheManagers.EM.TimerElapsed(LifeTimerID))
 	{
-		Enabled = false;
-		MirrorL->Enabled = false;
-		MirrorR->Enabled = false;
+		Destroy();
+	}
+
+	if (Y() > WindowHeight || Y() < -WindowHeight * 0.685f)
+	{
+		Destroy();
 	}
 }
 
@@ -54,6 +59,17 @@ void Shot::Draw()
 {
 	Model3D::Draw();
 
+}
+
+void Shot::Reset()
+{
+}
+
+void Shot::Destroy()
+{
+		Enabled = false;
+		MirrorL->Enabled = false;
+		MirrorR->Enabled = false;
 }
 
 void Shot::EnemySpawn(Vector3 position, Vector3 velocity, float lifeTime)
@@ -65,6 +81,15 @@ void Shot::EnemySpawn(Vector3 position, Vector3 velocity, float lifeTime)
 
 	MirrorL->Enabled = true;
 	MirrorR->Enabled = true;
+}
+
+void Shot::BombSpawn(Vector3 position, float lifeTime)
+{
+	Entity::Spawn(position);
+
+	Velocity = { 0, 0, 0 };
+	//LifeTimer.Reset(GetRandomFloat(6.66f, 16.66f));
+	TheManagers.EM.ResetTimer(LifeTimerID, lifeTime);
 }
 
 void Shot::PlayerSpawn(Vector3 position, Vector3 velocity, bool facingRight)

@@ -32,9 +32,19 @@ void EnemyControl::SetMutantModel(Model model)
 	MutantModel = model;
 }
 
+void EnemyControl::SetBomberModel(Model model)
+{
+	BomberModel = model;
+}
+
 void EnemyControl::SetShotModel(Model model)
 {
 	ShotModel = model;
+}
+
+void EnemyControl::SetBombModel(Model model)
+{
+	BombModel = model;
 }
 
 void EnemyControl::SetLanderRadarModel(Model model)
@@ -45,6 +55,11 @@ void EnemyControl::SetLanderRadarModel(Model model)
 void EnemyControl::SetMutantRadarModel(Model model)
 {
 	RadarMutantModel = model;
+}
+
+void EnemyControl::SetBomberRadarModel(Model model)
+{
+	RadarBomberModel = model;
 }
 
 bool EnemyControl::Initialize(Utilities* utilities)
@@ -62,6 +77,8 @@ bool EnemyControl::BeginRun()
 
 	Reset();
 
+	SpawnBomber(6);
+
 	return true;
 }
 
@@ -71,6 +88,7 @@ void EnemyControl::Update()
 
 	UpdateLander();
 	UpdateMutant();
+	UpdateBomber();
 
 	if (Player->BeenHit)
 	{
@@ -118,6 +136,10 @@ void EnemyControl::UpdateLander()
 }
 
 void EnemyControl::UpdateMutant()
+{
+}
+
+void EnemyControl::UpdateBomber()
 {
 }
 
@@ -245,4 +267,44 @@ void EnemyControl::SpawnMutant(Vector3 position)
 	}
 
 	Mutants[mutantSpawnNumber]->Spawn(position);
+}
+
+void EnemyControl::SpawnBomber(int count)
+{
+	for (int i = 0; i < count; i++)
+	{
+		bool spawnNew = true;
+		int bomberNumber = 0;
+		int bomberSpawnNumber = (int)Bombers.size();
+
+		for (const auto& bomber : Bombers)
+		{
+			if (!bomber->Enabled)
+			{
+				spawnNew = false;
+				bomberSpawnNumber = bomberNumber;
+				break;
+			}
+
+			bomberNumber++;
+		}
+
+		if (spawnNew)
+		{
+			Bombers.push_back(DBG_NEW TheBomber());
+			TheManagers.EM.AddModel3D(Bombers[bomberSpawnNumber], BomberModel);
+			Bombers[bomberSpawnNumber]->SetPlayer(Player);
+			Bombers[bomberSpawnNumber]->SetShotModel(BombModel);
+			Bombers[bomberSpawnNumber]->SetRadarModel(RadarBomberModel);
+			Bombers[bomberSpawnNumber]->Initialize(TheUtilities);
+			Bombers[bomberSpawnNumber]->BeginRun();
+		}
+
+		float x = GetRandomFloat(GetScreenWidth() * 2.25f, GetScreenWidth() * 3.5f);
+		float y = GetRandomFloat(-GetScreenHeight() * 0.5f, GetScreenHeight() * 0.5f);
+
+		Bombers[bomberSpawnNumber]->Spawn({x, y, 0.0f});
+	}
+
+
 }

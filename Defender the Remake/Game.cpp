@@ -50,9 +50,12 @@ bool Game::Load()
 
 	Enemies->SetLanderModel(TheManagers.CM.LoadAndGetModel("Lander"));
 	Enemies->SetMutantModel(TheManagers.CM.LoadAndGetModel("Mutant"));
+	Enemies->SetBomberModel(TheManagers.CM.LoadAndGetModel("Bomber"));
 	Enemies->SetShotModel(TheManagers.CM.LoadAndGetModel("Shot"));
+	Enemies->SetBombModel(TheManagers.CM.LoadAndGetModel("Bomb"));
 	Enemies->SetLanderRadarModel(TheManagers.CM.LoadAndGetModel("Lander Radar"));
 	Enemies->SetMutantRadarModel(TheManagers.CM.LoadAndGetModel("Mutant Radar"));
+	Enemies->SetBomberRadarModel(TheManagers.CM.LoadAndGetModel("Bomber Radar"));
 
 	for (size_t i = 0; i < 7; i++)
 	{

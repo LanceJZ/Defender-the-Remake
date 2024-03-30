@@ -27,7 +27,6 @@ void TheMutant::Update(float deltaTime)
 {
 	Enemy::Update(deltaTime);
 
-	CheckPlayfieldSidesWarp(4.0f, 3.0f);
 	ScreenEdgeBoundY(GetScreenHeight() * 0.161f, GetScreenHeight() * 0.015f);
 	ChasePlayer();
 
