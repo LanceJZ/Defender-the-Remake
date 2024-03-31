@@ -18,6 +18,8 @@ public:
 	int HighScore { 0 };
 	int Lives { 0 };
 
+	Shot* Shots[4] = { nullptr };
+
 	void SetShotModels(Model shotModel, Model tailModel);
 	void SetFlameModel(Model model);
 	void SetRadarModel(Model model);
@@ -61,7 +63,11 @@ private:
 	void Reverse();
 	void MoveLeft();
 	void MoveRight();
+	void MoveUp();
+	void MoveDown();
+	void HorizontalFriction();
 	void RotateShipFacing();
+	void Fire();
 
 	void CameraMovement(float deltaTime);
 	void RadarMovement(float deltaTime);

@@ -86,6 +86,6 @@ private:
 	void SpawnLanders(int count);
 	void SpawnMutant(Vector3 position);
 	void SpawnBomber(int count);
-	void SpawnSwarmer(Vector3 position, int count);
+	void SpawnSwarmers(Vector3 position, int count);
 	void SpawnPod(int count);
 };

@@ -153,6 +153,7 @@ float Enemy::AimedShot(Vector3 position)
 
 void Enemy::Hit()
 {
+
 }
 
 void Enemy::Reset()

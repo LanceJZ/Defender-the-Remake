@@ -4,6 +4,11 @@ ThePlayer::ThePlayer()
 {
 	TheManagers.EM.AddModel3D(Flame = DBG_NEW Model3D());
 	TheManagers.EM.AddModel3D(Radar = DBG_NEW Model3D());
+
+	for (int i = 0; i < 4; i++)
+	{
+		TheManagers.EM.AddModel3D(Shots[i] = DBG_NEW Shot());
+	}
 }
 
 ThePlayer::~ThePlayer()
@@ -12,8 +17,11 @@ ThePlayer::~ThePlayer()
 
 void ThePlayer::SetShotModels(Model shotModel, Model tailModel)
 {
-	ShotModel = shotModel;
-	ShotTailModel = tailModel;
+	for(auto shot : Shots)
+	{
+		shot->SetModel(shotModel);
+		shot->SetPlayerShotTailModel(tailModel);
+	}
 }
 
 void ThePlayer::SetFlameModel(Model model)
@@ -29,6 +37,11 @@ void ThePlayer::SetRadarModel(Model model)
 bool ThePlayer::Initialize(Utilities* utilities)
 {
 	Model3D::Initialize(utilities);
+
+	for(auto shot : Shots)
+	{
+		shot->Initialize(utilities);
+	}
 
 	Radar->Initialize(utilities);
 	RadarModifier = GetScreenHeight() * 0.4374f;
@@ -70,6 +83,8 @@ void ThePlayer::Update(float deltaTime)
 
 	ScreenEdgeBoundY(GetScreenHeight() * 0.161f, GetScreenHeight() * 0.015f);
 	CheckPlayfieldSidesWarp(7.0f, 7.0f);
+
+	HorizontalFriction();
 
 	CameraMovement(deltaTime);
 	RadarMovement(deltaTime);
@@ -202,6 +217,42 @@ void ThePlayer::MoveRight()
 	}
 }
 
+void ThePlayer::MoveUp()
+{
+	if (Velocity.y > -HorzMaxSpeed)
+	{
+		Acceleration.y = -HorzSpeed;
+	}
+	else
+	{
+		Acceleration.y = 0;
+	}
+}
+
+void ThePlayer::MoveDown()
+{
+	if (Velocity.y < HorzMaxSpeed)
+	{
+		Acceleration.y = HorzSpeed;
+	}
+	else
+	{
+		Acceleration.y = 0;
+	}
+}
+
+void ThePlayer::HorizontalFriction()
+{
+	if (Velocity.y > 0)
+	{
+		Acceleration.y = -HorzSpeed / (HorzDrag / (Velocity.y * AirDrag));
+	}
+	else if (Velocity.y < 0)
+	{
+		Acceleration.y = HorzSpeed / (HorzDrag / -(Velocity.y * AirDrag));
+	}
+}
+
 void ThePlayer::RotateShipFacing()
 {
 	float rotateSpeed = 0.045f;
@@ -231,6 +282,18 @@ void ThePlayer::RotateShipFacing()
 		}
 
 		//BackCollusion.Position.x = 24.0f;
+	}
+}
+
+void ThePlayer::Fire()
+{
+	for (auto shot : Shots)
+	{
+		if (!shot->Enabled)
+		{
+			shot->PlayerSpawn(Position, Velocity, !FacingRight);
+			return;
+		}
 	}
 }
 
@@ -335,6 +398,7 @@ void ThePlayer::Keyboard()
 
 	if (IsKeyDown(KEY_UP))
 	{
+		MoveUp();
 	}
 	else
 	{
@@ -347,6 +411,7 @@ void ThePlayer::Keyboard()
 
 	if (IsKeyDown(KEY_DOWN))
 	{
+		MoveDown();
 	}
 	else
 	{
@@ -364,5 +429,10 @@ void ThePlayer::Keyboard()
 	if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_LEFT))
 	{
 		Reverse();
+	}
+
+	if (IsKeyPressed(KEY_LEFT_CONTROL))
+	{
+		Fire();
 	}
 }

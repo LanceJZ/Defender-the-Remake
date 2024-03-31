@@ -15,8 +15,9 @@ public:
 	void Draw();
 
 	void Spawn(Vector3 position);
+	void Reset();
 
 private:
-
+	void Destroy();
 
 };

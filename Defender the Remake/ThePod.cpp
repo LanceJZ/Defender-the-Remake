@@ -66,3 +66,15 @@ void ThePod::Spawn(Vector3 position)
 
 	Position.y = GetRandomFloat(-GetScreenHeight() * 0.5f, GetScreenHeight() * 0.5f);
 }
+
+void ThePod::Reset()
+{
+	Enemy::Reset();
+	Destroy();
+}
+
+void ThePod::Destroy()
+{
+	Enemy::Destroy();
+
+}

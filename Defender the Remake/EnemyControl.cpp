@@ -173,6 +173,18 @@ void EnemyControl::UpdateSwarmer()
 
 void EnemyControl::UpdatePod()
 {
+	for (auto pod : Pods)
+	{
+		if (pod->Enabled)
+		{
+			if (pod->BeenHit)
+			{
+				pod->Reset();
+				SpawnSwarmers(pod->Position, 4);
+				break;
+			}
+		}
+	}
 }
 
 void EnemyControl::SmartBomb()
@@ -336,7 +348,7 @@ void EnemyControl::SpawnBomber(int count)
 
 }
 
-void EnemyControl::SpawnSwarmer(Vector3 position, int count)
+void EnemyControl::SpawnSwarmers(Vector3 position, int count)
 {
 	for (int i = 0; i < count; i++)
 	{

@@ -15,8 +15,11 @@ public:
 	void Draw();
 
 	void Spawn(Vector3 position);
+	void Reset();
 
 private:
+	size_t AfterSpawnTimerID = 0;
 
+	void Destroy();
 
 };
