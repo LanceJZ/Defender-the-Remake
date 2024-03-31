@@ -37,6 +37,16 @@ void EnemyControl::SetBomberModel(Model model)
 	BomberModel = model;
 }
 
+void EnemyControl::SetSwarmerModel(Model model)
+{
+	SwarmerModel = model;
+}
+
+void EnemyControl::SetPodModel(Model model)
+{
+	PodModel = model;
+}
+
 void EnemyControl::SetShotModel(Model model)
 {
 	ShotModel = model;
@@ -62,6 +72,16 @@ void EnemyControl::SetBomberRadarModel(Model model)
 	RadarBomberModel = model;
 }
 
+void EnemyControl::SetSwarmerRadarModel(Model model)
+{
+	RadarSwarmerModel = model;
+}
+
+void EnemyControl::SetPodRadarModel(Model model)
+{
+	RadarPodModel = model;
+}
+
 bool EnemyControl::Initialize(Utilities* utilities)
 {
 	Common::Initialize(utilities);
@@ -77,7 +97,8 @@ bool EnemyControl::BeginRun()
 
 	Reset();
 
-	SpawnBomber(6);
+	SpawnBomber(4);
+	SpawnPod(4);
 
 	return true;
 }
@@ -89,6 +110,8 @@ void EnemyControl::Update()
 	UpdateLander();
 	UpdateMutant();
 	UpdateBomber();
+	UpdateSwarmer();
+	UpdatePod();
 
 	if (Player->BeenHit)
 	{
@@ -140,6 +163,15 @@ void EnemyControl::UpdateMutant()
 }
 
 void EnemyControl::UpdateBomber()
+{
+}
+
+void EnemyControl::UpdateSwarmer()
+{
+
+}
+
+void EnemyControl::UpdatePod()
 {
 }
 
@@ -233,9 +265,7 @@ void EnemyControl::SpawnLanders(int count)
 			Landers[landerSpawnNumber]->BeginRun();
 		}
 
-		float x = GetRandomFloat(-AdjustedFieldSize.x, AdjustedFieldSize.x);
-		float y = -GetScreenHeight() * 0.333f;
-		Landers[landerSpawnNumber]->Spawn({x, y, 0.0f});
+		Landers[landerSpawnNumber]->Spawn({ 0.0f });
 	}
 }
 
@@ -300,11 +330,74 @@ void EnemyControl::SpawnBomber(int count)
 			Bombers[bomberSpawnNumber]->BeginRun();
 		}
 
-		float x = GetRandomFloat(GetScreenWidth() * 2.25f, GetScreenWidth() * 3.5f);
-		float y = GetRandomFloat(-GetScreenHeight() * 0.5f, GetScreenHeight() * 0.5f);
-
-		Bombers[bomberSpawnNumber]->Spawn({x, y, 0.0f});
+		Bombers[bomberSpawnNumber]->Spawn({ 0.0f });
 	}
 
 
+}
+
+void EnemyControl::SpawnSwarmer(Vector3 position, int count)
+{
+	for (int i = 0; i < count; i++)
+	{
+		bool spawnNew = true;
+		int swarmerNumber = 0;
+		int swarmerSpawnNumber = (int)Swarmers.size();
+
+		for (const auto& swarmer : Swarmers)
+		{
+			if (!swarmer->Enabled)
+			{
+				spawnNew = false;
+				swarmerSpawnNumber = swarmerNumber;
+				break;
+			}
+		}
+
+		if (spawnNew)
+		{
+			Swarmers.push_back(DBG_NEW TheSwarmer());
+			TheManagers.EM.AddModel3D(Swarmers[swarmerSpawnNumber], SwarmerModel);
+			Swarmers[swarmerSpawnNumber]->SetPlayer(Player);
+			Swarmers[swarmerSpawnNumber]->SetShotModel(ShotModel);
+			Swarmers[swarmerSpawnNumber]->SetRadarModel(RadarSwarmerModel);
+			Swarmers[swarmerSpawnNumber]->Initialize(TheUtilities);
+			Swarmers[swarmerSpawnNumber]->BeginRun();
+		}
+
+		Swarmers[swarmerSpawnNumber]->Spawn(position);
+	}
+}
+
+void EnemyControl::SpawnPod(int count)
+{
+	for (int i = 0; i < count; i++)
+	{
+		bool spawnNew = true;
+		int podNumber = 0;
+		int podSpawnNumber = (int)Pods.size();
+
+		for (const auto& pod : Pods)
+		{
+			if (!pod->Enabled)
+			{
+				spawnNew = false;
+				podSpawnNumber = podNumber;
+				break;
+			}
+		}
+
+		if (spawnNew)
+		{
+			Pods.push_back(DBG_NEW ThePod());
+			TheManagers.EM.AddModel3D(Pods[podSpawnNumber], PodModel);
+			Pods[podSpawnNumber]->SetPlayer(Player);
+			Pods[podSpawnNumber]->SetShotModel(ShotModel);
+			Pods[podSpawnNumber]->SetRadarModel(RadarPodModel);
+			Pods[podSpawnNumber]->Initialize(TheUtilities);
+			Pods[podSpawnNumber]->BeginRun();
+		}
+
+		Pods[podSpawnNumber]->Spawn({ 0.0f });
+	}
 }

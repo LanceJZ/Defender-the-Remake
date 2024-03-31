@@ -51,6 +51,12 @@
     <ClCompile Include="TheBomber.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TheSwarmer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ThePod.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -87,6 +93,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TheBomber.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TheSwarmer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ThePod.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

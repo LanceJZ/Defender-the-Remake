@@ -42,20 +42,21 @@ bool Game::Load()
 	Player->SetShotModels(TheManagers.CM.LoadAndGetModel("Player Shot"),
 		TheManagers.CM.LoadAndGetModel("Player Shot Tail"));
 
-	Logic->SetPlayer(Player);
 	Logic->SetPersonModel(TheManagers.CM.LoadAndGetModel("Person"));
 	Logic->SetPersonRadarModel(TheManagers.CM.LoadAndGetModel("Person Radar"));
-
-	//Model shot = TheManagers.CM.LoadAndGetModel("Shot");
 
 	Enemies->SetLanderModel(TheManagers.CM.LoadAndGetModel("Lander"));
 	Enemies->SetMutantModel(TheManagers.CM.LoadAndGetModel("Mutant"));
 	Enemies->SetBomberModel(TheManagers.CM.LoadAndGetModel("Bomber"));
+	Enemies->SetSwarmerModel(TheManagers.CM.LoadAndGetModel("Swarmer"));
+	Enemies->SetPodModel(TheManagers.CM.LoadAndGetModel("Pod"));
 	Enemies->SetShotModel(TheManagers.CM.LoadAndGetModel("Shot"));
 	Enemies->SetBombModel(TheManagers.CM.LoadAndGetModel("Bomb"));
 	Enemies->SetLanderRadarModel(TheManagers.CM.LoadAndGetModel("Lander Radar"));
 	Enemies->SetMutantRadarModel(TheManagers.CM.LoadAndGetModel("Mutant Radar"));
 	Enemies->SetBomberRadarModel(TheManagers.CM.LoadAndGetModel("Bomber Radar"));
+	Enemies->SetSwarmerRadarModel(TheManagers.CM.LoadAndGetModel("Swarmer Radar"));
+	Enemies->SetPodRadarModel(TheManagers.CM.LoadAndGetModel("Pod Radar"));
 
 	for (size_t i = 0; i < 7; i++)
 	{

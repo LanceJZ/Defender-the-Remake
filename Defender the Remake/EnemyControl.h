@@ -6,6 +6,8 @@
 #include "TheLander.h"
 #include "TheMutant.h"
 #include "TheBomber.h"
+#include "TheSwarmer.h"
+#include "ThePod.h"
 
 class EnemyControl : public Common
 {
@@ -16,6 +18,8 @@ public:
 	std::vector<TheLander*> Landers = {};
 	std::vector<TheMutant*> Mutants = {};
 	std::vector<TheBomber*> Bombers = {};
+	std::vector<TheSwarmer*> Swarmers = {};
+	std::vector<ThePod*> Pods = {};
 
 	bool LandersTurnedToMutants = false;
 
@@ -24,11 +28,15 @@ public:
 	void SetLanderModel(Model model);
 	void SetMutantModel(Model model);
 	void SetBomberModel(Model model);
+	void SetSwarmerModel(Model model);
+	void SetPodModel(Model model);
 	void SetShotModel(Model model);
 	void SetBombModel(Model model);
 	void SetLanderRadarModel(Model model);
 	void SetMutantRadarModel(Model model);
 	void SetBomberRadarModel(Model model);
+	void SetSwarmerRadarModel(Model model);
+	void SetPodRadarModel(Model model);
 
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
@@ -51,11 +59,15 @@ private:
 	Model LanderModel = { 0 };
 	Model MutantModel = { 0 };
 	Model BomberModel = { 0 };
+	Model SwarmerModel = { 0 };
+	Model PodModel = { 0 };
 	Model ShotModel = { 0 };
 	Model BombModel = { 0 };
 	Model RadarLanderModel = { 0 };
 	Model RadarMutantModel = { 0 };
 	Model RadarBomberModel = { 0 };
+	Model RadarSwarmerModel = { 0 };
+	Model RadarPodModel = { 0 };
 
 	ThePlayer* Player = nullptr;
 	ThePerson* People[10] = {};
@@ -63,6 +75,8 @@ private:
 	void UpdateLander();
 	void UpdateMutant();
 	void UpdateBomber();
+	void UpdateSwarmer();
+	void UpdatePod();
 
 	void SmartBomb();
 	void PlayerHitReset();
@@ -72,5 +86,6 @@ private:
 	void SpawnLanders(int count);
 	void SpawnMutant(Vector3 position);
 	void SpawnBomber(int count);
+	void SpawnSwarmer(Vector3 position, int count);
+	void SpawnPod(int count);
 };
-

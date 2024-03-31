@@ -33,7 +33,7 @@ public:
 
 private:
 	size_t PersonTargetID = 0;
-	float GroundHoverY = 0;
+	float GroundFloorY = 0;
 	StateList State = LoweringToSeek;
 	Sound MutateSound = { 0 };
 

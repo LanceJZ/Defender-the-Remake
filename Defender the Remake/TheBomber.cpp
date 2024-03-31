@@ -45,6 +45,9 @@ void TheBomber::Spawn(Vector3 position)
 {
 	Enemy::Spawn(position);
 
+	Position.x = GetRandomFloat(GetScreenWidth() * 2.25f, GetScreenWidth() * 3.5f);
+	Position.y = GetRandomFloat(-GetScreenHeight() * 0.5f, GetScreenHeight() * 0.5f);
+
 	float yVelocity = GetRandomFloat(30.0f, 75.0f);
 	float xVelocity = GetRandomFloat(-75.0f, -25.0f);
 

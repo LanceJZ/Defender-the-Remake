@@ -64,22 +64,22 @@ void TheLander::Spawn(Vector3 position)
 {
 	Enemy::Spawn(position);
 
-	State = StateList::LoweringToSeek;
+	Position.x = GetRandomFloat(-GetScreenWidth() * 0.5f, GetScreenWidth() * 0.5f);
+	Position.y = -GetScreenHeight() * 0.333f;
 
-	float velX = 0.0f;
+	State = StateList::LoweringToSeek;
 
 	if (GetRandomValue(0, 1) == 0)
 	{
-		velX = GetRandomFloat(30.0f, 60.0f);
+		Velocity.x = GetRandomFloat(30.0f, 60.0f);
 	}
 	else
 	{
-		velX = GetRandomFloat(-60.0f, -30.0f);
+		Velocity.x = GetRandomFloat(-60.0f, -30.0f);
 	}
 
-	float velY = GetRandomFloat(20.0f, 30.0f);
-	Velocity = { velX, velY, 0.0f };
-	GroundHoverY = GetRandomFloat(-80.0f, 20.0f);
+	Velocity.y = GetRandomFloat(20.0f, 30.0f);
+	GroundFloorY = GetRandomFloat(-80.0f, 30.0f);
 }
 
 void TheLander::Reset()
@@ -94,7 +94,7 @@ void TheLander::Hit()
 
 void TheLander::GoToSeek()
 {
-	if (Y() > (GetScreenHeight() * 0.2f) + GroundHoverY)
+	if (Y() > (GetScreenHeight() * 0.2f) + GroundFloorY)
 	{
 		State = StateList::Seek;
 		Velocity.y = 0.0f;
