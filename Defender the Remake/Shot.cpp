@@ -22,6 +22,8 @@ bool Shot::Initialize(Utilities* utilities)
 {
 	Model3D::Initialize(utilities);
 
+	Radius = 3.5f;
+
 	PlayerShotTail->Initialize(utilities);
 	PlayerShotTail->Enabled = false;
 	PlayerShotTail->SetParent(this);
@@ -74,6 +76,7 @@ void Shot::Draw()
 
 void Shot::Reset()
 {
+	Destroy();
 }
 
 void Shot::Destroy()
@@ -100,7 +103,6 @@ void Shot::BombSpawn(Vector3 position, float lifeTime)
 	Entity::Spawn(position);
 
 	Velocity = { 0, 0, 0 };
-	//LifeTimer.Reset(GetRandomFloat(6.66f, 16.66f));
 	TheManagers.EM.ResetTimer(LifeTimerID, lifeTime);
 }
 
@@ -111,17 +113,23 @@ void Shot::PlayerSpawn(Vector3 position, Vector3 velocity, bool facingRight)
 	MirrorL->Enabled = true;
 	MirrorR->Enabled = true;
 	PlayerShotTail->Enabled = true;
+	Velocity.x = velocity.x;
+	Velocity.y = velocity.y * 0.1f;
 
 	if (facingRight)
 	{
 		Velocity.x -= 2000.0f;
 		Position.x -= 40.0f;
+		Position.y += 8.0f;
 		RotationY = PI;
 	}
 	else
 	{
 		Velocity.x += 2000.0f;
 		Position.x += 40.0f;
+		Position.y += 8.0f;
 		RotationY = 0.0f;
 	}
+
+	TheManagers.EM.ResetTimer(LifeTimerID, 0.666f);
 }

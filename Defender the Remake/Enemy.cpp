@@ -121,6 +121,18 @@ void Enemy::FireShot()
 
 bool Enemy::CheckCollision()
 {
+	for (auto &shot : Player->Shots)
+	{
+		if (shot->CirclesIntersectBullet(*this))
+		{
+			shot->Reset();
+			Hit();
+			Destroy();
+
+			return true;
+		}
+	}
+
 	return false;
 }
 
@@ -153,12 +165,13 @@ float Enemy::AimedShot(Vector3 position)
 
 void Enemy::Hit()
 {
-
+	BeenHit = true;
+	//Score->AddToScore(ScoreAmount);
 }
 
 void Enemy::Reset()
 {
-
+	BeenHit = false;
 }
 
 void Enemy::Spawn(Vector3 position)

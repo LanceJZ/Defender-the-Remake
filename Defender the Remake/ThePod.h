@@ -19,5 +19,5 @@ public:
 
 private:
 	void Destroy();
-
+	bool CheckCollision();
 };

@@ -175,7 +175,7 @@ void EnemyControl::UpdatePod()
 {
 	for (auto pod : Pods)
 	{
-		if (pod->Enabled)
+		if (!pod->Enabled)
 		{
 			if (pod->BeenHit)
 			{

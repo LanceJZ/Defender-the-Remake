@@ -12,6 +12,8 @@ bool ThePod::Initialize(Utilities* utilities)
 {
 	Enemy::Initialize(utilities);
 
+	Radius = 12.0f;
+
 	return false;
 }
 
@@ -77,4 +79,13 @@ void ThePod::Destroy()
 {
 	Enemy::Destroy();
 
+}
+
+bool ThePod::CheckCollision()
+{
+	Enemy::CheckCollision();
+
+
+
+	return false;
 }

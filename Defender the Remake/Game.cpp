@@ -36,6 +36,24 @@ bool Game::Initialize(Utilities &utilities, GameLogic* gameLogic) //Initialize
 
 bool Game::Load()
 {
+	for (size_t i = 0; i < 7; i++)
+	{
+		std::string name = "Ground";
+		std::string nameR = "GroundRadar";
+		name.append(std::to_string(i + 1));
+		nameR.append(std::to_string(i + 1));
+
+		Model land = TheManagers.CM.LoadAndGetModel(name);
+		Model radarLand = TheManagers.CM.LoadAndGetModel(nameR);
+
+		BackGround->SetLandParts(land, radarLand, i);
+	}
+
+	BackGround->SetPlayer(Player);
+	BackGround->SetRadar(TheManagers.CM.LoadAndGetModel("RadarOutline"),
+		TheManagers.CM.LoadAndGetModel("UIBottomSides"));
+	BackGround->SetUIBackface(TheManagers.CM.LoadAndGetModel("UIBackface"));
+
 	Player->SetModel(TheManagers.CM.LoadAndGetModel("Player Ship"));
 	Player->SetRadarModel(TheManagers.CM.LoadAndGetModel("Player Radar"));
 	Player->SetFlameModel(TheManagers.CM.LoadAndGetModel("Player Flame"));
@@ -57,24 +75,6 @@ bool Game::Load()
 	Enemies->SetBomberRadarModel(TheManagers.CM.LoadAndGetModel("Bomber Radar"));
 	Enemies->SetSwarmerRadarModel(TheManagers.CM.LoadAndGetModel("Swarmer Radar"));
 	Enemies->SetPodRadarModel(TheManagers.CM.LoadAndGetModel("Pod Radar"));
-
-	for (size_t i = 0; i < 7; i++)
-	{
-		std::string name = "Ground";
-		std::string nameR = "GroundRadar";
-		name.append(std::to_string(i + 1));
-		nameR.append(std::to_string(i + 1));
-
-		Model land = TheManagers.CM.LoadAndGetModel(name);
-		Model radarLand = TheManagers.CM.LoadAndGetModel(nameR);
-
-		BackGround->SetLandParts(land, radarLand, i);
-	}
-
-	BackGround->SetPlayer(Player);
-	BackGround->SetRadar(TheManagers.CM.LoadAndGetModel("RadarOutline"),
-		TheManagers.CM.LoadAndGetModel("UIBottomSides"));
-	BackGround->SetUIBackface(TheManagers.CM.LoadAndGetModel("UIBackface"));
 
 	return true;
 }
