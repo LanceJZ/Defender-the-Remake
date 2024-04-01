@@ -81,7 +81,7 @@ void ThePlayer::Update(float deltaTime)
 	if (RotateFacing)
 		RotateShipFacing();
 
-	ScreenEdgeBoundY(GetScreenHeight() * 0.161f, GetScreenHeight() * 0.015f);
+	ScreenEdgeBoundY(GetScreenHeight() * 0.015f, GetScreenHeight() * 0.161f);
 	CheckPlayfieldSidesWarp(7.0f, 7.0f);
 
 	HorizontalFriction();

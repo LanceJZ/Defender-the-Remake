@@ -96,6 +96,8 @@ void Enemy::Update(float deltaTime)
 	Radar->Y((Y() * 0.158f) - HeightMultiplier);
 
 	CheckPlayfieldSidesWarp(7.0f, 7.0f);
+
+	//if (CheckCollision()) Destroy();
 	CheckCollision();
 
 }
