@@ -86,5 +86,6 @@ void GameLogic::SetupPersonMan()
 		person->SetPlayer(Player);
 		person->SetModel(PersonModel);
 		person->SetRadarModel(PersonRadarModel);
+		person->BeginRun();
 	}
 }

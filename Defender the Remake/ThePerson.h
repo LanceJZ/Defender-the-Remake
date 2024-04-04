@@ -1,8 +1,7 @@
 #pragma once
-#include "Globals.h"
-#include "ThePlayer.h"
+#include "MirrorRadar.h"
 
-class ThePerson : public Model3D
+class ThePerson : public MirrorRadar
 {
 public:
 	enum PersonState
@@ -19,9 +18,6 @@ public:
 	PersonState State = OnGround;
 	bool CountChanged = false;
 
-	void SetPlayer(ThePlayer* player);
-	void SetRadarModel(Model model);
-
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
 
@@ -35,14 +31,5 @@ public:
 
 private:
 	float DroppedY = 0;
-	float HeightMultiplier = 0;
-	float WidthOffset = 0;
-	float WidthCameraOffset = 0;
-	float WidthMirrorOffset = 0;
-	float WidthMirrorModifierOffset = 0;
 
-	Model3D* MirrorR = {};
-	Model3D* MirrorL = {};
-	Model3D* Radar = {};
-	ThePlayer* Player = {};
 };

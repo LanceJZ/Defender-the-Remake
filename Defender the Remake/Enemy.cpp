@@ -8,24 +8,10 @@ Enemy::Enemy()
 	}
 
 	ShotTimerID = TheManagers.EM.AddTimer();
-
-	TheManagers.EM.AddModel3D(MirrorL = DBG_NEW Model3D());
-	TheManagers.EM.AddModel3D(MirrorR = DBG_NEW Model3D());
-	TheManagers.EM.AddModel3D(Radar = DBG_NEW Model3D());
 }
 
 Enemy::~Enemy()
 {
-}
-
-void Enemy::SetPlayer(ThePlayer* player)
-{
-	Player = player;
-}
-
-void Enemy::SetRadarModel(Model model)
-{
-	Radar->SetModel(model);
 }
 
 void Enemy::SetShotModel(Model model)
@@ -38,62 +24,32 @@ void Enemy::SetShotModel(Model model)
 
 bool Enemy::Initialize(Utilities* utilities)
 {
-	Model3D::Initialize(utilities);
+	MirrorRadar::Initialize(utilities);
 
 	for(auto shot : Shots)
 	{
 		shot->Initialize(utilities);
 	}
 
-	Radar->Initialize(utilities);
-
-	float mirrorMultiplier = GetScreenWidth() * 7.0f;
-
-	MirrorL->SetModel(GetModel());
-	MirrorR->SetModel(GetModel());
-
-	MirrorL->X(X() - mirrorMultiplier);
-	MirrorR->X(X() + mirrorMultiplier);
-
-	MirrorL->SetParent(this);
-	MirrorR->SetParent(this);
-
-	float comp = 0.064f;
-	float ww = 3.5f;
-	float swww = (GetScreenWidth() * ww);
-
-	WidthOffset = (swww * 2) * comp;
-	WidthCameraOffset = comp;
-	WidthMirrorOffset = swww * comp;
-	HeightMultiplier = GetScreenHeight() * 0.4376f;
 
 	return true;
 }
 
 bool Enemy::BeginRun()
 {
-	Model3D::BeginRun();
+	MirrorRadar::BeginRun();
+
+	for (auto shot : Shots)
+	{
+		shot->BeginRun();
+	}
 
 	return false;
 }
 
 void Enemy::Update(float deltaTime)
 {
-	Model3D::Update(deltaTime);
-
-	Radar->X(TheCamera.position.x + (-Player->X() * WidthCameraOffset) +
-		(X() * WidthCameraOffset));
-
-	if (Radar->X() > TheCamera.position.x + WidthMirrorOffset)
-	{
-		Radar->Position.x -= WidthOffset;
-	}
-	else if (Radar->X() < TheCamera.position.x - WidthMirrorOffset)
-	{
-		Radar->Position.x += WidthOffset;
-	}
-
-	Radar->Y((Y() * 0.158f) - HeightMultiplier);
+	MirrorRadar::Update(deltaTime);
 
 	CheckPlayfieldSidesWarp(7.0f, 7.0f);
 
@@ -104,7 +60,7 @@ void Enemy::Update(float deltaTime)
 
 void Enemy::Draw()
 {
-	Model3D::Draw();
+	MirrorRadar::Draw();
 
 }
 
@@ -178,18 +134,12 @@ void Enemy::Reset()
 
 void Enemy::Spawn(Vector3 position)
 {
-	Entity::Spawn(position);
+	MirrorRadar::Spawn(position);
 
-	MirrorL->Enabled = true;
-	MirrorR->Enabled = true;
-	Radar->Enabled = true;
 }
 
 void Enemy::Destroy()
 {
-	Entity::Destroy();
+	MirrorRadar::Destroy();
 
-	MirrorL->Enabled = false;
-	MirrorR->Enabled = false;
-	Radar->Enabled = false;
 }

@@ -1,5 +1,4 @@
 #pragma once
-#include "Globals.h"
 #include "Enemy.h"
 
 class ThePod : public Enemy

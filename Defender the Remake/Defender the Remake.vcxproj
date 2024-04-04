@@ -157,6 +157,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MirrorRadar.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TheBaiter.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ThePod.cpp">
       <SubType>
       </SubType>
@@ -203,6 +211,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="EnemyControl.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MirrorRadar.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TheBaiter.h">
       <SubType>
       </SubType>
     </ClInclude>

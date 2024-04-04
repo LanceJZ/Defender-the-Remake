@@ -57,6 +57,12 @@
     <ClCompile Include="ThePod.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TheBaiter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MirrorRadar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -99,6 +105,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ThePod.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TheBaiter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MirrorRadar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

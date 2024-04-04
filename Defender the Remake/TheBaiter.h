@@ -1,11 +1,11 @@
 #pragma once
 #include "Enemy.h"
 
-class TheSwarmer : public Enemy
+class TheBaiter : public Enemy
 {
 public:
-	TheSwarmer();
-	virtual ~TheSwarmer();
+	TheBaiter();
+	virtual ~TheBaiter();
 
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
@@ -18,15 +18,14 @@ public:
 
 private:
 	size_t AfterSpawnTimerID = 0;
-	size_t DistanceTimerID = 0;
+	size_t SpeedChangeTimerID = 0;
 
 	float XVelocity = 0;
 	float YVelocity = 0;
-	float DistanceX = 0;
-	float DistanceY = 0;
 
-	void FireShot();
 	void AfterSpawn();
+	void ChangeSpeed();
+	void FireShot();
 	bool CheckCollision();
 	void Destroy();
 };

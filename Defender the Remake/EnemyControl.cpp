@@ -47,6 +47,11 @@ void EnemyControl::SetPodModel(Model model)
 	PodModel = model;
 }
 
+void EnemyControl::SetBaiterModel(Model model)
+{
+	BaiterModel = model;
+}
+
 void EnemyControl::SetShotModel(Model model)
 {
 	ShotModel = model;
@@ -80,6 +85,11 @@ void EnemyControl::SetSwarmerRadarModel(Model model)
 void EnemyControl::SetPodRadarModel(Model model)
 {
 	RadarPodModel = model;
+}
+
+void EnemyControl::SetBaiterRadarModel(Model model)
+{
+	RadarBaiterModel = model;
 }
 
 bool EnemyControl::Initialize(Utilities* utilities)

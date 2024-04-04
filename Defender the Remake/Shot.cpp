@@ -22,24 +22,11 @@ bool Shot::Initialize(Utilities* utilities)
 {
 	Model3D::Initialize(utilities);
 
-	Radius = 3.5f;
-
 	PlayerShotTail->Initialize(utilities);
-	PlayerShotTail->Enabled = false;
-	PlayerShotTail->SetParent(this);
-	PlayerShotTail->Position.x = -5.5f;
+	MirrorL->Initialize(utilities);
+	MirrorR->Initialize(utilities);
 
-	Xmultiplier = GetScreenWidth() * 2.75f;
-	MirrorMultiplier = GetScreenWidth() * 7.0f;
-
-	MirrorL->SetModel(GetModel());
-	MirrorR->SetModel(GetModel());
-
-	MirrorL->X(X() - MirrorMultiplier);
-	MirrorR->X(X() + MirrorMultiplier);
-
-	MirrorL->SetParent(this);
-	MirrorR->SetParent(this);
+	Radius = 3.5f;
 
 	WindowHeight = GetScreenHeight() * 0.5f;
 
@@ -50,7 +37,23 @@ bool Shot::BeginRun()
 {
 	Model3D::BeginRun();
 
-	return false;
+	PlayerShotTail->SetParent(this);
+	PlayerShotTail->Position.x = -5.5f;
+
+	float mirrorMultiplier = GetScreenWidth() * 7.0f;
+
+	MirrorL->SetModel(GetModel());
+	MirrorR->SetModel(GetModel());
+
+	MirrorL->X(X() - mirrorMultiplier);
+	MirrorR->X(X() + mirrorMultiplier);
+
+	MirrorL->SetParent(this);
+	MirrorR->SetParent(this);
+
+	Destroy();
+
+	return true;
 }
 
 void Shot::Update(float deltaTime)
@@ -104,6 +107,9 @@ void Shot::BombSpawn(Vector3 position, float lifeTime)
 
 	Velocity = { 0, 0, 0 };
 	TheManagers.EM.ResetTimer(LifeTimerID, lifeTime);
+
+	MirrorL->Enabled = true;
+	MirrorR->Enabled = true;
 }
 
 void Shot::PlayerSpawn(Vector3 position, Vector3 velocity, bool facingRight)

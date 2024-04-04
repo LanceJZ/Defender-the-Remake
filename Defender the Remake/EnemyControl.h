@@ -8,6 +8,7 @@
 #include "TheBomber.h"
 #include "TheSwarmer.h"
 #include "ThePod.h"
+#include "TheBaiter.h"
 
 class EnemyControl : public Common
 {
@@ -20,6 +21,7 @@ public:
 	std::vector<TheBomber*> Bombers = {};
 	std::vector<TheSwarmer*> Swarmers = {};
 	std::vector<ThePod*> Pods = {};
+	std::vector<TheBaiter*> Baiters = {};
 
 	bool LandersTurnedToMutants = false;
 
@@ -30,6 +32,7 @@ public:
 	void SetBomberModel(Model model);
 	void SetSwarmerModel(Model model);
 	void SetPodModel(Model model);
+	void SetBaiterModel(Model model);
 	void SetShotModel(Model model);
 	void SetBombModel(Model model);
 	void SetLanderRadarModel(Model model);
@@ -37,6 +40,7 @@ public:
 	void SetBomberRadarModel(Model model);
 	void SetSwarmerRadarModel(Model model);
 	void SetPodRadarModel(Model model);
+	void SetBaiterRadarModel(Model model);
 
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
@@ -60,6 +64,7 @@ private:
 	Model MutantModel = { 0 };
 	Model BomberModel = { 0 };
 	Model SwarmerModel = { 0 };
+	Model BaiterModel = { 0 };
 	Model PodModel = { 0 };
 	Model ShotModel = { 0 };
 	Model BombModel = { 0 };
@@ -67,6 +72,7 @@ private:
 	Model RadarMutantModel = { 0 };
 	Model RadarBomberModel = { 0 };
 	Model RadarSwarmerModel = { 0 };
+	Model RadarBaiterModel = { 0 };
 	Model RadarPodModel = { 0 };
 
 	ThePlayer* Player = nullptr;

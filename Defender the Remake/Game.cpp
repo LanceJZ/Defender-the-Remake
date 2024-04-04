@@ -75,6 +75,8 @@ bool Game::Load()
 	Enemies->SetBomberRadarModel(TheManagers.CM.LoadAndGetModel("Bomber Radar"));
 	Enemies->SetSwarmerRadarModel(TheManagers.CM.LoadAndGetModel("Swarmer Radar"));
 	Enemies->SetPodRadarModel(TheManagers.CM.LoadAndGetModel("Pod Radar"));
+	Enemies->SetBaiterModel(TheManagers.CM.LoadAndGetModel("Baiter"));
+	Enemies->SetBaiterRadarModel(TheManagers.CM.LoadAndGetModel("Baiter Radar"));
 
 	return true;
 }
