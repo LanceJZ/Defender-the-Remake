@@ -109,6 +109,7 @@ bool EnemyControl::BeginRun()
 
 	SpawnBomber(4);
 	SpawnPod(4);
+	SpawnBaiter();
 
 	return true;
 }
@@ -305,6 +306,8 @@ void EnemyControl::SpawnMutant(Vector3 position)
 			mutantSpawnNumber = mutantNumber;
 			break;
 		}
+
+		mutantNumber++;
 	}
 
 	if (spawnNew)
@@ -374,6 +377,8 @@ void EnemyControl::SpawnSwarmers(Vector3 position, int count)
 				swarmerSpawnNumber = swarmerNumber;
 				break;
 			}
+
+			swarmerNumber++;
 		}
 
 		if (spawnNew)
@@ -407,6 +412,8 @@ void EnemyControl::SpawnPod(int count)
 				podSpawnNumber = podNumber;
 				break;
 			}
+
+			podNumber++;
 		}
 
 		if (spawnNew)
@@ -422,4 +429,36 @@ void EnemyControl::SpawnPod(int count)
 
 		Pods[podSpawnNumber]->Spawn({ 0.0f });
 	}
+}
+
+void EnemyControl::SpawnBaiter()
+{
+	size_t spawnNumber = Baiters.size();
+	int baiterNumber = 0;
+	bool spawnNew = true;
+
+	for (const auto& baiter : Baiters)
+	{
+		if (!baiter->Enabled)
+		{
+			spawnNumber = baiterNumber;
+			spawnNew = false;
+			break;
+		}
+
+		baiterNumber++;
+	}
+
+	if (spawnNew)
+	{
+		Baiters.push_back(DBG_NEW TheBaiter());
+		TheManagers.EM.AddModel3D(Baiters[spawnNumber], BaiterModel);
+		Baiters[spawnNumber]->SetPlayer(Player);
+		Baiters[spawnNumber]->SetShotModel(ShotModel);
+		Baiters[spawnNumber]->SetRadarModel(RadarBaiterModel);
+		Baiters[spawnNumber]->Initialize(TheUtilities);
+		Baiters[spawnNumber]->BeginRun();
+	}
+
+	Baiters[spawnNumber]->Spawn({ 0.0f });
 }

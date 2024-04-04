@@ -94,4 +94,5 @@ private:
 	void SpawnBomber(int count);
 	void SpawnSwarmers(Vector3 position, int count);
 	void SpawnPod(int count);
+	void SpawnBaiter();
 };

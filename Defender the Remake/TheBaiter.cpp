@@ -19,7 +19,7 @@ bool TheBaiter::Initialize(Utilities* utilities)
 
 bool TheBaiter::BeginRun()
 {
-	Model3D::BeginRun();
+	Enemy::BeginRun();
 
 	return false;
 }
@@ -67,7 +67,7 @@ void TheBaiter::Spawn(Vector3 position)
 void TheBaiter::Reset()
 {
 }
-
+//TODO: Implement chase across border.
 void TheBaiter::AfterSpawn()
 {
 	float percentChange = 0.35f;
