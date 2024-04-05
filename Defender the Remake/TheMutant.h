@@ -21,6 +21,7 @@ private:
 	size_t ChangeSpeedTimerID = 0;
 	float Speed = 100;
 	float DistanceY = 100;
+	float WorldWidth = 0;
 
 	void ChasePlayer();
 	bool CheckCollision();

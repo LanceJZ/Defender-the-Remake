@@ -14,7 +14,9 @@ bool TheBaiter::Initialize(Utilities* utilities)
 {
 	Enemy::Initialize(utilities);
 
-	return false;
+	WorldWidth = FieldSize.x * 0.5f;
+
+	return true;
 }
 
 bool TheBaiter::BeginRun()
@@ -39,6 +41,12 @@ void TheBaiter::Update(float deltaTime)
 	}
 
 	CheckPlayfieldHeightWarp(0.679f, 1.0f);
+
+	if (TheManagers.EM.TimerElapsed(ShotTimerID))
+	{
+		FireShot();
+		TheManagers.EM.ResetTimer(ShotTimerID, GetRandomFloat(0.15f, 0.25f));
+	}
 }
 
 void TheBaiter::Draw()
@@ -67,7 +75,7 @@ void TheBaiter::Spawn(Vector3 position)
 void TheBaiter::Reset()
 {
 }
-//TODO: Implement chase across border.
+
 void TheBaiter::AfterSpawn()
 {
 	float percentChange = 0.35f;
@@ -89,6 +97,11 @@ void TheBaiter::AfterSpawn()
 	{
 		Velocity.y = YVelocity;
 	}
+
+	if (X() - Player->X() > WorldWidth || Player->X() - X() > WorldWidth)
+	{
+		Velocity.x = Velocity.x * -1.0f;
+	}
 }
 
 void TheBaiter::ChangeSpeed()
@@ -96,7 +109,7 @@ void TheBaiter::ChangeSpeed()
 	TheManagers.EM.ResetTimer(SpeedChangeTimerID, GetRandomFloat(2.75f, 5.5f));
 	float multiplier = 1.2f;
 	XVelocity = (Player->Velocity.x + 0.1f) * multiplier;
-	YVelocity = GetRandomFloat(20, 50);
+	YVelocity = GetRandomFloat(20, 80);
 }
 
 void TheBaiter::FireShot()

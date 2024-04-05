@@ -14,7 +14,9 @@ bool TheSwarmer::Initialize(Utilities* utilities)
 {
 	Enemy::Initialize(utilities);
 
-	return false;
+	WorldWidth = FieldSize.x * 0.5f;
+
+	return true;
 }
 
 bool TheSwarmer::BeginRun()
@@ -133,6 +135,11 @@ void TheSwarmer::AfterSpawn()
 		{
 			Velocity.y = YVelocity;
 		}
+	}
+
+	if (X() - Player->X() > WorldWidth || Player->X() - X() > WorldWidth)
+	{
+		Velocity.x = Velocity.x * -1.0f;
 	}
 }
 

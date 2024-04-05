@@ -24,6 +24,7 @@ private:
 	float YVelocity = 0;
 	float DistanceX = 0;
 	float DistanceY = 0;
+	float WorldWidth = 0;
 
 	void FireShot();
 	void AfterSpawn();

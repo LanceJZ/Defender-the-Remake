@@ -109,13 +109,18 @@ float Enemy::GetShotAngle(Vector3 position)
 
 	return angle;
 }
-//TODO: add aiming for other side when player near edge.
+
 float Enemy::AimedShot(Vector3 position)
 {
 	float percentChance = GetRandomFloat(0.0f, 0.05f);
 
 	Vector3 aimXVelocity = Player->Position;
 	aimXVelocity.x += Player->Velocity.x;
+
+	if (X() - Player->X() > FieldSize.x * 0.5f || Player->X() - X() > FieldSize.x * 0.5f)
+	{
+		aimXVelocity.x = aimXVelocity.x * -1.0f;
+	}
 
 	return AngleFromVectorZ(aimXVelocity) +
 		GetRandomFloat(-percentChance, percentChance);

@@ -13,7 +13,9 @@ bool TheMutant::Initialize(Utilities* utilities)
 {
 	Enemy::Initialize(utilities);
 
-	return false;
+	WorldWidth = FieldSize.x * 0.5f;
+
+	return true;
 }
 
 bool TheMutant::BeginRun()
@@ -51,7 +53,6 @@ void TheMutant::Spawn(Vector3 position)
 
 void TheMutant::ChasePlayer()
 {
-	float worldW = GetScreenWidth() * 3.5f;
 	float playerX = Player->X();
 	float playerY = Player->Y();
 	float mutantX = X();
@@ -64,7 +65,7 @@ void TheMutant::ChasePlayer()
 		DistanceY = GetRandomFloat(100.0f, 150.0f);
 	}
 
-	if (mutantX - playerX > worldW || playerX - mutantX > worldW)
+	if (mutantX - playerX > WorldWidth || playerX - mutantX > WorldWidth)
 	{
 		if (playerX < mutantX)
 		{

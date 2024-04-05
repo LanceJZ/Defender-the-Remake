@@ -22,6 +22,7 @@ private:
 
 	float XVelocity = 0;
 	float YVelocity = 0;
+	float WorldWidth = 0;
 
 	void AfterSpawn();
 	void ChangeSpeed();
