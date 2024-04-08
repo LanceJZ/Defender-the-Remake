@@ -53,8 +53,8 @@ void TheSwarmer::Spawn(Vector3 position)
 {
 	Enemy::Spawn(position);
 
-	Velocity.x = GetRandomFloat(65.0f, 75.0f);
-	Velocity.y = GetRandomFloat(55.0f, 65.0f);
+	Velocity.x = GetRandomFloat(45.0f, 75.0f);
+	Velocity.y = GetRandomFloat(35.0f, 65.0f);
 
 	XVelocity = Velocity.x;
 	YVelocity = Velocity.y;

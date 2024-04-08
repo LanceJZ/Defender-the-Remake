@@ -15,38 +15,17 @@ void Entity::Update(float deltaTime)
 
 	if (!EntityOnly) return;
 
-	rlPushMatrix();
-
-	if (IsChild)
-	{
-		for (auto parent : Parents)
-		{
-			rlTranslatef(parent->Position.x, parent->Position.y, Position.z);
-			rlRotatef(parent->RotationX, 1, 0, 0);
-			rlRotatef(parent->RotationY, 0, 1, 0);
-			rlRotatef(parent->RotationZ, 0, 0, 1);
-		}
-	}
-
-	rlTranslatef(Position.x, Position.y, Position.z);
-	rlRotatef(RotationX, 1, 0, 0);
-	rlRotatef(RotationY, 0, 1, 0);
-	rlRotatef(RotationZ, 0, 0, 1);
-	rlScalef(Scale, Scale, Scale);
-
-	WorldMatrix = rlGetMatrixTransform();
-	WorldPosition = { WorldMatrix.m12, WorldMatrix.m13, WorldMatrix.m14 };
-	WorldRotation = QuaternionToEuler(QuaternionFromMatrix(WorldMatrix));
-
-	rlPopMatrix();
-	rlEnd();
+	BeforeCalculate();
+	CalculateWorldVectors();
+	CalculateWorldSpace();
+	AfterCalculate();
 }
 
 void Entity::Draw()
 {
 #ifdef _DEBUG
 	if(Enabled)
-		DrawCircle3D(Position, Radius, { 0 }, 0, { 150, 50, 200, 200 });
+		DrawCircle3D(WorldPosition, Radius, { 0 }, 0, { 150, 50, 200, 200 });
 #endif
 }
 
@@ -72,7 +51,9 @@ bool Entity::CirclesIntersect(Entity& target)
 	if (!Enabled || !target.Enabled)
 		return false;
 
-	Vector2 distance = { target.Position.x - X(), target.Position.y - Y() };
+	Vector2 distance = { target.WorldPosition.x - WorldPosition.x,
+		target.WorldPosition.y - WorldPosition.y };
+
 	float radius = Radius + target.Radius;
 
 	if ((distance.x * distance.x) + (distance.y * distance.y) < radius * radius)
@@ -80,13 +61,13 @@ bool Entity::CirclesIntersect(Entity& target)
 
 	return false;
 }
-
+//TODO: Add collision on Y plane.
 bool Entity::CirclesIntersectBullet(Entity& target)
 {
 	if (!Enabled || !target.Enabled)
 		return false;
 
-	TheRay.position = Position;
+	TheRay.position = WorldPosition;
 
 	if (Velocity.x > 0)
 	{
@@ -97,11 +78,12 @@ bool Entity::CirclesIntersectBullet(Entity& target)
 		TheRay.direction = { -1, 0, 0 };
 	}
 
-	TheRayCollision = GetRayCollisionSphere(TheRay, target.Position, target.Radius);
+	TheRayCollision = GetRayCollisionSphere(TheRay,
+		target.WorldPosition, target.Radius);
 
 	if (TheRayCollision.hit)
 	{
-		float distance = Position.x - LastFramePosition.x;
+		float distance = WorldPosition.x - LastFrameWorldPosition.x;
 		if (distance < 0) distance *= -1;
 
 		if (TheRayCollision.distance > 0)

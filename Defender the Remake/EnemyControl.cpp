@@ -123,7 +123,20 @@ void EnemyControl::Update()
 	UpdateBomber();
 	UpdateSwarmer();
 	UpdatePod();
+	UpdateBaiter();
+	UpdatePlayer();
+}
 
+void EnemyControl::AllDead()
+{
+}
+
+void EnemyControl::NewGame()
+{
+}
+
+void EnemyControl::UpdatePlayer()
+{
 	if (Player->BeenHit)
 	{
 		PlayerHitReset();
@@ -133,14 +146,6 @@ void EnemyControl::Update()
 	{
 		SmartBomb();
 	}
-}
-
-void EnemyControl::AllDead()
-{
-}
-
-void EnemyControl::NewGame()
-{
 }
 
 void EnemyControl::UpdateLander()
@@ -196,6 +201,11 @@ void EnemyControl::UpdatePod()
 			}
 		}
 	}
+}
+
+void EnemyControl::UpdateBaiter()
+{
+
 }
 
 void EnemyControl::SmartBomb()

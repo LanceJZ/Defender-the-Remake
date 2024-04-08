@@ -37,6 +37,7 @@ public:
 	Vector3 RotationVelocity = Vector3Zero();
 	Vector3 RotationAcceleration = Vector3Zero();
 	Vector3 LastFramePosition = Vector3Zero();
+	Vector3 LastFrameWorldPosition = Vector3Zero();
 	Vector3 WorldPosition = Vector3Zero();
 	Vector3 WorldRotation = Vector3Zero();
 	Quaternion RotationQ = {};

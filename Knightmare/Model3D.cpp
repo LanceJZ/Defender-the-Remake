@@ -62,75 +62,74 @@ void Model3D::Update(float deltaTime)
 
 void Model3D::Draw()
 {
-	if (Enabled)
+	if (!Enabled) return;
+
+	Entity::Draw();
+
+	if (TheCamera3D == nullptr)
 	{
-		Entity::Draw();
+		TraceLog(LOG_INFO, "***************\n");
+		TraceLog(LOG_ERROR,
+		"*****************  Camera Reference is missing! ******************\n");
 
-		if (TheCamera3D == nullptr)
-		{
-			TraceLog(LOG_INFO, "***************\n");
-			TraceLog(LOG_ERROR,
-			"*****************  Camera Reference is missing! ******************\n");
-
-			return;
-		}
-
-		if (Cull)
-		{
-			if (IsChild)
-			{
-				Vector3 parentTest = Position;
-				float radius = 0;
-
-				for (auto parent : Parents)
-				{
-					parentTest = Vector3Add(parent->Position, parentTest);
-					radius += parent->VerticesSize;
-				}
-
-				if (TheCamera3D->position.x > parentTest.x + radius + VerticesSize +
-					ViewableArea.x || TheCamera3D->position.x < parentTest.x + -radius +
-					-VerticesSize + -ViewableArea.x)
-				{
-					WasCulled = true;
-					return;
-				}
-
-				if (TheCamera3D->position.y > parentTest.y + radius + VerticesSize +
-					ViewableArea.y || TheCamera3D->position.y < parentTest.y + -radius +
-					-VerticesSize + -ViewableArea.y)
-				{
-					WasCulled = true;
-					return;
-				}
-			}
-			else
-			{
-				if (TheCamera3D->position.x > Position.x + VerticesSize + ViewableArea.x
-					|| TheCamera3D->position.x < Position.x + -VerticesSize + -ViewableArea.x)
-				{
-					WasCulled = true;
-					return;
-				}
-
-				if (TheCamera3D->position.y > Position.y + VerticesSize + ViewableArea.y ||
-					TheCamera3D->position.y < Position.y + -VerticesSize + -ViewableArea.y)
-				{
-					WasCulled = true;
-					return;
-				}
-			}
-		}
-
-		WasCulled = false;
-		BeforeCalculate();
-
-		CalculateWorldVectors();
-
-		DrawModel(TheModel, ModelPosition, ModelScale, ModelColor);	// Draw 3D model
-
-		AfterCalculate();
+		return;
 	}
+
+	if (Cull)
+	{
+		if (IsChild)
+		{
+			Vector3 parentTest = Position;
+			float radius = 0;
+
+			for (auto parent : Parents)
+			{
+				parentTest = Vector3Add(parent->Position, parentTest);
+				radius += parent->VerticesSize;
+			}
+
+			if (TheCamera3D->position.x > parentTest.x + radius + VerticesSize +
+				ViewableArea.x || TheCamera3D->position.x < parentTest.x + -radius +
+				-VerticesSize + -ViewableArea.x)
+			{
+				WasCulled = true;
+				return;
+			}
+
+			if (TheCamera3D->position.y > parentTest.y + radius + VerticesSize +
+				ViewableArea.y || TheCamera3D->position.y < parentTest.y + -radius +
+				-VerticesSize + -ViewableArea.y)
+			{
+				WasCulled = true;
+				return;
+			}
+		}
+		else
+		{
+			if (TheCamera3D->position.x > Position.x + VerticesSize + ViewableArea.x
+				|| TheCamera3D->position.x < Position.x + -VerticesSize + -ViewableArea.x)
+			{
+				WasCulled = true;
+				return;
+			}
+
+			if (TheCamera3D->position.y > Position.y + VerticesSize + ViewableArea.y ||
+				TheCamera3D->position.y < Position.y + -VerticesSize + -ViewableArea.y)
+			{
+				WasCulled = true;
+				return;
+			}
+		}
+	}
+
+	WasCulled = false;
+	BeforeCalculate();
+	CalculateWorldVectors();
+
+	DrawModel(TheModel, ModelPosition, ModelScale, ModelColor);	// Draw 3D model
+
+	CalculateWorldSpace();
+	AfterCalculate();
 }
 
 //void Model3D::AddChild(Model3D* child)

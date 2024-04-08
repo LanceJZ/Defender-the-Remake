@@ -26,6 +26,8 @@ bool Game::Initialize(Utilities &utilities, GameLogic* gameLogic) //Initialize
 
 	Enemies->SetPlayer(Player);
 
+	BackGround->SetPlayer(Player);
+
 	float multi = 7.0f;
 	FieldSize = { GetScreenWidth() * multi, (float)GetScreenHeight() };
 
@@ -49,7 +51,6 @@ bool Game::Load()
 		BackGround->SetLandParts(land, radarLand, i);
 	}
 
-	BackGround->SetPlayer(Player);
 	BackGround->SetRadar(TheManagers.CM.LoadAndGetModel("RadarOutline"),
 		TheManagers.CM.LoadAndGetModel("UIBottomSides"));
 	BackGround->SetUIBackface(TheManagers.CM.LoadAndGetModel("UIBackface"));

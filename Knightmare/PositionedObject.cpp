@@ -24,11 +24,19 @@ void PositionedObject::Update(float deltaTime)
 {
 	LastFramePosition = Position;
 
+	if (!IsChild)
+	{
+		LastFrameWorldPosition = Position;
+	}
+
 	Velocity = Vector3Add(Velocity, Acceleration);
 	Position = Vector3Add(Vector3Multiply({ deltaTime, deltaTime, deltaTime },
 		Velocity), Position);
 
-	if (!IsChild) WorldPosition = Position;
+	if (!IsChild)
+	{
+		WorldPosition = Position;
+	}
 
 	RotationX = AddRotationVelAcc(RotationX, RotationVelocityX,
 		RotationAccelerationX, deltaTime);
@@ -380,6 +388,7 @@ void PositionedObject::BeforeCalculate()
 //Must have Push then CalculateWorldVectors/Pop/End before/after.
 void PositionedObject::CalculateWorldSpace()
 {
+	LastFrameWorldPosition = WorldPosition;
 	WorldMatrix = rlGetMatrixTransform();
 	WorldPosition = { WorldMatrix.m12, WorldMatrix.m13, WorldMatrix.m14 };
 	WorldRotation = QuaternionToEuler(QuaternionFromMatrix(WorldMatrix));

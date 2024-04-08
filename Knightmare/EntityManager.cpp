@@ -184,16 +184,20 @@ size_t EntityManager::AddEntity(Entity* entity)
 	size_t entityNumber = Entities.size();
 	Entities.push_back(entity);
 	Entities[entityNumber]->Initialize(TheUtilities);
+	Entities[entityNumber]->EntityOnly = true;
+	Entities[entityNumber]->BeginRun();
 
 	return entityNumber;
 }
-
+//TODO: Change to use CreateEntity(* entity) private function for shared code.
 size_t EntityManager::AddEntity()
 {
 	size_t entityNumber = Entities.size();
 	Entity* newEntity = DBG_NEW Entity();
 	Entities.push_back(newEntity);
 	Entities[entityNumber]->Initialize(TheUtilities);
+	Entities[entityNumber]->EntityOnly = true;
+	Entities[entityNumber]->BeginRun();
 
 	return entityNumber;
 }

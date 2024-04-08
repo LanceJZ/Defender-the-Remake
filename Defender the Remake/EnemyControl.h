@@ -78,11 +78,13 @@ private:
 	ThePlayer* Player = nullptr;
 	ThePerson* People[10] = {};
 
+	void UpdatePlayer();
 	void UpdateLander();
 	void UpdateMutant();
 	void UpdateBomber();
 	void UpdateSwarmer();
 	void UpdatePod();
+	void UpdateBaiter();
 
 	void SmartBomb();
 	void PlayerHitReset();

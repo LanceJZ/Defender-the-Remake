@@ -2,6 +2,11 @@
 
 ThePlayer::ThePlayer()
 {
+	TheManagers.EM.AddEntity(CollusionBack = DBG_NEW Entity());
+	TheManagers.EM.AddEntity(CollusionMidFront = DBG_NEW Entity());
+	TheManagers.EM.AddEntity(CollusionFront = DBG_NEW Entity());
+	TheManagers.EM.AddEntity(CollusionTip = DBG_NEW Entity());
+
 	TheManagers.EM.AddModel3D(Flame = DBG_NEW Model3D());
 	TheManagers.EM.AddModel3D(Radar = DBG_NEW Model3D());
 
@@ -47,6 +52,14 @@ bool ThePlayer::Initialize(Utilities* utilities)
 	RadarModifier = GetScreenHeight() * 0.4374f;
 	CameraFacingOffset = GetScreenWidth() * 0.2f;
 
+	Flame->Initialize(utilities);
+
+	Radius = 7.0f;
+
+	CollusionBack->Radius = Radius + 6.0f;
+	CollusionMidFront->Radius = Radius - 2.0f;
+	CollusionFront->Radius = Radius - 3.0f;
+	CollusionTip->Radius = Radius - 4.0f;
 
 	return true;
 }
@@ -55,8 +68,24 @@ bool ThePlayer::BeginRun()
 {
 	Model3D::BeginRun();
 
+	Flame->BeginRun();
+	Radar->BeginRun();
+
 	Flame->SetParent(this);
 	Flame->X(-56.0f);
+
+	CollusionBack->SetParent(this);
+	CollusionBack->X(-21.0f);
+	CollusionBack->Y(-4.0f);
+	CollusionMidFront->SetParent(this);
+	CollusionMidFront->X(13.0f);
+	CollusionFront->SetParent(this);
+	CollusionFront->X(25.0f);
+	CollusionFront->Y(1.0f);
+	CollusionTip->SetParent(this);
+	CollusionTip->X(34.0f);
+	CollusionTip->Y(2.0f);
+
 	Reset();
 
 	return true;
@@ -96,12 +125,28 @@ void ThePlayer::Draw()
 
 }
 
+bool ThePlayer::GetCollusion(Entity& target)
+{
+	if (CollusionBack->CirclesIntersect(target) ||
+		CollusionMidFront->CirclesIntersect(target) ||
+		CollusionFront->CirclesIntersect(target) ||
+		CollusionTip->CirclesIntersect(target) ||
+		CirclesIntersect(target)) return true;
+
+	return false;
+}
+
 void ThePlayer::Hit()
 {
 	Acceleration = { 0 };
 	Velocity = { 0 };
 	Lives--;
 	Enabled = false;
+	BeenHit = true;
+	CollusionBack->Enabled = false;
+	CollusionMidFront->Enabled = false;
+	CollusionFront->Enabled = false;
+	CollusionTip->Enabled = false;
 }
 
 void ThePlayer::ScoreUpdate(int addToScore)
@@ -126,7 +171,6 @@ void ThePlayer::Reset()
 	Position = { 0, 0, 0 };
 	Velocity = { 0, 0, 0 };
 	Enabled = true;
-
 	BeenHit = false;
 	ThrustOff();
 	Position = { 0, 0, 0 };
@@ -135,9 +179,11 @@ void ThePlayer::Reset()
 	FacingRight = true;
 	RotationY = (PI * 2);
 	Enabled = true;
-	//Radar.Enabled = true;
-	//BackCollusion.Enabled = true;
-	//FrontCollusion.Enabled = true;
+	Radar->Enabled = true;
+	CollusionBack->Enabled = true;
+	CollusionMidFront->Enabled = true;
+	CollusionFront->Enabled = true;
+	CollusionTip->Enabled = true;
 }
 
 void ThePlayer::NewGame()

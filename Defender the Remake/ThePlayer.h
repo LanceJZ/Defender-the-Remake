@@ -31,6 +31,7 @@ public:
 	void Update(float deltaTime);
 	void Draw();
 
+	bool GetCollusion(Entity& entity);
 	void Hit();
 	void ScoreUpdate(int addToScore);
 	void Reset();
@@ -53,6 +54,10 @@ private:
 	float AirDrag = 0.004f;
 	float RadarModifier = 0.0f;
 
+	Entity* CollusionBack = nullptr;
+	Entity* CollusionMidFront = nullptr;
+	Entity* CollusionFront = nullptr;
+	Entity* CollusionTip = nullptr;
 	Model3D* Flame = {};
 	Model3D* Radar = {};
 	Model ShotModel = {};
