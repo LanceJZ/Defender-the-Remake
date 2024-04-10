@@ -32,7 +32,12 @@ public:
 
 private:
 	size_t PersonTargetID = 0;
+	size_t SeekTimerID = 0;
+	int SeekTimerChance = 0;
 	float GroundFloorY = 0;
+	float GroundCeilingY = 0;
+	float SeekTimerAmountMax = 0;
+	float SeekTimerAmountMin = 0;
 	StateList State = LoweringToSeek;
 	Sound MutateSound = { 0 };
 

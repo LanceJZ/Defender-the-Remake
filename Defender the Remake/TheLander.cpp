@@ -2,6 +2,7 @@
 
 TheLander::TheLander()
 {
+	SeekTimerID = TheManagers.EM.AddTimer();
 }
 
 TheLander::~TheLander()
@@ -64,22 +65,28 @@ void TheLander::Spawn(Vector3 position)
 {
 	Enemy::Spawn(position);
 
-	Position.x = GetRandomFloat(-GetScreenWidth() * 0.5f, GetScreenWidth() * 0.5f);
+	Position.x = GetRandomFloat(-FieldSize.x * 0.5f, FieldSize.x * 0.5f);
 	Position.y = -GetScreenHeight() * 0.333f;
 
 	State = StateList::LoweringToSeek;
 
+	float xSpeed = 50.0f;
+
 	if (GetRandomValue(0, 1) == 0)
 	{
-		Velocity.x = GetRandomFloat(30.0f, 60.0f);
+		Velocity.x = GetRandomFloat(xSpeed, xSpeed * 2.0f);
 	}
 	else
 	{
-		Velocity.x = GetRandomFloat(-60.0f, -30.0f);
+		Velocity.x = GetRandomFloat(-xSpeed * 2.0f, -xSpeed);
 	}
 
 	Velocity.y = GetRandomFloat(20.0f, 30.0f);
-	GroundFloorY = GetRandomFloat(-80.0f, 30.0f);
+	GroundFloorY = GetRandomFloat(20.0f, 100.0f);
+
+	SeekTimerAmountMin = 15.25f;
+	SeekTimerAmountMax = 35.5f;
+	SeekTimerChance = 10;
 }
 
 void TheLander::Reset()
@@ -97,7 +104,6 @@ void TheLander::GoToSeek()
 	if (Y() > (GetScreenHeight() * 0.2f) + GroundFloorY)
 	{
 		State = StateList::Seek;
-		Velocity.y = 0.0f;
 	}
 
 	if (TheManagers.EM.TimerElapsed(ShotTimerID))
@@ -105,23 +111,46 @@ void TheLander::GoToSeek()
 		TheManagers.EM.ResetTimer(ShotTimerID, GetRandomFloat(2.75f, 4.75f));
 		FireShot();
 	}
+
+	TheManagers.EM.ResetTimer(SeekTimerID, GetRandomFloat(5.25f, 20.5f));
 }
 
 void TheLander::SeekPersonMan()
 {
-	for (int i = 0; i < 10; i++)
+	if (Y() < GroundCeilingY)
 	{
-		if (People[i] != nullptr && People[i]->Enabled &&
-			People[i]->State != ThePerson::TargetedByLander &&
-			People[i]->State == ThePerson::OnGround)
+		Velocity.y = GetRandomFloat(20.0f, 30.0f);
+		GroundFloorY = GetRandomFloat(50.0f, (FieldSize.y * 0.5f) - 50.0f);
+	}
+	else if (Y() > GroundFloorY)
+	{
+		Velocity.y = GetRandomFloat(-30.0f, -20.0f);
+		GroundCeilingY = GetRandomFloat(50.0f, 250.0f);
+	}
+
+	if (TheManagers.EM.TimerElapsed(SeekTimerID))
+	{
+		for (int i = 0; i < 10; i++)
 		{
-			if (People[i]->X() < X() + 25.0f && People[i]->X() > X() - 25.0f)
+			if (People[i] != nullptr && People[i]->Enabled &&
+				People[i]->State != ThePerson::TargetedByLander &&
+				People[i]->State == ThePerson::OnGround)
 			{
-				PersonTargetID = i;
-				State = StateList::FoundPersonMan;
-				Velocity.x = 0.0f;
-				Velocity.y = GetRandomFloat(30.0f, 40.0f);
-				People[i]->State = ThePerson::TargetedByLander;
+				if (People[i]->X() < X() + 55.0f && People[i]->X() > X() - 55.0f)
+				{
+					if (GetRandomValue(0, SeekTimerChance) != 0)
+					{
+						TheManagers.EM.ResetTimer(SeekTimerID,
+							GetRandomFloat(SeekTimerAmountMin, SeekTimerAmountMax));
+						return;
+					}
+
+					PersonTargetID = i;
+					State = StateList::FoundPersonMan;
+					Velocity.x = 0.0f;
+					Velocity.y = GetRandomFloat(30.0f, 40.0f);
+					People[i]->State = ThePerson::TargetedByLander;
+				}
 			}
 		}
 	}
@@ -137,18 +166,8 @@ void TheLander::GoingDown()
 {
 	if (X() != People[PersonTargetID]->X())
 	{
-		if (X() < People[PersonTargetID]->X())
-		{
-			Velocity.x = GetRandomFloat(5.0f, 15.0f);
-		}
-		else
-		{
-			Velocity.x = GetRandomFloat(-15.0f, -5.0f);
-		}
-	}
-	else
-	{
-		Velocity.x = 0.0f;
+		float distanceX = People[PersonTargetID]->X() - X();
+		Velocity.x = distanceX * 2.5f;
 	}
 
 	if (Y() + 25 > People[PersonTargetID]->Y() && Y() - 25 < People[PersonTargetID]->Y())

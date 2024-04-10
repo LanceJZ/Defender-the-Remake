@@ -107,9 +107,9 @@ bool EnemyControl::BeginRun()
 
 	Reset();
 
-	SpawnBomber(4);
-	SpawnPod(4);
-	SpawnBaiter();
+	//SpawnBomber(4);
+	//SpawnPod(4);
+	//SpawnBaiter();
 
 	return true;
 }
