@@ -53,9 +53,17 @@ public:
 private:
 	size_t SpawnTimerID = 0;
 
+	bool BaiterTurnedOn = false;
+	bool NoMoreLanders = false;
+	bool NoMoreMutants = false;
+	bool NoMoreBombers = false;
+	bool NoMoreSwarmers = false;
+	bool NoMorePods = false;
+
 	int TotalSpawn = 10;
 	int NumberSpawned = 0;
 	int NumberMutants = 0;
+
 	float SpawnTimerAmount = 10.0f;
 
 	Vector2 AdjustedFieldSize = {};
@@ -97,4 +105,5 @@ private:
 	void SpawnSwarmers(Vector3 position, int count);
 	void SpawnPod(int count);
 	void SpawnBaiter();
+	void StartNewWave();
 };

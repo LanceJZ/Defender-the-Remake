@@ -125,6 +125,9 @@ void EnemyControl::Update()
 	UpdatePod();
 	UpdateBaiter();
 	UpdatePlayer();
+
+	if (NoMoreLanders && NoMoreMutants && NoMoreBombers &&
+		NoMoreSwarmers && NoMorePods) StartNewWave();
 }
 
 void EnemyControl::AllDead()
@@ -150,6 +153,8 @@ void EnemyControl::UpdatePlayer()
 
 void EnemyControl::UpdateLander()
 {
+	if (NoMoreLanders) return;
+
 	if (TheManagers.EM.TimerElapsed(SpawnTimerID))
 	{
 		TheManagers.EM.ResetTimer(SpawnTimerID, SpawnTimerAmount);
@@ -160,10 +165,14 @@ void EnemyControl::UpdateLander()
 		}
 	}
 
+	int spawnCounter = 0;
+
 	for (auto lander : Landers)
 	{
 		if (lander->Enabled)
 		{
+			spawnCounter++;
+
 			if (lander->MutateLander)
 			{
 				lander->Reset();
@@ -172,23 +181,54 @@ void EnemyControl::UpdateLander()
 			}
 		}
 	}
+
+	if (spawnCounter < 3 && NumberSpawned == TotalSpawn) BaiterTurnedOn = true;
+
+	if (spawnCounter == 0 && NumberSpawned < TotalSpawn) SpawnMoreLanders();
+
+	if (spawnCounter == 0 && NumberSpawned == TotalSpawn) NoMoreLanders = true;
 }
 
 void EnemyControl::UpdateMutant()
 {
+	NoMoreMutants = false;
+
+	for (auto mutant : Mutants)
+	{
+		if (mutant->Enabled) return;
+	}
+
+	NoMoreMutants = true;
 }
 
 void EnemyControl::UpdateBomber()
 {
+	NoMoreBombers = false;
+
+	for (auto bomber : Bombers)
+	{
+		if (bomber->Enabled) return;
+	}
+
+	NoMoreBombers = true;
 }
 
 void EnemyControl::UpdateSwarmer()
 {
+	NoMoreSwarmers = false;
 
+	for (auto swarmer : Swarmers)
+	{
+		if (swarmer->Enabled) return;
+	}
+
+	NoMoreSwarmers = true;
 }
 
 void EnemyControl::UpdatePod()
 {
+	NoMorePods = true;
+
 	for (auto pod : Pods)
 	{
 		if (!pod->Enabled)
@@ -200,6 +240,8 @@ void EnemyControl::UpdatePod()
 				break;
 			}
 		}
+
+		if (pod->Enabled) NoMorePods = false;
 	}
 }
 
@@ -471,4 +513,63 @@ void EnemyControl::SpawnBaiter()
 	}
 
 	Baiters[spawnNumber]->Spawn({ 0.0f });
+}
+
+void EnemyControl::StartNewWave()
+{
+	NoMoreBombers = false;
+	NoMorePods = false;
+	NoMoreSwarmers = false;
+	NoMoreMutants = false;
+	NoMoreLanders = false;
+
+	for (auto lander : Landers)
+	{
+		for (auto shot : lander->Shots)
+		{
+			shot->Enabled = false;
+		}
+	}
+
+	for (auto mutant : Mutants)
+	{
+		for (auto shot : mutant->Shots)
+		{
+			shot->Enabled = false;
+		}
+	}
+
+	for (auto swarmer : Swarmers)
+	{
+		for (auto shot : swarmer->Shots)
+		{
+			shot->Enabled = false;
+		}
+	}
+
+	for (auto pod : Pods)
+	{
+		for (auto shot : pod->Shots)
+		{
+			shot->Enabled = false;
+		}
+	}
+
+	for (auto baiter : Baiters)
+	{
+		for (auto shot : baiter->Shots)
+		{
+			shot->Enabled = false;
+		}
+
+		baiter->Enabled = false;
+	}
+
+	for (auto bomber : Bombers)
+	{
+		for (auto shot : bomber->Shots)
+		{
+			shot->Enabled = false;
+		}
+	}
 }
