@@ -24,6 +24,7 @@ public:
 	std::vector<TheBaiter*> Baiters = {};
 
 	bool LandersTurnedToMutants = false;
+	bool GameEnded = false;
 
 	void SetPlayer(ThePlayer* player);
 	void SetPeople(ThePerson* people[10]);
@@ -47,8 +48,11 @@ public:
 
 	void Update();
 
+	void StartNewWave();
 	void AllDead();
 	void NewGame();
+	void Reset();
+	void SmartBomb();
 
 private:
 	size_t SpawnTimerID = 0;
@@ -63,6 +67,8 @@ private:
 	int TotalSpawn = 10;
 	int NumberSpawned = 0;
 	int NumberMutants = 0;
+	int NumberOfPeopleAlive = 0;
+	int Wave = 0;
 
 	float SpawnTimerAmount = 10.0f;
 
@@ -86,17 +92,12 @@ private:
 	ThePlayer* Player = nullptr;
 	ThePerson* People[10] = {};
 
-	void UpdatePlayer();
 	void UpdateLander();
 	void UpdateMutant();
 	void UpdateBomber();
 	void UpdateSwarmer();
 	void UpdatePod();
 	void UpdateBaiter();
-
-	void SmartBomb();
-	void PlayerHitReset();
-	void Reset();
 
 	void SpawnMoreLanders();
 	void SpawnLanders(int count);
@@ -105,5 +106,5 @@ private:
 	void SpawnSwarmers(Vector3 position, int count);
 	void SpawnPod(int count);
 	void SpawnBaiter();
-	void StartNewWave();
+	void EndOfWave();
 };

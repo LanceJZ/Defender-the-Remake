@@ -63,6 +63,16 @@ void GameLogic::Update()
 	Common::Update();
 
 	UpdatePersonMan();
+
+	if (Player->BeenHit)
+	{
+		 PlayerHitReset();
+	}
+
+	if (Player->SmartBombFired)
+	{
+		Enemies->SmartBomb();
+	}
 }
 
 void GameLogic::UpdatePersonMan()
@@ -88,4 +98,10 @@ void GameLogic::SetupPersonMan()
 		person->SetRadarModel(PersonRadarModel);
 		person->BeginRun();
 	}
+}
+
+void GameLogic::PlayerHitReset()
+{
+	Enemies->Reset();
+	Player->BeenHit = false;
 }

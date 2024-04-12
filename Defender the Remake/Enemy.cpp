@@ -26,6 +26,8 @@ bool Enemy::Initialize(Utilities* utilities)
 {
 	MirrorRadar::Initialize(utilities);
 
+	Radius = 14.0f;
+
 	for(auto shot : Shots)
 	{
 		shot->Initialize(utilities);
@@ -135,6 +137,7 @@ void Enemy::Hit()
 void Enemy::Reset()
 {
 	BeenHit = false;
+
 }
 
 void Enemy::Spawn(Vector3 position)

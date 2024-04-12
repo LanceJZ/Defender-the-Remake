@@ -134,5 +134,7 @@ void TheMutant::ChasePlayer()
 
 bool TheMutant::CheckCollision()
 {
+	Enemy::CheckCollision();
+
 	return false;
 }

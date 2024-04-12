@@ -8,17 +8,6 @@
 #include "EnemyControl.h"
 #include "TheBackground.h"
 
-enum GameState
-{
-	PlayerHit,
-	Over,
-	InPlay,
-	Pause,
-	HighScores,
-	MainMenu
-};
-
-
 class Game : Common
 {
 public:
@@ -26,7 +15,7 @@ public:
 	virtual ~Game();
 
 	bool PlayBackgroundMusic = true;
-	GameState State = MainMenu;
+	bool Paused = false;
 
 	bool Initialize(Utilities &utilities, GameLogic* gameLogic);
 	bool Load();
@@ -39,7 +28,6 @@ private:
 	void Draw3D();
 	void Draw2D();
 	void GameInput();
-	void NewGame();
 
 	size_t LogicID = 0;
 	size_t BackGroundID = 0;

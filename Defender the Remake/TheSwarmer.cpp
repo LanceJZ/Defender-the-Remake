@@ -145,6 +145,8 @@ void TheSwarmer::AfterSpawn()
 
 bool TheSwarmer::CheckCollision()
 {
+	Enemy::CheckCollision();
+
 	return false;
 }
 

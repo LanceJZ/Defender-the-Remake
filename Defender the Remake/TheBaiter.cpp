@@ -121,6 +121,8 @@ void TheBaiter::FireShot()
 
 bool TheBaiter::CheckCollision()
 {
+	Enemy::CheckCollision();
+
 	return false;
 }
 

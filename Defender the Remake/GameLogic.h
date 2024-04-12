@@ -6,12 +6,24 @@
 #include "EnemyControl.h"
 #include "ThePerson.h"
 
+enum GameState
+{
+	PlayerHitByEnemy,
+	AfterPlayerHit,
+	WaveStart,
+	NewWave,
+	GaveOver,
+	InPlay,
+	Pause,
+	HighScores,
+	MainMenu
+};
+
 class GameLogic : public Common
 {
 public:
 	GameLogic();
 	virtual ~GameLogic();
-
 
 	void SetPlayer(ThePlayer* player);
 	void SetEnemies(EnemyControl* enemies);
@@ -24,8 +36,17 @@ public:
 	void Update();
 
 private:
+	size_t NewWaveTimerID = 0;
+	size_t PlayerDeathTimerID = 0;
+	size_t PlayerResetTimerID = 0;
+	size_t WaveStartTimerID = 0;
 	size_t PeopleIDs[10] = { 0 };
+
+	int Wave = 0;
+
 	Vector2 AdjustedFieldSize = {};
+
+	GameState State = MainMenu;
 
 	Model PersonModel = { 0 };
 	Model PersonRadarModel = { 0 };
@@ -36,5 +57,6 @@ private:
 	void UpdatePersonMan();
 	void SpawnPersonMan(int count);
 	void SetupPersonMan();
+	void PlayerHitReset();
 };
 

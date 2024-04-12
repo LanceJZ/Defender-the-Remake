@@ -85,7 +85,5 @@ bool ThePod::CheckCollision()
 {
 	Enemy::CheckCollision();
 
-
-
 	return false;
 }

@@ -217,6 +217,8 @@ void TheLander::SpawnMutant()
 
 bool TheLander::CheckCollision()
 {
+	Enemy::CheckCollision();
+
 	return false;
 }
 

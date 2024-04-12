@@ -28,6 +28,8 @@ private:
 	Model3D* MirrorR = {};
 	Model3D* MirrorL = {};
 	Model3D* PlayerShotTail = {};
+	Model3D* PlayerShotTailMirrorR = {};
+	Model3D* PlayerShotTailMirrorL = {};
 
 	void Destroy();
 };

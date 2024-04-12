@@ -337,7 +337,7 @@ void ThePlayer::Fire()
 	{
 		if (!shot->Enabled)
 		{
-			shot->PlayerSpawn(Position, Velocity, !FacingRight);
+			shot->PlayerSpawn(Position, Velocity, FacingRight);
 			return;
 		}
 	}

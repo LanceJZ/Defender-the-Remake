@@ -118,16 +118,25 @@ void EnemyControl::Update()
 {
 	Common::Update();
 
+	if (NoMoreLanders && NoMoreMutants && NoMoreBombers &&
+		NoMoreSwarmers && NoMorePods && !GameEnded) EndOfWave();
+
 	UpdateLander();
 	UpdateMutant();
 	UpdateBomber();
 	UpdateSwarmer();
 	UpdatePod();
 	UpdateBaiter();
-	UpdatePlayer();
 
-	if (NoMoreLanders && NoMoreMutants && NoMoreBombers &&
-		NoMoreSwarmers && NoMorePods) StartNewWave();
+}
+
+void EnemyControl::StartNewWave()
+{
+	if (TotalSpawn < 30) TotalSpawn += 5;
+
+	NumberSpawned = 0;
+	Wave++;
+	Reset();
 }
 
 void EnemyControl::AllDead()
@@ -138,17 +147,9 @@ void EnemyControl::NewGame()
 {
 }
 
-void EnemyControl::UpdatePlayer()
+void EnemyControl::Reset()
 {
-	if (Player->BeenHit)
-	{
-		PlayerHitReset();
-	}
-
-	if (Player->SmartBombFired)
-	{
-		SmartBomb();
-	}
+	TheManagers.EM.ResetTimer(SpawnTimerID, 2.0f);
 }
 
 void EnemyControl::UpdateLander()
@@ -281,17 +282,6 @@ void EnemyControl::SmartBomb()
 			}
 		}
 	}
-}
-
-void EnemyControl::PlayerHitReset()
-{
-	Reset();
-	Player->BeenHit = false;
-}
-
-void EnemyControl::Reset()
-{
-	TheManagers.EM.ResetTimer(SpawnTimerID, 2.0f);
 }
 
 void EnemyControl::SpawnMoreLanders()
@@ -515,7 +505,7 @@ void EnemyControl::SpawnBaiter()
 	Baiters[spawnNumber]->Spawn({ 0.0f });
 }
 
-void EnemyControl::StartNewWave()
+void EnemyControl::EndOfWave()
 {
 	NoMoreBombers = false;
 	NoMorePods = false;
@@ -555,6 +545,14 @@ void EnemyControl::StartNewWave()
 		}
 	}
 
+	for (auto bomber : Bombers)
+	{
+		for (auto shot : bomber->Shots)
+		{
+			shot->Enabled = false;
+		}
+	}
+
 	for (auto baiter : Baiters)
 	{
 		for (auto shot : baiter->Shots)
@@ -565,11 +563,18 @@ void EnemyControl::StartNewWave()
 		baiter->Enabled = false;
 	}
 
-	for (auto bomber : Bombers)
+	NumberOfPeopleAlive = 0;
+
+	for (auto& person : People)
 	{
-		for (auto shot : bomber->Shots)
+		if (person->Enabled)
 		{
-			shot->Enabled = false;
+			NumberOfPeopleAlive++;
 		}
+
+		person->Destroy();
 	}
+
+	//	Score->AddToScore(NumberOfPeopleAlive * (100 * Data->Wave));
+	StartNewWave();
 }
