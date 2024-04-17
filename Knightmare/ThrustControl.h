@@ -20,9 +20,8 @@ public:
 	bool BeginRun();
 
 	void Update();
-	void Draw();
 
-	void Spawn(Vector3 position, Vector3 velocity, float endWidth,
+	void SpawnExplosion(Vector3 position, Vector3 velocity, float endWidth,
 		float length,  int count, float time, Color color);
 
 private:

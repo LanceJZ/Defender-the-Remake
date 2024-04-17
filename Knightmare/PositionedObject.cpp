@@ -213,12 +213,12 @@ bool PositionedObject::ScreenEdgeBoundY()
 {
 	bool hitBound = false;
 
-	if (Y() > WindowHeight)
+	if (Y() > WindowHeight - VerticesSize)
 	{
 		Y(WindowHeight);
 		hitBound = true;
 	}
-	else if (Y() < -WindowHeight)
+	else if (Y() < -WindowHeight + VerticesSize)
 	{
 		Y(-WindowHeight);
 		hitBound = true;
@@ -228,6 +228,7 @@ bool PositionedObject::ScreenEdgeBoundY()
 	{
 		Acceleration.y = 0;
 		Velocity.y = 0;
+
 		return true;
 	}
 
@@ -238,14 +239,14 @@ bool PositionedObject::ScreenEdgeBoundY(float topOffset, float bottomOffset)
 {
 	bool hitBound = false;
 
-	if (Y() > WindowHeight - topOffset)
+	if (Y() > WindowHeight - bottomOffset - VerticesSize)
 	{
-		Y(WindowHeight - topOffset);
+		Y(WindowHeight - bottomOffset - VerticesSize);
 		hitBound = true;
 	}
-	else if (Y() < -WindowHeight + bottomOffset)
+	else if (Y() < -WindowHeight + topOffset + VerticesSize)
 	{
-		Y(-WindowHeight + bottomOffset);
+		Y(-WindowHeight + topOffset + VerticesSize);
 		hitBound = true;
 	}
 
@@ -253,6 +254,59 @@ bool PositionedObject::ScreenEdgeBoundY(float topOffset, float bottomOffset)
 	{
 		Acceleration.y = 0;
 		Velocity.y = 0;
+
+		return true;
+	}
+
+	return false;
+}
+
+bool PositionedObject::ScreenEdgeBoundX()
+{
+	bool hitBound = false;
+
+	if (X() > WindowWidth - VerticesSize)
+	{
+		X(WindowWidth - VerticesSize);
+		hitBound = true;
+	}
+	else if (X() < -WindowWidth + VerticesSize)
+	{
+		X(-WindowWidth + VerticesSize);
+		hitBound = true;
+	}
+
+	if (hitBound)
+	{
+		Acceleration.x = 0;
+		Velocity.x = 0;
+
+		return true;
+	}
+
+	return false;
+}
+
+bool PositionedObject::ScreenEdgeBoundX(float leftOffset, float rightOffset)
+{
+	bool hitBound = false;
+
+	if (X() > WindowWidth - rightOffset - VerticesSize)
+	{
+		X(WindowWidth - rightOffset);
+		hitBound = true;
+	}
+	else if (X() < -WindowWidth + leftOffset - VerticesSize)
+	{
+		X(-WindowWidth + leftOffset);
+		hitBound = true;
+	}
+
+	if (hitBound)
+	{
+		Acceleration.x = 0;
+		Velocity.x = 0;
+
 		return true;
 	}
 
@@ -307,6 +361,13 @@ void PositionedObject::RotateVelocity(Vector3& position, float turnSpeed, float 
 	RotationVelocityZ = Common::RotateTowardsTargetZ(Position, position, RotationZ,
 		turnSpeed);
 	Velocity = GetVelocityFromAngleZ(RotationZ, speed);
+}
+
+void PositionedObject::CheckPlayfieldSidesWarp()
+{
+	if (X() > WindowWidth) X(-WindowWidth);
+
+	if (X() < -WindowWidth) X(WindowWidth);
 }
 
 void PositionedObject::CheckPlayfieldSidesWarp(float left, float right)

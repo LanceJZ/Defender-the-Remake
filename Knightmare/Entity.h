@@ -13,6 +13,7 @@ public:
 	virtual void Draw();
 
 	virtual void Spawn(Vector3 position);
+	virtual void Hit();
 	virtual void Destroy();
 
 	bool CirclesIntersect(Entity& target);

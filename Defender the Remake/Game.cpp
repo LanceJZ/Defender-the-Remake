@@ -2,6 +2,11 @@
 
 Game::Game()
 {
+	//When adding classes to EM, must be pointer to heap,IE: Name = new Class().
+	PlayerID = TheManagers.EM.AddModel3D(Player = DBG_NEW ThePlayer());
+	LogicID = TheManagers.EM.AddCommon(Logic = DBG_NEW GameLogic());
+	EnemiesID = TheManagers.EM.AddCommon(Enemies = DBG_NEW EnemyControl());
+	BackGroundID = TheManagers.EM.AddCommon(BackGround = DBG_NEW TheBackground());
 }
 
 Game::~Game()
@@ -11,15 +16,8 @@ Game::~Game()
 bool Game::Initialize(Utilities &utilities, GameLogic* gameLogic) //Initialize
 {
 	TheUtilities = &utilities;
-	//Logic = gameLogic; //This is not bing used yet.
 
 	Common::Initialize(&utilities);
-
-	//When adding classes to EM, must be pointer to heap,IE: Name = new Class().
-	PlayerID = TheManagers.EM.AddModel3D(Player = DBG_NEW ThePlayer());
-	LogicID = TheManagers.EM.AddCommon(Logic = DBG_NEW GameLogic());
-	EnemiesID = TheManagers.EM.AddCommon(Enemies = DBG_NEW EnemyControl());
-	BackGroundID = TheManagers.EM.AddCommon(BackGround = DBG_NEW TheBackground());
 
 	Logic->SetPlayer(Player);
 	Logic->SetEnemies(Enemies);

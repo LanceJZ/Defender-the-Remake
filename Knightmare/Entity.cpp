@@ -35,6 +35,10 @@ void Entity::Spawn(Vector3 position)
 	Enabled = true;
 }
 
+void Entity::Hit()
+{
+}
+
 void Entity::Destroy()
 {
 	Enabled = false;
@@ -61,7 +65,7 @@ bool Entity::CirclesIntersect(Entity& target)
 
 	return false;
 }
-//TODO: Add collision on Y plane.
+
 bool Entity::CirclesIntersectBullet(Entity& target)
 {
 	if (!Enabled || !target.Enabled)
@@ -71,33 +75,41 @@ bool Entity::CirclesIntersectBullet(Entity& target)
 
 	if (Velocity.x > 0)
 	{
-		TheRay.direction = { 1, 0, 0 };
+		TheRay.direction.x = 1;
 	}
-	else
+	else if (Velocity.x < 0)
 	{
-		TheRay.direction = { -1, 0, 0 };
+		TheRay.direction.x = -1;
 	}
 
-	TheRayCollision = GetRayCollisionSphere(TheRay,
-		target.WorldPosition, target.Radius);
+	if (Velocity.y > 0)
+	{
+		TheRay.direction.y = 1;
+	}
+	else if (Velocity.y < 0)
+	{
+		TheRay.direction.y = -1;
+	}
+
+	TheRayCollision = GetRayCollisionSphere(TheRay,	target.WorldPosition, target.Radius);
 
 	if (TheRayCollision.hit)
 	{
-		float distance = WorldPosition.x - LastFrameWorldPosition.x;
+		float distance = (WorldPosition.x - LastFrameWorldPosition.x) +
+			(WorldPosition.y - LastFrameWorldPosition.y);
+
 		if (distance < 0) distance *= -1;
 
 		if (TheRayCollision.distance > 0)
 		{
-			if (TheRayCollision.distance > distance)
-				return false;
+			if (TheRayCollision.distance > distance + Radius) return false;
 		}
 		else
 		{
-			if (TheRayCollision.distance * -1 > distance)
-				return false;
+			if (TheRayCollision.distance * -1 > distance + Radius) return false;
 		}
 
-		return TheRayCollision.hit;
+		return true;
 	}
 
 	return false;

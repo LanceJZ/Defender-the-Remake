@@ -21,7 +21,11 @@ Managers TheManagers = {};
 Camera TheCamera = {};
 Vector2 FieldSize = {};
 
+#ifdef _DEBUG
 int main()
+#else
+int WinMain()
+#endif
 {
 	static Game game;
 
@@ -59,6 +63,8 @@ int main()
 	TheManagers.SetCamera(TheCamera);
 
 	game.Initialize(TheUtilities, Logic);
+	TheManagers.PM.SetEntityManager(&TheManagers.EM);
+	TheManagers.PM.SetCubeModel(TheManagers.CM.LoadAndGetModel("Cube"));
 	game.Load();
 	game.BeginRun();
 

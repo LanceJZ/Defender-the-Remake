@@ -1,6 +1,5 @@
 #pragma once
 #include "ParticleManager.h"
-#include "Managers.h"
 
 #ifdef _DEBUG
 	#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )

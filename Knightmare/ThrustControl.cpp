@@ -11,7 +11,7 @@ ThrustControl::~ThrustControl()
 
 bool ThrustControl::Initialize(Utilities* utilities)
 {
-	ParticleManager::Initialize(utilities);
+	//ParticleManager::Initialize(utilities);
 
 	return false;
 }
@@ -29,13 +29,7 @@ void ThrustControl::Update()
 
 }
 
-void ThrustControl::Draw()
-{
-	ParticleManager::Draw();
-
-}
-
-void ThrustControl::Spawn(Vector3 position, Vector3 velocity, float endWidth,
+void ThrustControl::SpawnExplosion(Vector3 position, Vector3 velocity, float endWidth,
 	float length, int count, float time, Color color)
 {
 	float size = 3.1f;
@@ -45,5 +39,5 @@ void ThrustControl::Spawn(Vector3 position, Vector3 velocity, float endWidth,
 
 	velocity = Vector3Add(GetVelocityFromAngleZ(width, length), velocity);
 
-	ParticleManager::Spawn(position, velocity, size, speed, count, time, color);
+	ParticleManager::SpawnExplosion(position, velocity, size, speed, count, time, color);
 }

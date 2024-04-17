@@ -12,6 +12,7 @@ bool Managers::Initialize()
 {
 	CM.Initialize();
 	EM.Initialize();
+	PM.Initialize();
 
 	return false;
 }
@@ -20,6 +21,7 @@ bool Managers::BeginRun()
 {
 	CM.BeginRun();
 	EM.BeginRun();
+	PM.BeginRun();
 
 	return false;
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include "Common.h"
-#include "Managers.h"
+#include "EntityManager.h"
 #include "ParticleCube.h"
 
 #ifdef _DEBUG
@@ -17,24 +17,20 @@ public:
 	ParticleManager();
 	virtual ~ParticleManager();
 
-	virtual void SetCamera(Camera &camera);
-	virtual void SetManagers(Managers& managers);
+	virtual void SetEntityManager(EntityManager* manager);
 	virtual void SetCubeModel(Model model);
 
-	virtual bool Initialize(Utilities* utilities);
+	virtual bool Initialize();
 	virtual bool BeginRun();
 
-	virtual void Input();
 	virtual void Update();
-	virtual void Draw();
 
-	virtual void Spawn(Vector3 position, Vector3 velocity, float radius,
+	virtual void SpawnExplosion(Vector3 position, Vector3 velocity, float radius,
 		float speed,  int count, float time, Color color);
 	virtual void Reset();
 protected:
 	Model CubeModel = {};
-	Camera* Cam = {};
-	Managers* Man = {};
+	EntityManager* EM = {};
 
 private:
 	std::vector<ParticleCube*> Particles;
