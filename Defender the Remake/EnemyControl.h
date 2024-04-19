@@ -51,7 +51,7 @@ public:
 	void StartNewWave();
 	void AllDead();
 	void NewGame();
-	void Reset();
+	void ResetField();
 	void SmartBomb();
 
 private:

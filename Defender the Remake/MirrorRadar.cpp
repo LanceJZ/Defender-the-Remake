@@ -41,8 +41,8 @@ bool MirrorRadar::BeginRun()
 	MirrorL->SetModel(GetModel());
 	MirrorR->SetModel(GetModel());
 
-	MirrorL->X(X() - mirrorMultiplier);
-	MirrorR->X(X() + mirrorMultiplier);
+	MirrorL->X(-mirrorMultiplier);
+	MirrorR->X(mirrorMultiplier);
 
 	MirrorL->SetParent(this);
 	MirrorR->SetParent(this);

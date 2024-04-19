@@ -100,6 +100,8 @@ void TheLander::Reset()
 
 void TheLander::Hit()
 {
+	Enemy::Hit();
+
 }
 
 void TheLander::GoToSeek()

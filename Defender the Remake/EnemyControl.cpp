@@ -105,7 +105,7 @@ bool EnemyControl::BeginRun()
 {
 	Common::BeginRun();
 
-	Reset();
+	ResetField();
 
 	//SpawnBomber(4);
 	//SpawnPod(4);
@@ -136,7 +136,7 @@ void EnemyControl::StartNewWave()
 
 	NumberSpawned = 0;
 	Wave++;
-	Reset();
+	TheManagers.EM.ResetTimer(SpawnTimerID);
 }
 
 void EnemyControl::AllDead()
@@ -147,9 +147,72 @@ void EnemyControl::NewGame()
 {
 }
 
-void EnemyControl::Reset()
+void EnemyControl::ResetField()
 {
-	TheManagers.EM.ResetTimer(SpawnTimerID, 2.0f);
+	for (auto lander : Landers)
+	{
+		for (auto shot : lander->Shots)
+		{
+			shot->Reset();
+		}
+
+		lander->Reset();
+	}
+
+	for (auto mutant : Mutants)
+	{
+		for (auto shot : mutant->Shots)
+		{
+			shot->Reset();
+		}
+
+		mutant->Reset();
+	}
+
+	for (auto swarmer : Swarmers)
+	{
+		for (auto shot : swarmer->Shots)
+		{
+			shot->Reset();
+		}
+
+		swarmer->Reset();
+	}
+
+	for (auto pod : Pods)
+	{
+		for (auto shot : pod->Shots)
+		{
+			shot->Reset();
+		}
+
+		pod->Reset();
+	}
+
+	for (auto bomber : Bombers)
+	{
+		for (auto shot : bomber->Shots)
+		{
+			shot->Reset();
+		}
+
+		bomber->Reset();
+	}
+
+	for (auto baiter : Baiters)
+	{
+		for (auto shot : baiter->Shots)
+		{
+			shot->Reset();
+		}
+
+		baiter->Reset();
+	}
+
+	for (auto& person : People)
+	{
+		person->Reset();
+	}
 }
 
 void EnemyControl::UpdateLander()
@@ -512,57 +575,6 @@ void EnemyControl::EndOfWave()
 	NoMoreSwarmers = false;
 	NoMoreMutants = false;
 	NoMoreLanders = false;
-
-	for (auto lander : Landers)
-	{
-		for (auto shot : lander->Shots)
-		{
-			shot->Enabled = false;
-		}
-	}
-
-	for (auto mutant : Mutants)
-	{
-		for (auto shot : mutant->Shots)
-		{
-			shot->Enabled = false;
-		}
-	}
-
-	for (auto swarmer : Swarmers)
-	{
-		for (auto shot : swarmer->Shots)
-		{
-			shot->Enabled = false;
-		}
-	}
-
-	for (auto pod : Pods)
-	{
-		for (auto shot : pod->Shots)
-		{
-			shot->Enabled = false;
-		}
-	}
-
-	for (auto bomber : Bombers)
-	{
-		for (auto shot : bomber->Shots)
-		{
-			shot->Enabled = false;
-		}
-	}
-
-	for (auto baiter : Baiters)
-	{
-		for (auto shot : baiter->Shots)
-		{
-			shot->Enabled = false;
-		}
-
-		baiter->Enabled = false;
-	}
-
 	NumberOfPeopleAlive = 0;
 
 	for (auto& person : People)
@@ -571,10 +583,9 @@ void EnemyControl::EndOfWave()
 		{
 			NumberOfPeopleAlive++;
 		}
-
-		person->Destroy();
 	}
 
 	//	Score->AddToScore(NumberOfPeopleAlive * (100 * Data->Wave));
+	ResetField();
 	StartNewWave();
 }

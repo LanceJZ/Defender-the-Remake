@@ -102,6 +102,12 @@ void GameLogic::SetupPersonMan()
 
 void GameLogic::PlayerHitReset()
 {
-	Enemies->Reset();
+	Enemies->ResetField();
 	Player->BeenHit = false;
+}
+
+void GameLogic::ResetField()
+{
+	Enemies->ResetField();
+	TheManagers.PM.Reset();
 }

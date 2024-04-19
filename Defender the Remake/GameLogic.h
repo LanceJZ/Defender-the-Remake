@@ -58,5 +58,6 @@ private:
 	void SpawnPersonMan(int count);
 	void SetupPersonMan();
 	void PlayerHitReset();
+	void ResetField();
 };
 

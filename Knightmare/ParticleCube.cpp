@@ -11,6 +11,8 @@ bool ParticleCube::Initialize(Utilities* utilities)
 {
 	Model3D::Initialize(utilities);
 
+	//Cull = false;
+
 	return false;
 }
 

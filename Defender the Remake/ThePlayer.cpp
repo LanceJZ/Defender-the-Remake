@@ -110,7 +110,7 @@ void ThePlayer::Update(float deltaTime)
 	if (RotateFacing)
 		RotateShipFacing();
 
-	ScreenEdgeBoundY(GetScreenHeight() * 0.015f, GetScreenHeight() * 0.161f);
+	ScreenEdgeBoundY(GetScreenHeight() * 0.15f - VerticesSize * 0.5f, - VerticesSize * 0.25f);
 	CheckPlayfieldSidesWarp(7.0f, 7.0f);
 
 	HorizontalFriction();
@@ -335,11 +335,10 @@ void ThePlayer::Fire()
 {
 	for (auto shot : Shots)
 	{
-		if (!shot->Enabled)
-		{
-			shot->PlayerSpawn(Position, Velocity, FacingRight);
-			return;
-		}
+		if (shot->Enabled) continue;
+
+		shot->PlayerSpawn(Position, Velocity, FacingRight);
+		return;
 	}
 }
 

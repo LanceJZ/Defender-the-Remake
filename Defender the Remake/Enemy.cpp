@@ -70,12 +70,12 @@ void Enemy::FireShot()
 {
 	for (auto shot : Shots)
 	{
-		if (!shot->Enabled)
-		{
-			shot->EnemySpawn(Position,
-				GetVelocityFromAngleZ(GetShotAngle(Position), 125.0f), 8.0f);
-			return;
-		}
+		if (shot->Enabled) continue;
+
+		shot->EnemySpawn(Position,
+			GetVelocityFromAngleZ(GetShotAngle(Position), 125.0f), 8.0f);
+
+		return;
 	}
 }
 
@@ -83,6 +83,8 @@ bool Enemy::CheckCollision()
 {
 	for (auto &shot : Player->Shots)
 	{
+		if (!shot->Enabled)	continue;
+
 		if (shot->CirclesIntersectBullet(*this))
 		{
 			shot->Reset();
@@ -132,6 +134,25 @@ void Enemy::Hit()
 {
 	BeenHit = true;
 	//Score->AddToScore(ScoreAmount);
+
+	Color color = { 255, 50, 255, 255 };
+
+	TheManagers.PM.SpawnExplosion(Position,
+		Vector3Multiply(Velocity, { 0.25f, 0.25f, 0.25f }),
+		Radius, 100.0f, 10.0f, 3.0f, color);
+
+	float mirrorMultiplier = GetScreenWidth() * 7.0f;
+
+	Vector3 mirrorL	= { X() - mirrorMultiplier, Y(), 0.0f};
+	Vector3 mirrorR	= { X() + mirrorMultiplier, Y(), 0.0f};
+
+	TheManagers.PM.SpawnExplosion(mirrorL,
+		Vector3Multiply(Velocity, { 0.25f, 0.25f, 0.25f }),
+		Radius, 100.0f, 10.0f, 3.0f, color);
+
+	TheManagers.PM.SpawnExplosion(mirrorR,
+		Vector3Multiply(Velocity, { 0.25f, 0.25f, 0.25f }),
+		Radius, 100.0f, 10.0f, 3.0f, color);
 }
 
 void Enemy::Reset()
