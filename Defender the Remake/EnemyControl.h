@@ -64,7 +64,7 @@ private:
 	bool NoMoreSwarmers = false;
 	bool NoMorePods = false;
 
-	int TotalSpawn = 10;
+	int TotalSpawn = 0;
 	int NumberSpawned = 0;
 	int NumberMutants = 0;
 	int NumberOfPeopleAlive = 0;

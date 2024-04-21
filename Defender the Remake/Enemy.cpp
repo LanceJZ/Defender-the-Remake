@@ -63,7 +63,6 @@ void Enemy::Update(float deltaTime)
 void Enemy::Draw()
 {
 	MirrorRadar::Draw();
-
 }
 
 void Enemy::FireShot()
@@ -133,6 +132,7 @@ float Enemy::AimedShot(Vector3 position)
 void Enemy::Hit()
 {
 	BeenHit = true;
+	Player->EnemyHit = true;
 	//Score->AddToScore(ScoreAmount);
 
 	Color color = { 200, 150, 255, 255 };

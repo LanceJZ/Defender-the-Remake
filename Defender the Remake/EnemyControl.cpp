@@ -107,9 +107,7 @@ bool EnemyControl::BeginRun()
 
 	ResetField();
 
-	//SpawnBomber(4);
-	//SpawnPod(4);
-	//SpawnBaiter();
+	TotalSpawn = 10;
 
 	return true;
 }
@@ -118,16 +116,29 @@ void EnemyControl::Update()
 {
 	Common::Update();
 
+	if (TheManagers.EM.TimerElapsed(SpawnTimerID))
+	{
+		TheManagers.EM.ResetTimer(SpawnTimerID, SpawnTimerAmount);
+
+		if (NumberSpawned < TotalSpawn)
+		{
+			SpawnMoreLanders();
+		}
+	}
+
+	if (Player->EnemyHit)
+	{
+		Player->EnemyHit = false;
+		UpdateLander();
+		UpdateMutant();
+		UpdateBomber();
+		UpdatePod();
+		UpdateSwarmer();
+		UpdateBaiter();
+	}
+
 	if (NoMoreLanders && NoMoreMutants && NoMoreBombers &&
 		NoMoreSwarmers && NoMorePods && !GameEnded) EndOfWave();
-
-	UpdateLander();
-	UpdateMutant();
-	UpdateBomber();
-	UpdateSwarmer();
-	UpdatePod();
-	UpdateBaiter();
-
 }
 
 void EnemyControl::StartNewWave()
@@ -137,6 +148,11 @@ void EnemyControl::StartNewWave()
 	NumberSpawned = 0;
 	Wave++;
 	TheManagers.EM.ResetTimer(SpawnTimerID);
+
+	SpawnBomber(Wave);
+	SpawnPod(Wave);
+
+	Player->Reset();
 }
 
 void EnemyControl::AllDead()
@@ -219,16 +235,6 @@ void EnemyControl::UpdateLander()
 {
 	if (NoMoreLanders) return;
 
-	if (TheManagers.EM.TimerElapsed(SpawnTimerID))
-	{
-		TheManagers.EM.ResetTimer(SpawnTimerID, SpawnTimerAmount);
-
-		if (NumberSpawned < TotalSpawn)
-		{
-			SpawnMoreLanders();
-		}
-	}
-
 	int spawnCounter = 0;
 
 	for (auto lander : Landers)
@@ -246,9 +252,13 @@ void EnemyControl::UpdateLander()
 		}
 	}
 
-	if (spawnCounter < 3 && NumberSpawned == TotalSpawn) BaiterTurnedOn = true;
+	if (spawnCounter == 0 && NumberSpawned < TotalSpawn)
+	{
+		SpawnMoreLanders();
+		return;
+	}
 
-	if (spawnCounter == 0 && NumberSpawned < TotalSpawn) SpawnMoreLanders();
+	if (spawnCounter < 3 && NumberSpawned == TotalSpawn) BaiterTurnedOn = true;
 
 	if (spawnCounter == 0 && NumberSpawned == TotalSpawn) NoMoreLanders = true;
 }

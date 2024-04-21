@@ -81,7 +81,6 @@ void MirrorRadar::Update(float deltaTime)
 void MirrorRadar::Draw()
 {
 	Model3D::Draw();
-
 }
 
 void MirrorRadar::Spawn(Vector3 position)

@@ -87,7 +87,6 @@ void Shot::Update(float deltaTime)
 void Shot::Draw()
 {
 	Model3D::Draw();
-
 }
 
 void Shot::Reset()
