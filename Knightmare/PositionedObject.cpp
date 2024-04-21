@@ -239,14 +239,17 @@ bool PositionedObject::ScreenEdgeBoundY(float topOffset, float bottomOffset)
 {
 	bool hitBound = false;
 
-	if (Y() > WindowHeight - bottomOffset - VerticesSize)
+	float bottom = (WindowHeight - (VerticesSize * 0.5f)) - bottomOffset;
+	float top = (-WindowHeight + (VerticesSize * 0.5f)) + topOffset;
+
+	if (Y() > bottom)
 	{
-		Y(WindowHeight - bottomOffset - VerticesSize);
+		Y(bottom);
 		hitBound = true;
 	}
-	else if (Y() < -WindowHeight + topOffset + VerticesSize)
+	else if (Y() < top)
 	{
-		Y(-WindowHeight + topOffset + VerticesSize);
+		Y(top);
 		hitBound = true;
 	}
 

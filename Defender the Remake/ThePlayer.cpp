@@ -110,7 +110,7 @@ void ThePlayer::Update(float deltaTime)
 	if (RotateFacing)
 		RotateShipFacing();
 
-	ScreenEdgeBoundY(GetScreenHeight() * 0.15f - VerticesSize * 0.5f, - VerticesSize * 0.25f);
+	ScreenEdgeBoundY(GetScreenHeight() * 0.15f, VerticesSize * 0.5f);
 	CheckPlayfieldSidesWarp(7.0f, 7.0f);
 
 	HorizontalFriction();
@@ -122,7 +122,6 @@ void ThePlayer::Update(float deltaTime)
 void ThePlayer::Draw()
 {
 	Model3D::Draw();
-
 }
 
 bool ThePlayer::GetCollusion(Entity& target)

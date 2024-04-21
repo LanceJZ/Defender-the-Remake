@@ -135,7 +135,7 @@ void Enemy::Hit()
 	BeenHit = true;
 	//Score->AddToScore(ScoreAmount);
 
-	Color color = { 255, 50, 255, 255 };
+	Color color = { 200, 150, 255, 255 };
 
 	TheManagers.PM.SpawnExplosion(Position,
 		Vector3Multiply(Velocity, { 0.25f, 0.25f, 0.25f }),

@@ -42,7 +42,6 @@ void TheMutant::Update(float deltaTime)
 void TheMutant::Draw()
 {
 	Model3D::Draw();
-
 }
 
 void TheMutant::Spawn(Vector3 position)

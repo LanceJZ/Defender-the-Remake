@@ -58,7 +58,6 @@ void TheLander::Update(float deltaTime)
 void TheLander::Draw()
 {
 	Model3D::Draw();
-
 }
 
 void TheLander::Spawn(Vector3 position)

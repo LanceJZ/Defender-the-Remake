@@ -31,7 +31,6 @@ void ThePerson::Update(float deltaTime)
 void ThePerson::Draw()
 {
 	MirrorRadar::Draw();
-
 }
 
 void ThePerson::Spawn(Vector3 position)

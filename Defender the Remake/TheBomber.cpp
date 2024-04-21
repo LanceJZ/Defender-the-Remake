@@ -38,7 +38,6 @@ void TheBomber::Update(float deltaTime)
 void TheBomber::Draw()
 {
 	Enemy::Draw();
-
 }
 
 void TheBomber::Spawn(Vector3 position)
