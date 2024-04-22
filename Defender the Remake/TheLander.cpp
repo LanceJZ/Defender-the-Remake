@@ -37,19 +37,19 @@ void TheLander::Update(float deltaTime)
 
 	switch (State)
 	{
-	case StateList::LoweringToSeek:
+	case LanderStateList::LoweringToSeek:
 		GoToSeek();
 		break;
-	case StateList::Seek:
+	case LanderStateList::Seek:
 		SeekPersonMan();
 		break;
-	case StateList::FoundPersonMan:
+	case LanderStateList::FoundPersonMan:
 		GoingDown();
 		break;
-	case StateList::TakePersonMan:
+	case LanderStateList::TakePersonMan:
 		GrabPersonMan();
 		break;
-	case StateList::Mutate:
+	case LanderStateList::Mutate:
 		SpawnMutant();
 		break;
 	}
@@ -67,7 +67,7 @@ void TheLander::Spawn(Vector3 position)
 	Position.x = GetRandomFloat(-FieldSize.x * 0.5f, FieldSize.x * 0.5f);
 	Position.y = -GetScreenHeight() * 0.333f;
 
-	State = StateList::LoweringToSeek;
+	State = LanderStateList::LoweringToSeek;
 
 	float xSpeed = 50.0f;
 
@@ -101,13 +101,17 @@ void TheLander::Hit()
 {
 	Enemy::Hit();
 
+	if (State == LanderStateList::TakePersonMan)
+	{
+		People[PersonTargetID]->Dropped();
+	}
 }
 
 void TheLander::GoToSeek()
 {
 	if (Y() > (GetScreenHeight() * 0.2f) + GroundFloorY)
 	{
-		State = StateList::Seek;
+		State = LanderStateList::Seek;
 	}
 
 	if (TheManagers.EM.TimerElapsed(ShotTimerID))
@@ -150,7 +154,7 @@ void TheLander::SeekPersonMan()
 					}
 
 					PersonTargetID = i;
-					State = StateList::FoundPersonMan;
+					State = LanderStateList::FoundPersonMan;
 					Velocity.x = 0.0f;
 					Velocity.y = GetRandomFloat(30.0f, 40.0f);
 					People[i]->State = ThePerson::TargetedByLander;
@@ -176,7 +180,7 @@ void TheLander::GoingDown()
 
 	if (Y() + 25 > People[PersonTargetID]->Y() && Y() - 25 < People[PersonTargetID]->Y())
 	{
-		State = StateList::TakePersonMan;
+		State = LanderStateList::TakePersonMan;
 		Velocity.y = GetRandomFloat(-60.0f, -40.0f);
 		Velocity.x = 0.0f;
 	}
@@ -194,7 +198,7 @@ void TheLander::GrabPersonMan()
 
 	if (Y() < -FieldSize.y * 0.333f)
 	{
-		State = StateList::Mutate;
+		State = LanderStateList::Mutate;
 		Velocity.y = 0.0f;
 		People[PersonTargetID]->Velocity.y = -60.0f;
 	}
@@ -228,5 +232,5 @@ void TheLander::Destroy()
 	Enemy::Destroy();
 
 	MutateLander = false;
-	State = StateList::LoweringToSeek;
+	State = LanderStateList::LoweringToSeek;
 }

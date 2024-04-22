@@ -2,7 +2,7 @@
 #include "Enemy.h"
 #include "ThePerson.h"
 
-enum StateList
+enum LanderStateList
 {
 	LoweringToSeek,
 	Seek,
@@ -38,7 +38,7 @@ private:
 	float GroundCeilingY = 0;
 	float SeekTimerAmountMax = 0;
 	float SeekTimerAmountMin = 0;
-	StateList State = LoweringToSeek;
+	LanderStateList State = LoweringToSeek;
 	Sound MutateSound = { 0 };
 
 	ThePerson* People[10] = {};

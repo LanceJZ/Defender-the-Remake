@@ -31,5 +31,9 @@ public:
 
 private:
 	float DroppedY = 0;
+	float SpawnY = 0;
 
+	void Falling();
+	void GoingForARide();
+	void CheckCollision();
 };

@@ -84,8 +84,8 @@ void GameLogic::SpawnPersonMan(int count)
 	for (int i = 0; i < count; i++)
 	{
 		float x = GetRandomFloat(-AdjustedFieldSize.x, AdjustedFieldSize.x);
-		float y = GetScreenHeight() * 0.49f;
-		People[i]->Position = { x, y, 0.0f };
+		float y = GetScreenHeight() * 0.5f - (People[i]->VerticesSize * 2.0f);
+		People[i]->Spawn({x, y, 0.0f});
 	}
 }
 
