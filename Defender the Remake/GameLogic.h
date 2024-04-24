@@ -35,6 +35,8 @@ public:
 
 	void Update();
 
+	void EndOfWave();
+
 private:
 	size_t NewWaveTimerID = 0;
 	size_t PlayerDeathTimerID = 0;
@@ -43,6 +45,7 @@ private:
 	size_t PeopleIDs[10] = { 0 };
 
 	int Wave = 0;
+	int NumberOfPeopleAlive = 0;
 
 	Vector2 AdjustedFieldSize = {};
 

@@ -126,9 +126,9 @@ void EnemyControl::Update()
 		}
 	}
 
-	if (Player->EnemyHit)
+	if (Player->EnemyUpdate)
 	{
-		Player->EnemyHit = false;
+		Player->EnemyUpdate = false;
 		UpdateLander();
 		UpdateMutant();
 		UpdateBomber();
@@ -224,11 +224,6 @@ void EnemyControl::ResetField()
 
 		baiter->Reset();
 	}
-
-	for (auto& person : People)
-	{
-		person->Reset();
-	}
 }
 
 void EnemyControl::UpdateLander()
@@ -236,6 +231,17 @@ void EnemyControl::UpdateLander()
 	if (NoMoreLanders) return;
 
 	int spawnCounter = 0;
+
+	if (NoMorePeople)
+	{
+		for (auto lander : Landers)
+		{
+			if (lander->Enabled)
+			{
+				lander->MutateLander = true;
+			}
+		}
+	}
 
 	for (auto lander : Landers)
 	{
@@ -247,7 +253,6 @@ void EnemyControl::UpdateLander()
 			{
 				lander->Reset();
 				SpawnMutant(lander->Position);
-				break;
 			}
 		}
 	}
@@ -585,17 +590,8 @@ void EnemyControl::EndOfWave()
 	NoMoreSwarmers = false;
 	NoMoreMutants = false;
 	NoMoreLanders = false;
-	NumberOfPeopleAlive = 0;
+	WaveEnded = true;
 
-	for (auto& person : People)
-	{
-		if (person->Enabled)
-		{
-			NumberOfPeopleAlive++;
-		}
-	}
-
-	//	Score->AddToScore(NumberOfPeopleAlive * (100 * Data->Wave));
 	ResetField();
 	StartNewWave();
 }

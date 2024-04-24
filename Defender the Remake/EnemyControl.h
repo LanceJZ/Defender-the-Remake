@@ -25,6 +25,8 @@ public:
 
 	bool LandersTurnedToMutants = false;
 	bool GameEnded = false;
+	bool NoMorePeople = false;
+	bool WaveEnded = false;
 
 	void SetPlayer(ThePlayer* player);
 	void SetPeople(ThePerson* people[10]);
@@ -67,7 +69,6 @@ private:
 	int TotalSpawn = 0;
 	int NumberSpawned = 0;
 	int NumberMutants = 0;
-	int NumberOfPeopleAlive = 0;
 	int Wave = 0;
 
 	float SpawnTimerAmount = 10.0f;

@@ -13,7 +13,7 @@ public:
 	bool NewLife = false;
 	bool GameOver = false;
 	bool SmartBombFired = false;
-	bool EnemyHit = false;
+	bool EnemyUpdate = false;
 
 	int Score { 0 };
 	int HighScore { 0 };

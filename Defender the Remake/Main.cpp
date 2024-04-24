@@ -41,7 +41,7 @@ int WinMain()
 
 	if (IsWindowState(FLAG_VSYNC_HINT)) ClearWindowState(FLAG_VSYNC_HINT);
 	glfwSwapInterval(0);
-	SetTargetFPS(240);
+	SetTargetFPS(120);
 
 	static Utilities TheUtilities = {};
 	static GameLogic* Logic = {};

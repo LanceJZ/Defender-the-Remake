@@ -54,6 +54,7 @@ void ThePerson::Spawn(Vector3 position)
 void ThePerson::Dropped()
 {
 	State = PersonState::GoingDown;
+	Velocity.y = 0.0f;
 	Acceleration.y = 0.15f;
 	DroppedY = Y();
 }
@@ -84,13 +85,15 @@ void ThePerson::Falling()
 
 		if (DroppedY < 0)
 		{
-			//Explosion->Spawn(Position, 20, 3.0f);
+			TheManagers.PM.SpawnExplosion(Position, { 0.25f, 0.25f, 0.25f },
+				VerticesSize, 20.0f, 100, 5.0f, { 255, 80, 70, 255 });
 			//PlaySound(SplatSound);
 			Destroy();
+			Player->EnemyUpdate = true;
 		}
 		else
 		{
-			//PlaySound(LeftSound);
+			//PlaySound(LandedSound);
 			//Score->AddToScore(ScoreLandedAmount);
 		}
 	}

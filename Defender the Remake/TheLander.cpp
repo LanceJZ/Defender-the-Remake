@@ -83,8 +83,8 @@ void TheLander::Spawn(Vector3 position)
 	Velocity.y = GetRandomFloat(20.0f, 30.0f);
 	GroundFloorY = GetRandomFloat(20.0f, 100.0f);
 
-	SeekTimerAmountMin = 15.25f;
-	SeekTimerAmountMax = 35.5f;
+	SeekTimerAmountMin = 5.25f;
+	SeekTimerAmountMax = 15.5f;
 	SeekTimerChance = 10;
 }
 
@@ -101,7 +101,7 @@ void TheLander::Hit()
 {
 	Enemy::Hit();
 
-	if (State == LanderStateList::TakePersonMan)
+	if (State == TakePersonMan || State == Mutate)
 	{
 		People[PersonTargetID]->Dropped();
 	}
@@ -120,7 +120,7 @@ void TheLander::GoToSeek()
 		FireShot();
 	}
 
-	TheManagers.EM.ResetTimer(SeekTimerID, GetRandomFloat(5.25f, 20.5f));
+	TheManagers.EM.ResetTimer(SeekTimerID, GetRandomFloat(15.25f, 20.5f));
 }
 
 void TheLander::SeekPersonMan()
@@ -217,6 +217,7 @@ void TheLander::SpawnMutant()
 		People[PersonTargetID]->Destroy();
 		People[PersonTargetID]->Velocity.y = 0.0f;
 		MutateLander = true;
+		Player->EnemyUpdate = true;
 	}
 }
 

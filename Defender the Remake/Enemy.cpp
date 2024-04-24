@@ -132,7 +132,7 @@ float Enemy::AimedShot(Vector3 position)
 void Enemy::Hit()
 {
 	BeenHit = true;
-	Player->EnemyHit = true;
+	Player->EnemyUpdate = true;
 	//Score->AddToScore(ScoreAmount);
 
 	Color color = { 200, 150, 255, 255 };

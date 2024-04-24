@@ -29,7 +29,7 @@ void TheMutant::Update(float deltaTime)
 {
 	Enemy::Update(deltaTime);
 
-	ScreenEdgeBoundY(GetScreenHeight() * 0.015f, GetScreenHeight() * 0.161f);
+	ScreenEdgeBoundY(GetScreenHeight() * 0.15f, VerticesSize * 0.5f);
 	ChasePlayer();
 
 	if (TheManagers.EM.TimerElapsed(ShotTimerID))

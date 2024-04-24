@@ -62,7 +62,11 @@ void GameLogic::Update()
 {
 	Common::Update();
 
-	UpdatePersonMan();
+	if (Enemies->WaveEnded)
+	{
+		EndOfWave();
+		return;
+	}
 
 	if (Player->BeenHit)
 	{
@@ -73,10 +77,40 @@ void GameLogic::Update()
 	{
 		Enemies->SmartBomb();
 	}
+
+	UpdatePersonMan();
+
+}
+
+void GameLogic::EndOfWave()
+{
+	Enemies->WaveEnded = false;
+	NumberOfPeopleAlive = 0;
+
+	for (auto& person : People)
+	{
+		if (person->Enabled)
+		{
+			NumberOfPeopleAlive++;
+		}
+	}
+
+	//	Score->AddToScore(NumberOfPeopleAlive * (100 * Data->Wave));
+
 }
 
 void GameLogic::UpdatePersonMan()
 {
+	Enemies->NoMorePeople = true;
+
+	for (auto& person : People)
+	{
+		if (person->Enabled)
+		{
+			Enemies->NoMorePeople = false;
+			break;
+		}
+	}
 }
 
 void GameLogic::SpawnPersonMan(int count)
