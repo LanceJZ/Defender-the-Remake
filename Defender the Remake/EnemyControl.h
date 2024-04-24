@@ -27,6 +27,7 @@ public:
 	bool GameEnded = false;
 	bool NoMorePeople = false;
 	bool WaveEnded = false;
+	bool TriggerLandChange = false;
 
 	void SetPlayer(ThePlayer* player);
 	void SetPeople(ThePerson* people[10]);

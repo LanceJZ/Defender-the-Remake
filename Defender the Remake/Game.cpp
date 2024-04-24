@@ -100,6 +100,14 @@ void Game::Update(float deltaTime)
 	if (Paused)
 		return;
 
+	if (Enemies->TriggerLandChange)
+	{
+		Enemies->TriggerLandChange = false;
+
+		if (Enemies->NoMorePeople) BackGround->AllThePersonManDead();
+		else BackGround->AllThePersonManNotDead();
+	}
+
 	TheManagers.EM.Update(deltaTime);
 }
 

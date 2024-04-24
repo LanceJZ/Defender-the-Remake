@@ -47,7 +47,6 @@ void TheMutant::Draw()
 void TheMutant::Spawn(Vector3 position)
 {
 	Entity::Spawn(position);
-
 }
 
 void TheMutant::ChasePlayer()

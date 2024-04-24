@@ -20,10 +20,11 @@ public:
 	void Update();
 
 	void AllThePersonManDead();
+	void AllThePersonManNotDead();
 	void NewLevel();
 
 private:
-	bool AllDead = false;
+	bool AllNotDead = true;
 	int NumberOfStars = 0;
 	float LandRadarScale = 0.3167f;
 

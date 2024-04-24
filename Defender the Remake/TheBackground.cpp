@@ -118,26 +118,55 @@ void TheBackground::Update()
 	RadarLeft->X(TheCamera.position.x - (sWidth / 2.3f));
 	RadarRight->X(TheCamera.position.x + (sWidth / 2.3f));
 
-	for (int i = 0; i < 7; i++)
+	if (AllNotDead)
 	{
-		RadarLandParts[i]->X(UpdateRadar(LandParts[i]->X()));
-	}
+		for (int i = 0; i < 7; i++)
+		{
+			RadarLandParts[i]->X(UpdateRadar(LandParts[i]->X()));
+		}
 
-	for (int i = 7; i < 11; i++)
-	{
-		RadarLandParts[i]->X(UpdateRadar(LandParts[i - 7]->X() +
-			(GetScreenWidth() * 7)));
-	}
+		for (int i = 7; i < 11; i++)
+		{
+			RadarLandParts[i]->X(UpdateRadar(LandParts[i - 7]->X() +
+				(GetScreenWidth() * 7)));
+		}
 
-	for (int i = 11; i < 14; i++)
-	{
-		RadarLandParts[i]->X(UpdateRadar(LandParts[i - 7]->X() -
-			(GetScreenWidth() * 7)));
+		for (int i = 11; i < 14; i++)
+		{
+			RadarLandParts[i]->X(UpdateRadar(LandParts[i - 7]->X() -
+				(GetScreenWidth() * 7)));
+		}
 	}
 }
 
 void TheBackground::AllThePersonManDead()
 {
+	AllNotDead = false;
+
+	for (auto land : LandParts)
+	{
+		land->Enabled = false;
+	}
+
+	for (auto radar : RadarLandParts)
+	{
+		radar->Enabled = false;
+	}
+}
+
+void TheBackground::AllThePersonManNotDead()
+{
+	AllNotDead = true;
+
+	for (auto land : LandParts)
+	{
+		land->Enabled = true;
+	}
+
+	for (auto radar : RadarLandParts)
+	{
+		radar->Enabled = true;
+	}
 }
 
 void TheBackground::NewLevel()

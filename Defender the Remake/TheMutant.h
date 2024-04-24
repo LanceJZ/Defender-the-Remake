@@ -18,7 +18,9 @@ public:
 private:
 	bool GotNearPlayer = false;
 	bool BackToTopOrBottom = false;
+
 	size_t ChangeSpeedTimerID = 0;
+
 	float Speed = 100;
 	float DistanceY = 100;
 	float WorldWidth = 0;

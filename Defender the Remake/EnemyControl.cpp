@@ -224,6 +224,8 @@ void EnemyControl::ResetField()
 
 		baiter->Reset();
 	}
+
+	TheManagers.PM.Reset();
 }
 
 void EnemyControl::UpdateLander()
@@ -239,6 +241,7 @@ void EnemyControl::UpdateLander()
 			if (lander->Enabled)
 			{
 				lander->MutateLander = true;
+				TriggerLandChange = true;
 			}
 		}
 	}

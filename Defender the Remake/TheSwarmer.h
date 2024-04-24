@@ -17,6 +17,8 @@ public:
 	void Reset();
 
 private:
+	bool AfterSpawnTimer = false;
+
 	size_t AfterSpawnTimerID = 0;
 	size_t DistanceTimerID = 0;
 

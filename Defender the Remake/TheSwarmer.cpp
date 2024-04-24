@@ -32,7 +32,9 @@ void TheSwarmer::Update(float deltaTime)
 
 	if (TheManagers.EM.TimerElapsed(AfterSpawnTimerID))
 	{
-		AfterSpawn();
+		AfterSpawnTimer = true;
+
+		if (XVelocity < 0.0f) XVelocity *= -1.0f;
 	}
 
 	if (TheManagers.EM.TimerElapsed(ShotTimerID))
@@ -41,6 +43,8 @@ void TheSwarmer::Update(float deltaTime)
 	}
 
 	CheckPlayfieldHeightWarp(0.679f, 1.0f);
+
+	if (AfterSpawnTimer) AfterSpawn();
 }
 
 void TheSwarmer::Draw()
@@ -53,7 +57,9 @@ void TheSwarmer::Spawn(Vector3 position)
 {
 	Enemy::Spawn(position);
 
-	Velocity.x = GetRandomFloat(45.0f, 75.0f);
+	AfterSpawnTimer = false;
+
+	Velocity.x = GetRandomFloat(100.0f, 250.0f);
 	Velocity.y = GetRandomFloat(35.0f, 65.0f);
 
 	XVelocity = Velocity.x;
@@ -70,7 +76,7 @@ void TheSwarmer::Spawn(Vector3 position)
 	}
 
 	TheManagers.EM.ResetTimer(ShotTimerID, 1.5f);
-	TheManagers.EM.ResetTimer(AfterSpawnTimerID, GetRandomFloat(0.25f, 0.5f));
+	TheManagers.EM.ResetTimer(AfterSpawnTimerID, GetRandomFloat(2.75f, 4.5f));
 }
 
 void TheSwarmer::Reset()
@@ -106,7 +112,7 @@ void TheSwarmer::FireShot()
 
 void TheSwarmer::AfterSpawn()
 {
-	float percentChange = 0.75f;
+	float percentChange = 0.5f;
 
 	if (Player->X() + (WindowWidth * percentChange) < X())
 	{
@@ -137,9 +143,29 @@ void TheSwarmer::AfterSpawn()
 		}
 	}
 
-	if (X() - Player->X() > WorldWidth || Player->X() - X() > WorldWidth)
+
+	if (Position.x - Player->Position.x > WorldWidth ||
+		Player->Position.x - Position.x > WorldWidth)
 	{
-		Velocity.x = Velocity.x * -1.0f;
+		if (Player->Position.x < Position.x)
+		{
+			Velocity.x = XVelocity;
+		}
+		else
+		{
+			Velocity.x = -XVelocity;
+		}
+	}
+	else
+	{
+		if (Player->Position.x < Position.x)
+		{
+			Velocity.x = -XVelocity;
+		}
+		else
+		{
+			Velocity.x = XVelocity;
+		}
 	}
 }
 
