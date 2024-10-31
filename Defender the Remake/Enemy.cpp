@@ -4,10 +4,10 @@ Enemy::Enemy()
 {
 	for (size_t i = 0; i < 12; i++)
 	{
-		TheManagers.EM.AddModel3D(Shots[i] = DBG_NEW Shot());
+		Managers.EM.AddModel3D(Shots[i] = DBG_NEW Shot());
 	}
 
-	ShotTimerID = TheManagers.EM.AddTimer();
+	ShotTimerID = Managers.EM.AddTimer();
 }
 
 Enemy::~Enemy()
@@ -58,11 +58,6 @@ void Enemy::Update(float deltaTime)
 	//if (CheckCollision()) Destroy();
 	CheckCollision();
 
-}
-
-void Enemy::Draw()
-{
-	MirrorRadar::Draw();
 }
 
 void Enemy::FireShot()
@@ -125,7 +120,7 @@ float Enemy::AimedShot(Vector3 position)
 		aimXVelocity.x = aimXVelocity.x * -1.0f;
 	}
 
-	return AngleFromVectorZ(aimXVelocity) +
+	return GetAngleFromVectorZ(aimXVelocity) +
 		GetRandomFloat(-percentChance, percentChance);
 }
 
@@ -137,22 +132,22 @@ void Enemy::Hit()
 
 	Color color = { 200, 150, 255, 255 };
 
-	TheManagers.PM.SpawnExplosion(Position,
-		Vector3Multiply(Velocity, { 0.25f, 0.25f, 0.25f }),
-		Radius, 100.0f, 10.0f, 3.0f, color);
+	//Managers.PM.SpawnExplosion(Position,
+	//	Vector3Multiply(Velocity, { 0.25f, 0.25f, 0.25f }),
+	//	Radius, 100.0f, 10.0f, 3.0f, color);
 
 	float mirrorMultiplier = GetScreenWidth() * 7.0f;
 
 	Vector3 mirrorL	= { X() - mirrorMultiplier, Y(), 0.0f};
 	Vector3 mirrorR	= { X() + mirrorMultiplier, Y(), 0.0f};
 
-	TheManagers.PM.SpawnExplosion(mirrorL,
-		Vector3Multiply(Velocity, { 0.25f, 0.25f, 0.25f }),
-		Radius, 100.0f, 10.0f, 3.0f, color);
+	//Managers.PM.SpawnExplosion(mirrorL,
+	//	Vector3Multiply(Velocity, { 0.25f, 0.25f, 0.25f }),
+	//	Radius, 100.0f, 10.0f, 3.0f, color);
 
-	TheManagers.PM.SpawnExplosion(mirrorR,
-		Vector3Multiply(Velocity, { 0.25f, 0.25f, 0.25f }),
-		Radius, 100.0f, 10.0f, 3.0f, color);
+	//Managers.PM.SpawnExplosion(mirrorR,
+	//	Vector3Multiply(Velocity, { 0.25f, 0.25f, 0.25f }),
+	//	Radius, 100.0f, 10.0f, 3.0f, color);
 }
 
 void Enemy::Reset()

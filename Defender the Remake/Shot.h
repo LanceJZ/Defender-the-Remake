@@ -1,5 +1,6 @@
 #pragma once
 #include "Globals.h"
+#include "Model3D.h"
 
 class Shot : public Model3D
 {

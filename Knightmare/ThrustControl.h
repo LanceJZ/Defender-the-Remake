@@ -19,9 +19,9 @@ public:
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
 
-	void Update();
+	void FixedUpdate();
 
-	void SpawnExplosion(Vector3 position, Vector3 velocity, float endWidth,
+	void SpawnCubes(Vector3 position, Vector3 velocity, float endWidth,
 		float length,  int count, float time, Color color);
 
 private:

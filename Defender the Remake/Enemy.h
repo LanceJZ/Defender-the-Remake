@@ -18,10 +18,9 @@ public:
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
 
-	virtual void Spawn(Vector3 position);
+	void Spawn(Vector3 position);
 
-	virtual void Update(float deltaTime);
-	virtual void Draw();
+	void Update(float deltaTime);
 
 	virtual void Hit();
 	virtual void Reset();

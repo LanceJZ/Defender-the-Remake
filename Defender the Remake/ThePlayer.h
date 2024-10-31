@@ -30,7 +30,6 @@ public:
 
 	void Input();
 	void Update(float deltaTime);
-	void Draw();
 
 	bool GetCollusion(Entity& entity);
 	void Hit();

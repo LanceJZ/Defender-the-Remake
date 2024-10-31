@@ -15,10 +15,9 @@ public:
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
 
-	virtual void Update(float deltaTime);
-	virtual void Draw();
+	void Update(float deltaTime);
 
-	virtual void Spawn(Vector3 position);
+	void Spawn(Vector3 position);
 
 protected:
 	float HeightMultiplier = 0;

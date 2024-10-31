@@ -2,10 +2,10 @@
 
 Shot::Shot()
 {
-	LifeTimerID = TheManagers.EM.AddTimer();
+	LifeTimerID = Managers.EM.AddTimer();
 
-	TheManagers.EM.AddModel3D(MirrorL = DBG_NEW Model3D());
-	TheManagers.EM.AddModel3D(MirrorR = DBG_NEW Model3D());
+	Managers.EM.AddModel3D(MirrorL = DBG_NEW Model3D());
+	Managers.EM.AddModel3D(MirrorR = DBG_NEW Model3D());
 }
 
 Shot::~Shot()
@@ -14,23 +14,23 @@ Shot::~Shot()
 
 void Shot::SetPlayerShotTailModel(Model model)
 {
-	TheManagers.EM.AddModel3D(PlayerShotTail = DBG_NEW Model3D());
-	TheManagers.EM.AddModel3D(PlayerShotTailMirrorL = DBG_NEW Model3D());
-	TheManagers.EM.AddModel3D(PlayerShotTailMirrorR = DBG_NEW Model3D());
+	Managers.EM.AddModel3D(PlayerShotTail = DBG_NEW Model3D());
+	Managers.EM.AddModel3D(PlayerShotTailMirrorL = DBG_NEW Model3D());
+	Managers.EM.AddModel3D(PlayerShotTailMirrorR = DBG_NEW Model3D());
 
 	PlayerShotTail->SetModel(model);
 	PlayerShotTailMirrorL->SetModel(model);
 	PlayerShotTailMirrorR->SetModel(model);
 
 	PlayerShotTail->Position.x = -5.5f;
-	PlayerShotTail->SetParent(this);
+	PlayerShotTail->SetParent(*this);
 
 	float mirrorMultiplier = GetScreenWidth() * 7.0f;
 
 	PlayerShotTailMirrorL->X(PlayerShotTail->X() - mirrorMultiplier);
 	PlayerShotTailMirrorR->X(PlayerShotTail->X() + mirrorMultiplier);
-	PlayerShotTailMirrorL->SetParent(this);
-	PlayerShotTailMirrorR->SetParent(this);
+	PlayerShotTailMirrorL->SetParent(*this);
+	PlayerShotTailMirrorR->SetParent(*this);
 
 	PlayerShotTailMirrorR->Cull = false; //TODO: See why rotation gets it culled.
 }
@@ -59,14 +59,14 @@ bool Shot::BeginRun()
 
 	float mirrorMultiplier = GetScreenWidth() * 7.0f;
 
-	MirrorL->SetModel(GetModel());
-	MirrorR->SetModel(GetModel());
+	MirrorL->SetModel(Get3DModel());
+	MirrorR->SetModel(Get3DModel());
 
 	MirrorL->X(X() - mirrorMultiplier);
 	MirrorR->X(X() + mirrorMultiplier);
 
-	MirrorL->SetParent(this);
-	MirrorR->SetParent(this);
+	MirrorL->SetParent(*this);
+	MirrorR->SetParent(*this);
 
 	Destroy();
 
@@ -79,14 +79,14 @@ void Shot::Update(float deltaTime)
 
 	CheckPlayfieldSidesWarp(7.0f, 7.0f);
 
-	if (TheManagers.EM.TimerElapsed(LifeTimerID)) Destroy();
+	if (Managers.EM.TimerElapsed(LifeTimerID)) Destroy();
 
 	if (Y() > WindowHeight || Y() < -WindowHeight * 0.685f)	Destroy();
 }
 
 void Shot::Draw()
 {
-	Model3D::Draw();
+	//Model3D::Draw();
 }
 
 void Shot::Reset()
@@ -110,7 +110,7 @@ void Shot::EnemySpawn(Vector3 position, Vector3 velocity, float lifeTime)
 	Entity::Spawn(position);
 
 	Velocity = velocity;
-	TheManagers.EM.ResetTimer(LifeTimerID, lifeTime);
+	Managers.EM.ResetTimer(LifeTimerID, lifeTime);
 
 	MirrorL->Enabled = true;
 	MirrorR->Enabled = true;
@@ -121,7 +121,7 @@ void Shot::BombSpawn(Vector3 position, float lifeTime)
 	Entity::Spawn(position);
 
 	Velocity = { 0, 0, 0 };
-	TheManagers.EM.ResetTimer(LifeTimerID, lifeTime);
+	Managers.EM.ResetTimer(LifeTimerID, lifeTime);
 
 	MirrorL->Enabled = true;
 	MirrorR->Enabled = true;
@@ -157,5 +157,5 @@ void Shot::PlayerSpawn(Vector3 position, Vector3 velocity, bool facingRight)
 		MirrorR->Cull = true;
 	}
 
-	TheManagers.EM.ResetTimer(LifeTimerID, 0.666f);
+	Managers.EM.ResetTimer(LifeTimerID, 0.666f);
 }

@@ -12,11 +12,18 @@ bool Common::Initialize(Utilities* utilities)
 
 bool Common::BeginRun()
 {
+	return false;
+}
 
-	return true;
+void Common::Input()
+{
 }
 
 void Common::Update()
+{
+}
+
+void Common::FixedUpdate()
 {
 }
 
@@ -44,7 +51,7 @@ float Common::GetRandomRadian()
 	return GetRandomFloat(0, PI * 2);
 }
 
-float Common::RotateTowardsTargetZ(Vector3& origin, Vector3& target,
+float Common::GetRotationTowardsTargetZ(Vector3& origin, Vector3& target,
 	float facingAngle, float magnitude)
 {
 	float turnVelocity = 0;

@@ -12,8 +12,6 @@ bool ThePod::Initialize(Utilities* utilities)
 {
 	Enemy::Initialize(utilities);
 
-	Radius = 12.0f;
-
 	return false;
 }
 
@@ -29,12 +27,6 @@ void ThePod::Update(float deltaTime)
 	Enemy::Update(deltaTime);
 
 	CheckPlayfieldHeightWarp(0.679f, 1.0f);
-}
-
-void ThePod::Draw()
-{
-	Enemy::Draw();
-
 }
 
 void ThePod::Spawn(Vector3 position)

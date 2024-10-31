@@ -11,7 +11,6 @@ public:
 	bool BeginRun();
 
 	void Update(float deltaTime);
-	void Draw();
 
 	void Spawn(Vector3 position);
 

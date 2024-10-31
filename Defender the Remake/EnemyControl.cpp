@@ -2,7 +2,7 @@
 
 EnemyControl::EnemyControl()
 {
-	SpawnTimerID = TheManagers.EM.AddTimer();
+	SpawnTimerID = Managers.EM.AddTimer();
 }
 
 EnemyControl::~EnemyControl()
@@ -116,9 +116,9 @@ void EnemyControl::Update()
 {
 	Common::Update();
 
-	if (TheManagers.EM.TimerElapsed(SpawnTimerID))
+	if (Managers.EM.TimerElapsed(SpawnTimerID))
 	{
-		TheManagers.EM.ResetTimer(SpawnTimerID, SpawnTimerAmount);
+		Managers.EM.ResetTimer(SpawnTimerID, SpawnTimerAmount);
 
 		if (NumberSpawned < TotalSpawn)
 		{
@@ -147,7 +147,7 @@ void EnemyControl::StartNewWave()
 
 	NumberSpawned = 0;
 	Wave++;
-	TheManagers.EM.ResetTimer(SpawnTimerID);
+	Managers.EM.ResetTimer(SpawnTimerID);
 
 	SpawnBomber(Wave);
 	SpawnPod(Wave);
@@ -225,7 +225,7 @@ void EnemyControl::ResetField()
 		baiter->Reset();
 	}
 
-	TheManagers.PM.Reset();
+	//Managers.PM.Reset();
 }
 
 void EnemyControl::UpdateLander()
@@ -376,7 +376,7 @@ void EnemyControl::SpawnMoreLanders()
 
 	NumberSpawned += spawn;
 	SpawnLanders(spawn);
-	TheManagers.EM.ResetTimer(SpawnTimerID);
+	Managers.EM.ResetTimer(SpawnTimerID);
 }
 
 void EnemyControl::SpawnLanders(int count)
@@ -402,13 +402,11 @@ void EnemyControl::SpawnLanders(int count)
 		if (spawnNew)
 		{
 			Landers.push_back(DBG_NEW TheLander());
-			TheManagers.EM.AddModel3D(Landers[landerSpawnNumber], LanderModel);
+			Managers.EM.AddModel3D(Landers[landerSpawnNumber], LanderModel);
 			Landers[landerSpawnNumber]->SetPlayer(Player);
 			Landers[landerSpawnNumber]->SetPeople(People);
 			Landers[landerSpawnNumber]->SetShotModel(ShotModel);
 			Landers[landerSpawnNumber]->SetRadarModel(RadarLanderModel);
-			Landers[landerSpawnNumber]->Initialize(TheUtilities);
-			Landers[landerSpawnNumber]->BeginRun();
 		}
 
 		Landers[landerSpawnNumber]->Spawn({ 0.0f });
@@ -436,12 +434,10 @@ void EnemyControl::SpawnMutant(Vector3 position)
 	if (spawnNew)
 	{
 		Mutants.push_back(DBG_NEW TheMutant());
-		TheManagers.EM.AddModel3D(Mutants[mutantSpawnNumber], MutantModel);
+		Managers.EM.AddModel3D(Mutants[mutantSpawnNumber], MutantModel);
 		Mutants[mutantSpawnNumber]->SetPlayer(Player);
 		Mutants[mutantSpawnNumber]->SetShotModel(ShotModel);
 		Mutants[mutantSpawnNumber]->SetRadarModel(RadarMutantModel);
-		Mutants[mutantSpawnNumber]->Initialize(TheUtilities);
-		Mutants[mutantSpawnNumber]->BeginRun();
 	}
 
 	Mutants[mutantSpawnNumber]->Spawn(position);
@@ -470,12 +466,10 @@ void EnemyControl::SpawnBomber(int count)
 		if (spawnNew)
 		{
 			Bombers.push_back(DBG_NEW TheBomber());
-			TheManagers.EM.AddModel3D(Bombers[bomberSpawnNumber], BomberModel);
+			Managers.EM.AddModel3D(Bombers[bomberSpawnNumber], BomberModel);
 			Bombers[bomberSpawnNumber]->SetPlayer(Player);
 			Bombers[bomberSpawnNumber]->SetShotModel(BombModel);
 			Bombers[bomberSpawnNumber]->SetRadarModel(RadarBomberModel);
-			Bombers[bomberSpawnNumber]->Initialize(TheUtilities);
-			Bombers[bomberSpawnNumber]->BeginRun();
 		}
 
 		Bombers[bomberSpawnNumber]->Spawn({ 0.0f });
@@ -507,12 +501,10 @@ void EnemyControl::SpawnSwarmers(Vector3 position, int count)
 		if (spawnNew)
 		{
 			Swarmers.push_back(DBG_NEW TheSwarmer());
-			TheManagers.EM.AddModel3D(Swarmers[swarmerSpawnNumber], SwarmerModel);
+			Managers.EM.AddModel3D(Swarmers[swarmerSpawnNumber], SwarmerModel);
 			Swarmers[swarmerSpawnNumber]->SetPlayer(Player);
 			Swarmers[swarmerSpawnNumber]->SetShotModel(ShotModel);
 			Swarmers[swarmerSpawnNumber]->SetRadarModel(RadarSwarmerModel);
-			Swarmers[swarmerSpawnNumber]->Initialize(TheUtilities);
-			Swarmers[swarmerSpawnNumber]->BeginRun();
 		}
 
 		Swarmers[swarmerSpawnNumber]->Spawn(position);
@@ -542,12 +534,10 @@ void EnemyControl::SpawnPod(int count)
 		if (spawnNew)
 		{
 			Pods.push_back(DBG_NEW ThePod());
-			TheManagers.EM.AddModel3D(Pods[podSpawnNumber], PodModel);
+			Managers.EM.AddModel3D(Pods[podSpawnNumber], PodModel);
 			Pods[podSpawnNumber]->SetPlayer(Player);
 			Pods[podSpawnNumber]->SetShotModel(ShotModel);
 			Pods[podSpawnNumber]->SetRadarModel(RadarPodModel);
-			Pods[podSpawnNumber]->Initialize(TheUtilities);
-			Pods[podSpawnNumber]->BeginRun();
 		}
 
 		Pods[podSpawnNumber]->Spawn({ 0.0f });
@@ -575,12 +565,10 @@ void EnemyControl::SpawnBaiter()
 	if (spawnNew)
 	{
 		Baiters.push_back(DBG_NEW TheBaiter());
-		TheManagers.EM.AddModel3D(Baiters[spawnNumber], BaiterModel);
+		Managers.EM.AddModel3D(Baiters[spawnNumber], BaiterModel);
 		Baiters[spawnNumber]->SetPlayer(Player);
 		Baiters[spawnNumber]->SetShotModel(ShotModel);
 		Baiters[spawnNumber]->SetRadarModel(RadarBaiterModel);
-		Baiters[spawnNumber]->Initialize(TheUtilities);
-		Baiters[spawnNumber]->BeginRun();
 	}
 
 	Baiters[spawnNumber]->Spawn({ 0.0f });

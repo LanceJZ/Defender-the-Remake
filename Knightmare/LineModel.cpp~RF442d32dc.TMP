@@ -49,6 +49,7 @@ void LineModel::Draw3D()
 
 	}
 
+	BeforeCalculate();
 	CalculateWorldVectors();
 
 	rlBegin(RL_LINES);

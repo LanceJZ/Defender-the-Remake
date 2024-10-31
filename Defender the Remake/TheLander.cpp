@@ -2,7 +2,7 @@
 
 TheLander::TheLander()
 {
-	SeekTimerID = TheManagers.EM.AddTimer();
+	SeekTimerID = Managers.EM.AddTimer();
 }
 
 TheLander::~TheLander()
@@ -53,11 +53,6 @@ void TheLander::Update(float deltaTime)
 		SpawnMutant();
 		break;
 	}
-}
-
-void TheLander::Draw()
-{
-	Model3D::Draw();
 }
 
 void TheLander::Spawn(Vector3 position)
@@ -114,13 +109,13 @@ void TheLander::GoToSeek()
 		State = LanderStateList::Seek;
 	}
 
-	if (TheManagers.EM.TimerElapsed(ShotTimerID))
+	if (Managers.EM.TimerElapsed(ShotTimerID))
 	{
-		TheManagers.EM.ResetTimer(ShotTimerID, GetRandomFloat(2.75f, 4.75f));
+		Managers.EM.ResetTimer(ShotTimerID, GetRandomFloat(2.75f, 4.75f));
 		FireShot();
 	}
 
-	TheManagers.EM.ResetTimer(SeekTimerID, GetRandomFloat(15.25f, 20.5f));
+	Managers.EM.ResetTimer(SeekTimerID, GetRandomFloat(15.25f, 20.5f));
 }
 
 void TheLander::SeekPersonMan()
@@ -136,7 +131,7 @@ void TheLander::SeekPersonMan()
 		GroundCeilingY = GetRandomFloat(50.0f, 250.0f);
 	}
 
-	if (TheManagers.EM.TimerElapsed(SeekTimerID))
+	if (Managers.EM.TimerElapsed(SeekTimerID))
 	{
 		for (int i = 0; i < 10; i++)
 		{
@@ -148,7 +143,7 @@ void TheLander::SeekPersonMan()
 				{
 					if (GetRandomValue(0, SeekTimerChance) != 0)
 					{
-						TheManagers.EM.ResetTimer(SeekTimerID,
+						Managers.EM.ResetTimer(SeekTimerID,
 							GetRandomFloat(SeekTimerAmountMin, SeekTimerAmountMax));
 						return;
 					}
@@ -163,9 +158,9 @@ void TheLander::SeekPersonMan()
 		}
 	}
 
-	if (TheManagers.EM.TimerElapsed(ShotTimerID))
+	if (Managers.EM.TimerElapsed(ShotTimerID))
 	{
-		TheManagers.EM.ResetTimer(ShotTimerID, GetRandomFloat(2.0f, 3.5f));
+		Managers.EM.ResetTimer(ShotTimerID, GetRandomFloat(2.0f, 3.5f));
 		FireShot();
 	}
 }
@@ -185,10 +180,10 @@ void TheLander::GoingDown()
 		Velocity.x = 0.0f;
 	}
 
-	if (TheManagers.EM.TimerElapsed(ShotTimerID))
+	if (Managers.EM.TimerElapsed(ShotTimerID))
 	{
 		FireShot();
-		TheManagers.EM.ResetTimer(ShotTimerID, GetRandomFloat(0.5f, 1.5f));
+		Managers.EM.ResetTimer(ShotTimerID, GetRandomFloat(0.5f, 1.5f));
 	}
 }
 
@@ -203,10 +198,10 @@ void TheLander::GrabPersonMan()
 		People[PersonTargetID]->Velocity.y = -60.0f;
 	}
 
-	if (TheManagers.EM.TimerElapsed(ShotTimerID))
+	if (Managers.EM.TimerElapsed(ShotTimerID))
 	{
 		FireShot();
-		TheManagers.EM.ResetTimer(ShotTimerID, GetRandomFloat(0.25f, 1.0f));
+		Managers.EM.ResetTimer(ShotTimerID, GetRandomFloat(0.25f, 1.0f));
 	}
 }
 

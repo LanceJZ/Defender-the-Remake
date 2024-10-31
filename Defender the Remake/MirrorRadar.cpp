@@ -2,9 +2,9 @@
 
 MirrorRadar::MirrorRadar()
 {
-	TheManagers.EM.AddModel3D(MirrorL = DBG_NEW Model3D());
-	TheManagers.EM.AddModel3D(MirrorR = DBG_NEW Model3D());
-	TheManagers.EM.AddModel3D(Radar = DBG_NEW Model3D());
+	Managers.EM.AddModel3D(MirrorL = DBG_NEW Model3D());
+	Managers.EM.AddModel3D(MirrorR = DBG_NEW Model3D());
+	Managers.EM.AddModel3D(Radar = DBG_NEW Model3D());
 }
 
 MirrorRadar::~MirrorRadar()
@@ -25,10 +25,6 @@ bool MirrorRadar::Initialize(Utilities* utilities)
 {
 	Model3D::Initialize(utilities);
 
-	Radar->Initialize(utilities);
-	MirrorL->Initialize(utilities);
-	MirrorR->Initialize(utilities);
-
 	return true;
 }
 
@@ -38,14 +34,14 @@ bool MirrorRadar::BeginRun()
 
 	float mirrorMultiplier = GetScreenWidth() * 7.0f;
 
-	MirrorL->SetModel(GetModel());
-	MirrorR->SetModel(GetModel());
+	MirrorL->SetModel(Get3DModel());
+	MirrorR->SetModel(Get3DModel());
 
 	MirrorL->X(-mirrorMultiplier);
 	MirrorR->X(mirrorMultiplier);
 
-	MirrorL->SetParent(this);
-	MirrorR->SetParent(this);
+	MirrorL->SetParent(*this);
+	MirrorR->SetParent(*this);
 
 	float comp = 0.064f;
 	float ww = 3.5f;
@@ -76,11 +72,6 @@ void MirrorRadar::Update(float deltaTime)
 	}
 
 	Radar->Y((Y() * 0.158f) - HeightMultiplier);
-}
-
-void MirrorRadar::Draw()
-{
-	Model3D::Draw();
 }
 
 void MirrorRadar::Spawn(Vector3 position)

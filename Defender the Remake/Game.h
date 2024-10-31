@@ -17,7 +17,7 @@ public:
 	bool PlayBackgroundMusic = true;
 	bool Paused = false;
 
-	bool Initialize(Utilities &utilities, GameLogic* gameLogic);
+	bool Initialize(Utilities* utilities);
 	bool Load();
 	bool BeginRun();
 	void ProcessInput();

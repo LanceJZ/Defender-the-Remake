@@ -5,21 +5,21 @@ TheBackground::TheBackground()
 
 	for (size_t i = 0; i < 9; i++)
 	{
-		LandPartsID[i] = TheManagers.EM.AddModel3D(LandParts[i] = DBG_NEW Model3D());
+		LandPartsID[i] = Managers.EM.AddModel3D(LandParts[i] = DBG_NEW Model3D());
 	}
 
 	for (size_t i = 0; i < 14; i++)
 	{
-		RadarLandPartsID[i] = TheManagers.EM.AddModel3D(RadarLandParts[i] =
+		RadarLandPartsID[i] = Managers.EM.AddModel3D(RadarLandParts[i] =
 			DBG_NEW Model3D());
 	}
 
-	TheManagers.EM.AddModel3D(UIBackfaceL = DBG_NEW Model3D());
-	TheManagers.EM.AddModel3D(UIBackfaceR = DBG_NEW Model3D());
-	TheManagers.EM.AddModel3D(RadarBottom = DBG_NEW Model3D());
-	TheManagers.EM.AddModel3D(RadarTop = DBG_NEW Model3D());
-	TheManagers.EM.AddModel3D(RadarLeft = DBG_NEW Model3D());
-	TheManagers.EM.AddModel3D(RadarRight = DBG_NEW Model3D());
+	Managers.EM.AddModel3D(UIBackfaceL = DBG_NEW Model3D());
+	Managers.EM.AddModel3D(UIBackfaceR = DBG_NEW Model3D());
+	Managers.EM.AddModel3D(RadarBottom = DBG_NEW Model3D());
+	Managers.EM.AddModel3D(RadarTop = DBG_NEW Model3D());
+	Managers.EM.AddModel3D(RadarLeft = DBG_NEW Model3D());
+	Managers.EM.AddModel3D(RadarRight = DBG_NEW Model3D());
 }
 
 TheBackground::~TheBackground()
@@ -62,12 +62,12 @@ bool TheBackground::BeginRun()
 {
 	Common::BeginRun();
 
-	LandParts[7]->SetModel(LandParts[0]->GetModel(), 5.0f);
-	LandParts[8]->SetModel(LandParts[6]->GetModel(), 5.0f);
+	LandParts[7]->SetModel(LandParts[0]->Get3DModel(), 5.0f);
+	LandParts[8]->SetModel(LandParts[6]->Get3DModel(), 5.0f);
 
 	for (int i = 7; i < 14; i++)
 	{
-		RadarLandParts[i]->SetModel(RadarLandParts[i - 7]->GetModel(), LandRadarScale);
+		RadarLandParts[i]->SetModel(RadarLandParts[i - 7]->Get3DModel(), LandRadarScale);
 	}
 
 	float landY = (GetScreenHeight() / 2.0f) - 160.0f;

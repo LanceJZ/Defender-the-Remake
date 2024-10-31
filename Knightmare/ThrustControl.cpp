@@ -11,7 +11,7 @@ ThrustControl::~ThrustControl()
 
 bool ThrustControl::Initialize(Utilities* utilities)
 {
-	//ParticleManager::Initialize(utilities);
+	ParticleManager::Initialize(utilities);
 
 	return false;
 }
@@ -23,13 +23,13 @@ bool ThrustControl::BeginRun()
 	return false;
 }
 
-void ThrustControl::Update()
+void ThrustControl::FixedUpdate()
 {
-	ParticleManager::Update();
+	ParticleManager::FixedUpdate();
 
 }
 
-void ThrustControl::SpawnExplosion(Vector3 position, Vector3 velocity, float endWidth,
+void ThrustControl::SpawnCubes(Vector3 position, Vector3 velocity, float endWidth,
 	float length, int count, float time, Color color)
 {
 	float size = 3.1f;
@@ -39,5 +39,5 @@ void ThrustControl::SpawnExplosion(Vector3 position, Vector3 velocity, float end
 
 	velocity = Vector3Add(GetVelocityFromAngleZ(width, length), velocity);
 
-	ParticleManager::SpawnExplosion(position, velocity, size, speed, count, time, color);
+	ParticleManager::SpawnCubes(position, velocity, size, speed, count, time, color);
 }

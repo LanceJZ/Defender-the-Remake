@@ -38,11 +38,6 @@ void ThePerson::Update(float deltaTime)
 	}
 }
 
-void ThePerson::Draw()
-{
-	MirrorRadar::Draw();
-}
-
 void ThePerson::Spawn(Vector3 position)
 {
 	MirrorRadar::Spawn(position);
@@ -85,8 +80,8 @@ void ThePerson::Falling()
 
 		if (DroppedY < 0)
 		{
-			TheManagers.PM.SpawnExplosion(Position, { 0.25f, 0.25f, 0.25f },
-				VerticesSize, 20.0f, 100, 5.0f, { 255, 80, 70, 255 });
+			//Managers.PM.SpawnExplosion(Position, { 0.25f, 0.25f, 0.25f },
+			//	VerticesSize, 20.0f, 100, 5.0f, { 255, 80, 70, 255 });
 			//PlaySound(SplatSound);
 			Destroy();
 			Player->EnemyUpdate = true;

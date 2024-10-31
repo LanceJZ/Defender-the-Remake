@@ -4,7 +4,7 @@ GameLogic::GameLogic()
 {
 	for (int i = 0; i < 10; i++)
 	{
-		PeopleIDs[i] = TheManagers.EM.AddModel3D(People[i] = DBG_NEW ThePerson());
+		PeopleIDs[i] = Managers.EM.AddModel3D(People[i] = DBG_NEW ThePerson());
 	}
 }
 
@@ -143,5 +143,5 @@ void GameLogic::PlayerHitReset()
 void GameLogic::ResetField()
 {
 	Enemies->ResetField();
-	TheManagers.PM.Reset();
+	//TheManagers.PM.Reset();
 }

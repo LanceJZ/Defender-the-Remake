@@ -17,7 +17,7 @@
 	#define DBG_NEW new
 #endif
 
-Managers TheManagers = {};
+TheManagers Managers = {};
 Camera TheCamera = {};
 Vector2 FieldSize = {};
 
@@ -44,9 +44,8 @@ int WinMain()
 	SetTargetFPS(120);
 
 	static Utilities TheUtilities = {};
-	static GameLogic* Logic = {};
 
-	TheManagers.EM.SetUtilities(&TheUtilities);
+	Managers.EM.SetUtilities(&TheUtilities);
 
 	// Define the camera to look into our 3D world
 	// Camera position
@@ -60,13 +59,13 @@ int WinMain()
 	// Camera mode type
 	TheCamera.projection = CAMERA_ORTHOGRAPHIC;
 	// The Managers needs a reference to The Camera
-	TheManagers.SetCamera(TheCamera);
+	Managers.SetCamera(TheCamera);
 
-	game.Initialize(TheUtilities, Logic);
-	TheManagers.PM.SetEntityManager(&TheManagers.EM);
-	TheManagers.PM.SetCubeModel(TheManagers.CM.LoadAndGetModel("Cube"));
+	game.Initialize(&TheUtilities);
+	Managers.Initialize();
 	game.Load();
 	game.BeginRun();
+	Managers.BeginRun();
 
 	while (!WindowShouldClose())
 	{

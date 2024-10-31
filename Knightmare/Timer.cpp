@@ -1,8 +1,12 @@
 #include "Timer.h"
 
-void Timer::Update(float deltaTime)
+void Timer::Update(double deltaTime)
 {
     SecondsElapsed += deltaTime;
+}
+
+void Timer::FixedUpdate(double deltaTime)
+{
 }
 
 void Timer::Set(float amountInSeconds)
@@ -24,4 +28,14 @@ void Timer::Reset(float amountInSeconds)
 bool Timer::Elapsed()
 {
     return SecondsElapsed > TimerAmount;
+}
+
+float Timer::GetAmount()
+{
+    return TimerAmount;
+}
+
+float Timer::GetAmountElapsed()
+{
+    return SecondsElapsed;
 }

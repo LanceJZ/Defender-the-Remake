@@ -2,17 +2,17 @@
 
 ThePlayer::ThePlayer()
 {
-	TheManagers.EM.AddEntity(CollusionBack = DBG_NEW Entity());
-	TheManagers.EM.AddEntity(CollusionMidFront = DBG_NEW Entity());
-	TheManagers.EM.AddEntity(CollusionFront = DBG_NEW Entity());
-	TheManagers.EM.AddEntity(CollusionTip = DBG_NEW Entity());
+	Managers.EM.AddEntity(CollusionBack = DBG_NEW Entity());
+	Managers.EM.AddEntity(CollusionMidFront = DBG_NEW Entity());
+	Managers.EM.AddEntity(CollusionFront = DBG_NEW Entity());
+	Managers.EM.AddEntity(CollusionTip = DBG_NEW Entity());
 
-	TheManagers.EM.AddModel3D(Flame = DBG_NEW Model3D());
-	TheManagers.EM.AddModel3D(Radar = DBG_NEW Model3D());
+	Managers.EM.AddModel3D(Flame = DBG_NEW Model3D());
+	Managers.EM.AddModel3D(Radar = DBG_NEW Model3D());
 
 	for (int i = 0; i < 4; i++)
 	{
-		TheManagers.EM.AddModel3D(Shots[i] = DBG_NEW Shot());
+		Managers.EM.AddModel3D(Shots[i] = DBG_NEW Shot());
 	}
 }
 
@@ -48,18 +48,8 @@ bool ThePlayer::Initialize(Utilities* utilities)
 		shot->Initialize(utilities);
 	}
 
-	Radar->Initialize(utilities);
 	RadarModifier = GetScreenHeight() * 0.4374f;
 	CameraFacingOffset = GetScreenWidth() * 0.2f;
-
-	Flame->Initialize(utilities);
-
-	Radius = 7.0f;
-
-	CollusionBack->Radius = Radius + 6.0f;
-	CollusionMidFront->Radius = Radius - 2.0f;
-	CollusionFront->Radius = Radius - 3.0f;
-	CollusionTip->Radius = Radius - 4.0f;
 
 	return true;
 }
@@ -68,23 +58,28 @@ bool ThePlayer::BeginRun()
 {
 	Model3D::BeginRun();
 
-	Flame->BeginRun();
-	Radar->BeginRun();
+	Flame->SetParent(*this);
+	Flame->X(-35.0f);
+	Flame->Y(-2.0f);
 
-	Flame->SetParent(this);
-	Flame->X(-56.0f);
-
-	CollusionBack->SetParent(this);
+	CollusionBack->SetParent(*this);
 	CollusionBack->X(-21.0f);
 	CollusionBack->Y(-4.0f);
-	CollusionMidFront->SetParent(this);
+	CollusionMidFront->SetParent(*this);
 	CollusionMidFront->X(13.0f);
-	CollusionFront->SetParent(this);
+	CollusionFront->SetParent(*this);
 	CollusionFront->X(25.0f);
 	CollusionFront->Y(1.0f);
-	CollusionTip->SetParent(this);
+	CollusionTip->SetParent(*this);
 	CollusionTip->X(34.0f);
 	CollusionTip->Y(2.0f);
+
+	Radius = 7.0f;
+
+	CollusionBack->Radius = Radius + 6.0f;
+	CollusionMidFront->Radius = Radius - 2.0f;
+	CollusionFront->Radius = Radius - 3.0f;
+	CollusionTip->Radius = Radius - 4.0f;
 
 	Reset();
 
@@ -117,11 +112,6 @@ void ThePlayer::Update(float deltaTime)
 
 	CameraMovement(deltaTime);
 	RadarMovement(deltaTime);
-}
-
-void ThePlayer::Draw()
-{
-	Model3D::Draw();
 }
 
 bool ThePlayer::GetCollusion(Entity& target)
@@ -196,6 +186,8 @@ void ThePlayer::NewGame()
 
 void ThePlayer::Thrust()
 {
+	Flame->RotationVelocityX = 35.0f;
+
 	if (FacingRight)
 	{
 		MoveRight();
@@ -288,11 +280,11 @@ void ThePlayer::MoveDown()
 
 void ThePlayer::HorizontalFriction()
 {
-	if (Velocity.y > 0)
+	if (Velocity.y > 0.0f)
 	{
 		Acceleration.y = -HorzSpeed / (HorzDrag / (Velocity.y * AirDrag));
 	}
-	else if (Velocity.y < 0)
+	else if (Velocity.y < 0.0f)
 	{
 		Acceleration.y = HorzSpeed / (HorzDrag / -(Velocity.y * AirDrag));
 	}
@@ -300,7 +292,7 @@ void ThePlayer::HorizontalFriction()
 
 void ThePlayer::RotateShipFacing()
 {
-	float rotateSpeed = 0.045f;
+	float rotateSpeed = 0.075f;
 
 	if (FacingRight)
 	{

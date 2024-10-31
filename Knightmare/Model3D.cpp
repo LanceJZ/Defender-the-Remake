@@ -8,13 +8,11 @@ Model3D::~Model3D()
 {
 	if (IsChild)
 	{
-		//Children.clear();
 		IsChild = false;
 	}
 
 	if (IsParent)
 	{
-		//Parents.clear();
 		IsParent = false;
 	}
 }
@@ -30,11 +28,7 @@ bool Model3D::Initialize(Utilities* utilities)
 
 void Model3D::LoadModel(Model &model, Texture2D &texture)
 {
-	if (IsTextureReady(texture))
-	{
-		TheModel = model;
-		TheModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
-	}
+	Entity::LoadModel(model, texture);
 }
 
 bool Model3D::BeginRun()
@@ -60,11 +54,16 @@ void Model3D::Update(float deltaTime)
 	Entity::Update(deltaTime);
 }
 
-void Model3D::Draw()
+void Model3D::FixedUpdate(float deltaTime)
+{
+	Entity::FixedUpdate(deltaTime);
+}
+
+void Model3D::Draw3D()
 {
 	if (!Enabled) return;
 
-	Entity::Draw();
+	Entity::Draw3D();
 
 	if (TheCamera3D == nullptr)
 	{
@@ -82,7 +81,7 @@ void Model3D::Draw()
 			Vector3 parentTest = Position;
 			float radius = 0;
 
-			for (auto parent : Parents)
+			for (auto parent : *Parents)
 			{
 				parentTest = Vector3Add(parent->Position, parentTest);
 				radius += parent->VerticesSize;
@@ -128,50 +127,22 @@ void Model3D::Draw()
 
 	DrawModel(TheModel, ModelPosition, ModelScale, ModelColor);	// Draw 3D model
 
-	CalculateWorldSpace();
 	AfterCalculate();
 }
 
-//void Model3D::AddChild(Model3D* child)
-//{
-//	for (auto parent : Parents)
-//	{
-//		parent->AddChildren(child);
-//	}
-//
-//	Children.push_back(child);
-//	child->Parents.push_back(this);
-//	child->IsChild = true;
-//	IsParent = true;
-//
-//}
-
 void Model3D::SetModel(Model &model, float scale)
 {
-	if (model.meshes == nullptr)
-	{
-		return;
-	}
-
-	TheModel = model;
-	ModelScale = scale;
-	VerticesSize = (*model.meshes->vertices * -1.0f) * scale;
+	Entity::SetModel(model, scale);
 }
 
 void Model3D::SetModel(Model& model)
 {
-	SetModel(model, 1.0f);
+	Entity::SetModel(model);
 }
 
 void Model3D::SetModelCopy(Model model, float scale)
 {
-	TheModel = model;
-	ModelScale = scale;
-}
-
-Model& Model3D::GetModel()
-{
-	return TheModel;
+	Entity::SetModelCopy(model, scale);
 }
 
 Camera* Model3D::GetCamera()
@@ -186,11 +157,4 @@ void Model3D::Spawn(Vector3 pos, Vector3 vel)
 void Model3D::Unload()
 {
 	UnloadModel(TheModel);
-}
-
-void Model3D::AddChildren(Model3D* child)
-{
-	child->Parents.push_back(this);
-	IsParent = true;
-	child->IsChild = true;
 }

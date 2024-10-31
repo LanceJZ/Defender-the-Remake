@@ -2,7 +2,7 @@
 
 TheMutant::TheMutant()
 {
-	ChangeSpeedTimerID = TheManagers.EM.AddTimer();
+	ChangeSpeedTimerID = Managers.EM.AddTimer();
 }
 
 TheMutant::~TheMutant()
@@ -32,16 +32,11 @@ void TheMutant::Update(float deltaTime)
 	ScreenEdgeBoundY(GetScreenHeight() * 0.15f, VerticesSize * 0.5f);
 	ChasePlayer();
 
-	if (TheManagers.EM.TimerElapsed(ShotTimerID))
+	if (Managers.EM.TimerElapsed(ShotTimerID))
 	{
 		FireShot();
-		TheManagers.EM.ResetTimer(ShotTimerID, GetRandomFloat(0.25f, 0.5f));
+		Managers.EM.ResetTimer(ShotTimerID, GetRandomFloat(0.25f, 0.5f));
 	}
-}
-
-void TheMutant::Draw()
-{
-	Model3D::Draw();
 }
 
 void TheMutant::Spawn(Vector3 position)
@@ -56,9 +51,9 @@ void TheMutant::ChasePlayer()
 	float mutantX = X();
 	float mutantY = Y();
 
-	if (TheManagers.EM.TimerElapsed(ChangeSpeedTimerID))
+	if (Managers.EM.TimerElapsed(ChangeSpeedTimerID))
 	{
-		TheManagers.EM.ResetTimer(ChangeSpeedTimerID, GetRandomFloat(0.3f, 2.5f));
+		Managers.EM.ResetTimer(ChangeSpeedTimerID, GetRandomFloat(0.3f, 2.5f));
 		Speed = GetRandomFloat(150.0f, 350.0f);
 		DistanceY = GetRandomFloat(100.0f, 150.0f);
 	}

@@ -26,18 +26,13 @@ void TheBomber::Update(float deltaTime)
 {
 	Enemy::Update(deltaTime);
 
-	if (TheManagers.EM.TimerElapsed(ShotTimerID))
+	if (Managers.EM.TimerElapsed(ShotTimerID))
 	{
 		DropBomb();
-		TheManagers.EM.ResetTimer(ShotTimerID, GetRandomFloat(1.66f, 5.66f));
+		Managers.EM.ResetTimer(ShotTimerID, GetRandomFloat(1.66f, 5.66f));
 	}
 
 	CheckPlayfieldHeightWarp(0.679f, 1.0f);
-}
-
-void TheBomber::Draw()
-{
-	Enemy::Draw();
 }
 
 void TheBomber::Spawn(Vector3 position)

@@ -241,7 +241,6 @@ size_t EntityManager::AddModel3D(Entity* model3D)
 	Entities.push_back(model3D);
 	Entities.at(modelNumber)->Initialize(TheUtilities);
 	Entities.at(modelNumber)->SetCamera(TheCamera);
-	Entities.at(modelNumber)->BeginRun();
 
 	return modelNumber;
 }
