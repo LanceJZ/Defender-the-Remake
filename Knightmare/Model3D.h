@@ -21,7 +21,6 @@ public:
 	void FixedUpdate(float deltaTime);
 	void Draw3D();
 
-	//void AddChild(Model3D* child);
 	void SetModel(Model &model, float scale);
 	void SetModel(Model &model);
 	void SetModelCopy(Model model, float scale);

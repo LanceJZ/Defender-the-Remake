@@ -3,9 +3,6 @@
 Shot::Shot()
 {
 	LifeTimerID = Managers.EM.AddTimer();
-
-	Managers.EM.AddModel3D(MirrorL = DBG_NEW Model3D());
-	Managers.EM.AddModel3D(MirrorR = DBG_NEW Model3D());
 }
 
 Shot::~Shot()
@@ -14,15 +11,10 @@ Shot::~Shot()
 
 void Shot::SetPlayerShotTailModel(Model model)
 {
-	Managers.EM.AddModel3D(PlayerShotTail = DBG_NEW Model3D());
-	Managers.EM.AddModel3D(PlayerShotTailMirrorL = DBG_NEW Model3D());
-	Managers.EM.AddModel3D(PlayerShotTailMirrorR = DBG_NEW Model3D());
+	Managers.EM.AddModel3D(PlayerShotTail = DBG_NEW Model3D(), model);
+	Managers.EM.AddModel3D(PlayerShotTailMirrorL = DBG_NEW Model3D(), model);
+	Managers.EM.AddModel3D(PlayerShotTailMirrorR = DBG_NEW Model3D(), model);
 
-	PlayerShotTail->SetModel(model);
-	PlayerShotTailMirrorL->SetModel(model);
-	PlayerShotTailMirrorR->SetModel(model);
-
-	PlayerShotTail->Position.x = -5.5f;
 	PlayerShotTail->SetParent(*this);
 
 	float mirrorMultiplier = GetScreenWidth() * 7.0f;
@@ -31,13 +23,14 @@ void Shot::SetPlayerShotTailModel(Model model)
 	PlayerShotTailMirrorR->X(PlayerShotTail->X() + mirrorMultiplier);
 	PlayerShotTailMirrorL->SetParent(*this);
 	PlayerShotTailMirrorR->SetParent(*this);
-
-	PlayerShotTailMirrorR->Cull = false; //TODO: See why rotation gets it culled.
 }
 
 bool Shot::Initialize(Utilities* utilities)
 {
 	Model3D::Initialize(utilities);
+
+	Managers.EM.AddModel3D(MirrorL = DBG_NEW Model3D());
+	Managers.EM.AddModel3D(MirrorR = DBG_NEW Model3D());
 
 	if (PlayerShotTail != nullptr) PlayerShotTail->Initialize(utilities);
 	if (PlayerShotTailMirrorL != nullptr) PlayerShotTailMirrorL->Initialize(utilities);
@@ -45,8 +38,6 @@ bool Shot::Initialize(Utilities* utilities)
 
 	MirrorL->Initialize(utilities);
 	MirrorR->Initialize(utilities);
-
-	Radius = 3.5f;
 
 	WindowHeight = GetScreenHeight() * 0.5f;
 
@@ -75,18 +66,13 @@ bool Shot::BeginRun()
 
 void Shot::Update(float deltaTime)
 {
-	Model3D::Update(deltaTime);
+	CheckPlayfieldSidesWarp(7.0f, 7.0f); //This needs to be before for ray cast.
 
-	CheckPlayfieldSidesWarp(7.0f, 7.0f);
+	Model3D::Update(deltaTime);
 
 	if (Managers.EM.TimerElapsed(LifeTimerID)) Destroy();
 
 	if (Y() > WindowHeight || Y() < -WindowHeight * 0.685f)	Destroy();
-}
-
-void Shot::Draw()
-{
-	//Model3D::Draw();
 }
 
 void Shot::Reset()
@@ -147,14 +133,12 @@ void Shot::PlayerSpawn(Vector3 position, Vector3 velocity, bool facingRight)
 		Velocity.x -= 2000.0f;
 		Position.x -= 40.0f;
 		RotationY = PI;
-		MirrorR->Cull = false; //TODO: See why rotation gets it culled.
 	}
 	else
 	{
 		Velocity.x += 2000.0f;
 		Position.x += 40.0f;
 		RotationY = 0.0f;
-		MirrorR->Cull = true;
 	}
 
 	Managers.EM.ResetTimer(LifeTimerID, 0.666f);

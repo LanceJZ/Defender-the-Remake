@@ -6,12 +6,14 @@ TheBackground::TheBackground()
 	for (size_t i = 0; i < 9; i++)
 	{
 		LandPartsID[i] = Managers.EM.AddModel3D(LandParts[i] = DBG_NEW Model3D());
+		LandParts[i]->HideCollision = true;
 	}
 
 	for (size_t i = 0; i < 14; i++)
 	{
 		RadarLandPartsID[i] = Managers.EM.AddModel3D(RadarLandParts[i] =
 			DBG_NEW Model3D());
+		RadarLandParts[i]->HideCollision = true;
 	}
 
 	Managers.EM.AddModel3D(UIBackfaceL = DBG_NEW Model3D());
@@ -93,14 +95,20 @@ bool TheBackground::BeginRun()
 	float UIZ = -50.0f;
 
 	UIBackfaceL->Position = { 0.0f , -GetScreenHeight() / 2.333f, UIZ };
+	UIBackfaceL->HideCollision = true;
 	UIBackfaceR->Position = UIBackfaceL->Position;
 	UIBackfaceR->RotationZ = PI;
+	UIBackfaceR->HideCollision = true;
 
 	RadarTop->Position = { 0.0f, -GetScreenHeight() / 2.02f, UIZ };
+	RadarTop->HideCollision = true;
 	RadarBottom->RotationX = PI;
 	RadarBottom->Position = { 0.0f, -GetScreenHeight() / 2.79f, UIZ };
+	RadarBottom->HideCollision = true;
 	RadarLeft->Position = RadarBottom->Position;
+	RadarLeft->HideCollision = true;
 	RadarRight->Position = RadarBottom->Position;
+	RadarRight->HideCollision = true;
 
 	return false;
 }

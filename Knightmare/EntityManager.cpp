@@ -241,7 +241,6 @@ size_t EntityManager::AddModel3D(Entity* model3D)
 	Entities.push_back(model3D);
 	Entities.at(modelNumber)->Initialize(TheUtilities);
 	Entities.at(modelNumber)->SetCamera(TheCamera);
-	Entities.at(modelNumber)->BeginRun();
 
 	return modelNumber;
 }
@@ -266,6 +265,8 @@ size_t EntityManager::AddModel3D(Entity* model3D, Model &model, float scale)
 	size_t modelNumber = AddModel3D(model3D);
 	Entities[modelNumber]->SetModel(model, scale);
 	Entities[modelNumber]->SetCamera(TheCamera);
+	Entities[modelNumber]->Initialize(TheUtilities);
+	Entities[modelNumber]->BeginRun();
 
 	return modelNumber;
 }
@@ -275,8 +276,6 @@ size_t EntityManager::AddModel3D(Model &model)
 	size_t modelNumber = Entities.size();
 	Entities.push_back(DBG_NEW Entity());
 	Entities[modelNumber]->SetModel(model, 1.0f);
-	Entities[modelNumber]->Initialize(TheUtilities);
-	Entities[modelNumber]->SetCamera(TheCamera);
 
 	return modelNumber;
 }
@@ -284,7 +283,6 @@ size_t EntityManager::AddModel3D(Model &model)
 size_t EntityManager::AddModel3D(Model &model, float scale)
 {
 	size_t modelNumber = AddModel3D(model);
-	Entities[modelNumber]->SetCamera(TheCamera);
 	Entities[modelNumber]->Scale = scale;
 
 	return modelNumber;

@@ -18,7 +18,6 @@ public:
 	void PlayerSpawn(Vector3 position, Vector3 velocity, bool facingRight);
 
 	void Update(float deltaTime);
-	void Draw();
 
 	void Reset();
 

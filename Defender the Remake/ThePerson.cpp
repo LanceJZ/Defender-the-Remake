@@ -19,8 +19,6 @@ bool ThePerson::BeginRun()
 {
 	MirrorRadar::BeginRun();
 
-	Radius = VerticesSize * 2.0f;
-
 	return true;
 }
 

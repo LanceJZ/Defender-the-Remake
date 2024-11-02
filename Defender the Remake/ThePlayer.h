@@ -66,12 +66,12 @@ private:
 	void Thrust();
 	void ThrustOff();
 	void Reverse();
+	void RotateShipFacing();
 	void MoveLeft();
 	void MoveRight();
 	void MoveUp();
 	void MoveDown();
 	void HorizontalFriction();
-	void RotateShipFacing();
 	void Fire();
 
 	void CameraMovement(float deltaTime);

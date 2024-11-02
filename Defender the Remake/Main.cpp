@@ -18,6 +18,7 @@
 #endif
 
 TheManagers Managers = {};
+ParticleManager Particles = {};
 Camera TheCamera = {};
 Vector2 FieldSize = {};
 
@@ -46,6 +47,8 @@ int WinMain()
 	static Utilities TheUtilities = {};
 
 	Managers.EM.SetUtilities(&TheUtilities);
+	Particles.Initialize(&TheUtilities);
+	Particles.SetManagers(Managers);
 
 	// Define the camera to look into our 3D world
 	// Camera position
@@ -66,6 +69,7 @@ int WinMain()
 	game.Load();
 	game.BeginRun();
 	Managers.BeginRun();
+	Particles.BeginRun();
 
 	while (!WindowShouldClose())
 	{

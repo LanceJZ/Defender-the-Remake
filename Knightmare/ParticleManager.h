@@ -18,8 +18,9 @@ public:
 	ParticleManager();
 	virtual ~ParticleManager();
 
-	virtual void SetManagers(TheManagers& managers);
-	virtual void SetCubeModel(Model model);
+	void SetManagers(TheManagers& managers);
+	void SetCubeModel(Model model);
+	void SetLineModel(LineModelPoints model);
 
 	virtual bool Initialize(Utilities* utilities);
 	virtual bool BeginRun();

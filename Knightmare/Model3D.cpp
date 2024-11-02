@@ -78,25 +78,25 @@ void Model3D::Draw3D()
 	{
 		if (IsChild)
 		{
-			Vector3 parentTest = Position;
-			float radius = 0;
+			Vector3 parentTest = GetWorldPosition();
+			//float radius = 0;
 
-			for (auto parent : *Parents)
-			{
-				parentTest = Vector3Add(parent->Position, parentTest);
-				radius += parent->VerticesSize;
-			}
+			//for (const auto &parent : *Parents)
+			//{
+			//	//parentTest = Vector3Add(parent->GetWorldPosition(), parentTest);
+			//	radius += parent->VerticesSize;
+			//}
 
-			if (TheCamera3D->position.x > parentTest.x + radius + VerticesSize +
-				ViewableArea.x || TheCamera3D->position.x < parentTest.x + -radius +
+			if (TheCamera3D->position.x > parentTest.x + VerticesSize +
+				ViewableArea.x || TheCamera3D->position.x < parentTest.x +
 				-VerticesSize + -ViewableArea.x)
 			{
 				WasCulled = true;
 				return;
 			}
 
-			if (TheCamera3D->position.y > parentTest.y + radius + VerticesSize +
-				ViewableArea.y || TheCamera3D->position.y < parentTest.y + -radius +
+			if (TheCamera3D->position.y > parentTest.y + VerticesSize +
+				ViewableArea.y || TheCamera3D->position.y < parentTest.y +
 				-VerticesSize + -ViewableArea.y)
 			{
 				WasCulled = true;
@@ -105,15 +105,19 @@ void Model3D::Draw3D()
 		}
 		else
 		{
-			if (TheCamera3D->position.x > Position.x + VerticesSize + ViewableArea.x
-				|| TheCamera3D->position.x < Position.x + -VerticesSize + -ViewableArea.x)
+			if (TheCamera3D->position.x > GetWorldPosition().x + VerticesSize +
+				ViewableArea.x
+				|| TheCamera3D->position.x < GetWorldPosition().x + -VerticesSize +
+				-ViewableArea.x)
 			{
 				WasCulled = true;
 				return;
 			}
 
-			if (TheCamera3D->position.y > Position.y + VerticesSize + ViewableArea.y ||
-				TheCamera3D->position.y < Position.y + -VerticesSize + -ViewableArea.y)
+			if (TheCamera3D->position.y > GetWorldPosition().y + VerticesSize +
+				ViewableArea.y ||
+				TheCamera3D->position.y < GetWorldPosition().y + -VerticesSize +
+				-ViewableArea.y)
 			{
 				WasCulled = true;
 				return;

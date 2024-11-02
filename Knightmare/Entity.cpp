@@ -501,6 +501,7 @@ void Entity::SetModel(Model& model, float scale)
 	TheModel = model;
 	ModelScale = scale;
 	VerticesSize = (*model.meshes->vertices * -1.0f) * scale;
+	Radius = VerticesSize;
 }
 
 void Entity::SetModel(Model& model)

@@ -47,6 +47,8 @@ bool Game::Load()
 		BackGround->SetLandParts(land, radarLand, i);
 	}
 
+	Model cube = Managers.CM.LoadAndGetModel("Cube");
+
 	BackGround->SetRadar(Managers.CM.LoadAndGetModel("RadarOutline"),
 		Managers.CM.LoadAndGetModel("UIBottomSides"));
 	BackGround->SetUIBackface(Managers.CM.LoadAndGetModel("UIBackface"));
@@ -74,6 +76,8 @@ bool Game::Load()
 	Enemies->SetPodRadarModel(Managers.CM.LoadAndGetModel("Pod Radar"));
 	Enemies->SetBaiterModel(Managers.CM.LoadAndGetModel("Baiter"));
 	Enemies->SetBaiterRadarModel(Managers.CM.LoadAndGetModel("Baiter Radar"));
+
+	Particles.SetCubeModel(cube);
 
 	return true;
 }

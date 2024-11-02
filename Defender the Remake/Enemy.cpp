@@ -2,11 +2,6 @@
 
 Enemy::Enemy()
 {
-	for (size_t i = 0; i < 12; i++)
-	{
-		Managers.EM.AddModel3D(Shots[i] = DBG_NEW Shot());
-	}
-
 	ShotTimerID = Managers.EM.AddTimer();
 }
 
@@ -16,9 +11,9 @@ Enemy::~Enemy()
 
 void Enemy::SetShotModel(Model model)
 {
-	for(auto shot : Shots)
+	for (size_t i = 0; i < 12; i++)
 	{
-		shot->SetModel(model);
+		Managers.EM.AddModel3D(Shots[i] = DBG_NEW Shot(), model);
 	}
 }
 
@@ -26,13 +21,7 @@ bool Enemy::Initialize(Utilities* utilities)
 {
 	MirrorRadar::Initialize(utilities);
 
-	Radius = 14.0f;
-
-	for(auto shot : Shots)
-	{
-		shot->Initialize(utilities);
-	}
-
+	//Radius = 14.0f;
 
 	return true;
 }
@@ -40,11 +29,6 @@ bool Enemy::Initialize(Utilities* utilities)
 bool Enemy::BeginRun()
 {
 	MirrorRadar::BeginRun();
-
-	for (auto shot : Shots)
-	{
-		shot->BeginRun();
-	}
 
 	return false;
 }
@@ -55,9 +39,7 @@ void Enemy::Update(float deltaTime)
 
 	CheckPlayfieldSidesWarp(7.0f, 7.0f);
 
-	//if (CheckCollision()) Destroy();
 	CheckCollision();
-
 }
 
 void Enemy::FireShot()
@@ -130,24 +112,21 @@ void Enemy::Hit()
 	Player->EnemyUpdate = true;
 	//Score->AddToScore(ScoreAmount);
 
-	Color color = { 200, 150, 255, 255 };
-
-	//Managers.PM.SpawnExplosion(Position,
-	//	Vector3Multiply(Velocity, { 0.25f, 0.25f, 0.25f }),
-	//	Radius, 100.0f, 10.0f, 3.0f, color);
-
 	float mirrorMultiplier = GetScreenWidth() * 7.0f;
-
+	Color color = { 200, 150, 255, 255 };
 	Vector3 mirrorL	= { X() - mirrorMultiplier, Y(), 0.0f};
 	Vector3 mirrorR	= { X() + mirrorMultiplier, Y(), 0.0f};
 
-	//Managers.PM.SpawnExplosion(mirrorL,
-	//	Vector3Multiply(Velocity, { 0.25f, 0.25f, 0.25f }),
-	//	Radius, 100.0f, 10.0f, 3.0f, color);
+	Particles.SpawnCubes(Position,
+		Vector3Multiply(Velocity, { 0.25f, 0.25f, 0.25f }),
+		Radius, 100.0f, 10.0f, 3.0f, color);
+	Particles.SpawnCubes(mirrorL,
+		Vector3Multiply(Velocity, { 0.25f, 0.25f, 0.25f }),
+		Radius, 100.0f, 10.0f, 3.0f, color);
 
-	//Managers.PM.SpawnExplosion(mirrorR,
-	//	Vector3Multiply(Velocity, { 0.25f, 0.25f, 0.25f }),
-	//	Radius, 100.0f, 10.0f, 3.0f, color);
+	Particles.SpawnCubes(mirrorR,
+		Vector3Multiply(Velocity, { 0.25f, 0.25f, 0.25f }),
+		Radius, 100.0f, 10.0f, 3.0f, color);
 }
 
 void Enemy::Reset()

@@ -81,6 +81,11 @@ bool ThePlayer::BeginRun()
 	CollusionFront->Radius = Radius - 3.0f;
 	CollusionTip->Radius = Radius - 4.0f;
 
+	for (auto shot : Shots)
+	{
+		shot->BeginRun();
+	}
+
 	Reset();
 
 	return true;
@@ -214,18 +219,45 @@ void ThePlayer::ThrustOff()
 
 void ThePlayer::Reverse()
 {
+	float rotateSpeed = 3.25f;
+
 	if (FacingRight)
 	{
 		FacingRight = false;
+		RotationVelocityY = rotateSpeed;
 	}
 	else
 	{
 		FacingRight = true;
+		RotationVelocityY = -rotateSpeed;
 	}
 
 	MoveToOffset = 0.01f;
 	RotateFacing = true;
 	ChangedFacing = true;
+}
+
+void ThePlayer::RotateShipFacing()
+{
+
+	if (FacingRight)
+	{
+		if (RotationY < 0.15f)
+		{
+			RotateFacing = false;
+			RotationVelocityY = 0;
+			RotationY = 0.0f;
+		}
+	}
+	else
+	{
+		if (RotationY < PI && RotationY > (PI - 0.15f))
+		{
+			RotateFacing = false;
+			RotationVelocityY = 0;
+			RotationY = PI;
+		}
+	}
 }
 
 void ThePlayer::MoveLeft()
@@ -290,38 +322,6 @@ void ThePlayer::HorizontalFriction()
 	}
 }
 
-void ThePlayer::RotateShipFacing()
-{
-	float rotateSpeed = 0.075f;
-
-	if (FacingRight)
-	{
-		if (RotationY < (PI * 2))
-		{
-			RotationY += rotateSpeed;
-		}
-		else
-		{
-			RotateFacing = false;
-		}
-
-		//BackCollusion.Position.x = -24.0f;
-	}
-	else
-	{
-		if (RotationY > PI)
-		{
-			RotationY -= rotateSpeed;
-		}
-		else
-		{
-			RotateFacing = false;
-		}
-
-		//BackCollusion.Position.x = 24.0f;
-	}
-}
-
 void ThePlayer::Fire()
 {
 	for (auto shot : Shots)
@@ -362,7 +362,7 @@ void ThePlayer::CameraMovement(float deltaTime)
 			}
 		}
 
-		MoveToOffset += 0.02f;
+		MoveToOffset += (2.25f * deltaTime);
 	}
 	else
 	{

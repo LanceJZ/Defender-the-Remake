@@ -34,8 +34,12 @@ bool MirrorRadar::BeginRun()
 
 	float mirrorMultiplier = GetScreenWidth() * 7.0f;
 
+	Radar->HideCollision = true;
+
 	MirrorL->SetModel(Get3DModel());
 	MirrorR->SetModel(Get3DModel());
+	MirrorL->HideCollision = true;
+	MirrorR->HideCollision = true;
 
 	MirrorL->X(-mirrorMultiplier);
 	MirrorR->X(mirrorMultiplier);
