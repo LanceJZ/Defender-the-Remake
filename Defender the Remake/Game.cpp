@@ -44,14 +44,15 @@ bool Game::Load()
 		Model land = Managers.CM.LoadAndGetModel(name);
 		Model radarLand = Managers.CM.LoadAndGetModel(nameR);
 
-		BackGround->SetLandParts(land, radarLand, i);
+		BackGround->SetLandPartsModel(land, radarLand, i);
 	}
 
 	Model cube = Managers.CM.LoadAndGetModel("Cube");
 
-	BackGround->SetRadar(Managers.CM.LoadAndGetModel("RadarOutline"),
+	BackGround->SetRadarModel(Managers.CM.LoadAndGetModel("RadarOutline"),
 		Managers.CM.LoadAndGetModel("UIBottomSides"));
-	BackGround->SetUIBackface(Managers.CM.LoadAndGetModel("UIBackface"));
+	BackGround->SetUIBackfaceModel(Managers.CM.LoadAndGetModel("UIBackface"));
+	BackGround->SetStarModel(cube);
 
 	Player->SetModel(Managers.CM.LoadAndGetModel("Player Ship"));
 	Player->SetRadarModel(Managers.CM.LoadAndGetModel("Player Radar"));

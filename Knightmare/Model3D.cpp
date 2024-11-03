@@ -26,9 +26,9 @@ bool Model3D::Initialize(Utilities* utilities)
 	return false;
 }
 
-void Model3D::LoadModel(Model &model, Texture2D &texture)
+void Model3D::SetModelWithTexture(Model &model, Texture2D &texture)
 {
-	Entity::LoadModel(model, texture);
+	Entity::SetModelWithTexture(model, texture);
 }
 
 bool Model3D::BeginRun()

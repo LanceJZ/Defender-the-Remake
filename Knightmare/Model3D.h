@@ -13,7 +13,7 @@ public:
 	~Model3D();
 
 	bool SetCamera(Camera* camera);
-	void LoadModel(Model &model, Texture2D &texture);
+	void SetModelWithTexture(Model &model, Texture2D &texture);
 	void Input();
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();

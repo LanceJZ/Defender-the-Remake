@@ -105,7 +105,7 @@ public:
 	virtual void SetModel(Model &model, float scale);
 	virtual void SetModel(Model &model);
 	virtual void SetModelCopy(Model model, float scale);
-	virtual void LoadModel(Model &model, Texture2D &texture);
+	virtual void SetModelWithTexture(Model &model, Texture2D &texture);
 	virtual LineModelPoints GetLineModel();
 	virtual std::vector<Vector3> GetModel();
 	virtual void SetModel(std::vector<Vector3> lines);

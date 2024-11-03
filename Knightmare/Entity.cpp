@@ -515,13 +515,22 @@ void Entity::SetModelCopy(Model model, float scale)
 	ModelScale = scale;
 }
 
-void Entity::LoadModel(Model& model, Texture2D& texture)
+void Entity::SetModelWithTexture(Model& model, Texture2D& texture)
 {
-	if (IsTextureReady(texture))
-	{
-		TheModel = model;
-		TheModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
-	}
+	//if (IsTextureReady(texture)) //From raylib 5.0, no longer supported in 5.5.
+	//{
+	//	TheModel = model;
+	//	TheModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
+	//}
+
+	//if (IsTextureValid(texture)) //For raylib 5.5, wont compile.
+	//{
+	//	TheModel = model;
+	//	TheModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
+	//}
+
+	TheModel = model;
+	TheModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
 }
 
 LineModelPoints Entity::GetLineModel()
