@@ -218,9 +218,9 @@ float TheBackground::UpdateRadar(float x)
 
 void TheBackground::PlaceAllTheStars()
 {
-	int mainStarsCount = 200;
+	NumberOfStars = 300;
 
-	for (int i = 0; i < mainStarsCount; i++)
+	for (int i = 0; i < NumberOfStars; i++)
 	{
 		AllTheStars.push_back(DBG_NEW Model3D());
 		Managers.EM.AddModel3D(AllTheStars.back());
@@ -235,7 +235,7 @@ void TheBackground::PlaceAllTheStars()
 		if (AllNotDead)
 		{
 			y = GetRandomFloat((float)(-GetScreenHeight() * 0.3f),
-				(float)(GetScreenHeight() * 0.233f));
+				(float)(GetScreenHeight() * 0.15f));
 		}
 		else
 		{
@@ -259,7 +259,7 @@ void TheBackground::PlaceAllTheStars()
 		AllTheStars[i]->Enabled = true;
 	}
 
-	for (int i = 0; i < mainStarsCount; i++)
+	for (int i = 0; i < NumberOfStars; i++)
 	{
 		if (AllTheStars[i]->X() > GetScreenWidth() * 2.0f)
 		{
@@ -274,7 +274,7 @@ void TheBackground::PlaceAllTheStars()
 		}
 	}
 
-	size_t iR = mainStarsCount;
+	size_t iR = AllTheStars.size();
 
 	for (int i = 0; i < StarsOffREdge.size(); i++)
 	{
@@ -326,13 +326,13 @@ void TheBackground::PlaceAllTheStars()
 
 void TheBackground::ChangeTheStars()
 {
-	int amount = GetRandomValue(1, 10);
+	int amount = GetRandomValue(1, 200);
 
 	size_t changeAmount = GetRandomValue(1, amount);
 
 	for (size_t i = 0; i < changeAmount; i++)
 	{
-		size_t starIndex = (size_t)GetRandomValue(0, 100);
+		size_t starIndex = (size_t)GetRandomValue(0, NumberOfStars - 1);
 
 		AllTheStars[starIndex]->Enabled = true;
 
@@ -357,7 +357,7 @@ void TheBackground::ChangeTheStars()
 
 	for (size_t i = 0; i < changeAmount; i++)
 	{
-		size_t starIndex = (size_t)GetRandomValue(0, 100);
+		size_t starIndex = (size_t)GetRandomValue(0, NumberOfStars - 1);
 
 		AllTheStars[starIndex]->Enabled = false;
 

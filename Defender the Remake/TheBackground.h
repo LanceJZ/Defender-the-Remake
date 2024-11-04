@@ -28,6 +28,7 @@ public:
 private:
 	bool AllNotDead = true;
 	size_t StarsTimerID = 0;
+	int NumberOfStars = 0;
 	float LandRadarScale = 0.3167f;
 
 	struct Star
