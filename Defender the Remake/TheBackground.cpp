@@ -4,14 +4,6 @@ TheBackground::TheBackground()
 {
 	StarsTimerID = Managers.EM.AddTimer();
 
-	for (size_t i = 0; i < 180; i++)
-	{
-		Managers.EM.AddModel3D(AllTheStars[i] = DBG_NEW Model3D());
-		AllTheStars[i]->HideCollision = true;
-		AllTheStars[i]->Enabled = false;
-		AllTheStars[i]->Scale = 2.5f;
-	}
-
 	for (size_t i = 0; i < 9; i++)
 	{
 		Managers.EM.AddModel3D(LandParts[i] = DBG_NEW Model3D());
@@ -58,10 +50,7 @@ void TheBackground::SetRadarModel(Model horizontal, Model side)
 
 void TheBackground::SetStarModel(Model model)
 {
-	for (const auto& star : AllTheStars)
-	{
-		star->SetModel(model);
-	}
+	StarModel = model;
 }
 
 void TheBackground::SetPlayer(ThePlayer* player)
@@ -229,10 +218,16 @@ float TheBackground::UpdateRadar(float x)
 
 void TheBackground::PlaceAllTheStars()
 {
-	int mainStarsCount = 100;
+	int mainStarsCount = 200;
 
 	for (int i = 0; i < mainStarsCount; i++)
 	{
+		AllTheStars.push_back(DBG_NEW Model3D());
+		Managers.EM.AddModel3D(AllTheStars.back());
+		AllTheStars[i]->HideCollision = true;
+		AllTheStars[i]->Enabled = false;
+		AllTheStars[i]->Scale = 2.5f;
+
 		float x = GetRandomFloat((float)(-GetScreenWidth() * 3.5f),
 			(float)(GetScreenWidth() * 3.5f));
 		float y = 0.0f;
@@ -264,33 +259,16 @@ void TheBackground::PlaceAllTheStars()
 		AllTheStars[i]->Enabled = true;
 	}
 
-	std::vector <Vector2> starLEdge;
-	std::vector <Vector2> starREdge;
-	std::vector <Color> starLColor;
-	std::vector <Color> starRColor;
-	std::vector <Vector3> starRRotation;
-	std::vector <Vector3> starLRotation;
-
 	for (int i = 0; i < mainStarsCount; i++)
 	{
 		if (AllTheStars[i]->X() > GetScreenWidth() * 2.0f)
 		{
-			starREdge.push_back({ AllTheStars[i]->X(), AllTheStars[i]->Y() });
-			starRColor.push_back(AllTheStars[i]->ModelColor);
-			starRRotation.push_back({ AllTheStars[i]->RotationX,
-				AllTheStars[i]->RotationY, AllTheStars[i]->RotationZ });
-
 			StarsOffREdge.push_back(Star());
 			StarsOffREdge.back().ID = i;
 		}
 
 		if (AllTheStars[i]->X() < -GetScreenWidth() * 2.0f)
 		{
-			starLEdge.push_back({ AllTheStars[i]->X(), AllTheStars[i]->Y() });
-			starLColor.push_back(AllTheStars[i]->ModelColor);
-			starLRotation.push_back({ AllTheStars[i]->RotationX,
-				AllTheStars[i]->RotationY, AllTheStars[i]->RotationZ });
-
 			StarsOffLEdge.push_back(Star());
 			StarsOffLEdge.back().ID = i;
 		}
@@ -298,36 +276,52 @@ void TheBackground::PlaceAllTheStars()
 
 	size_t iR = mainStarsCount;
 
-	for (int i = 0; i < starREdge.size(); i++)
+	for (int i = 0; i < StarsOffREdge.size(); i++)
 	{
-		AllTheStars[iR + i]->X(starREdge[i].x - (GetScreenWidth() * 7.0f));
-		AllTheStars[iR + i]->Y(starREdge[i].y);
-		AllTheStars[iR + i]->ModelColor = starRColor[i];
-		AllTheStars[iR + i]->RotationX = starRRotation[i].x;
-		AllTheStars[iR + i]->RotationY = starRRotation[i].y;
-		AllTheStars[iR + i]->RotationZ = starRRotation[i].z;
+		AllTheStars.push_back(DBG_NEW Model3D());
+		Managers.EM.AddModel3D(AllTheStars.back());
+		AllTheStars[iR + i]->HideCollision = true;
+		AllTheStars[iR + i]->Enabled = false;
+		AllTheStars[iR + i]->Scale = 2.5f;
+		AllTheStars[iR + i]->X(AllTheStars[StarsOffREdge[i].ID]->X()
+			- (float)(GetScreenWidth() * 7.0f));
+		AllTheStars[iR + i]->Y(AllTheStars[StarsOffREdge[i].ID]->Y());
+		AllTheStars[iR + i]->Z(-10.0f);
+		AllTheStars[iR + i]->ModelColor = AllTheStars[StarsOffREdge[i].ID]->ModelColor;
+		AllTheStars[iR + i]->RotationX = AllTheStars[StarsOffREdge[i].ID]->RotationX;
+		AllTheStars[iR + i]->RotationY = AllTheStars[StarsOffREdge[i].ID]->RotationY;
+		AllTheStars[iR + i]->RotationZ = AllTheStars[StarsOffREdge[i].ID]->RotationZ;
 		AllTheStars[iR + i]->Enabled = true;
 
 		StarsOffREdge.at(i).EdgeID = iR + i;
 	}
 
-	size_t iL = (int)starREdge.size() + iR;
-	size_t offEdge = (int)starREdge.size();
+	size_t iL = AllTheStars.size();
 
-	for (int i = 0; i < starLEdge.size(); i++)
+	for (int i = 0; i < StarsOffLEdge.size(); i++)
 	{
-		AllTheStars[iL + i]->X(starLEdge[i].x + (GetScreenWidth() * 7.0f));
-		AllTheStars[iL + i]->Y(starLEdge[i].y);
-		AllTheStars[iL + i]->ModelColor = starLColor[i];
-		AllTheStars[iL + i]->RotationX = starLRotation[i].x;
-		AllTheStars[iL + i]->RotationY = starLRotation[i].y;
-		AllTheStars[iL + i]->RotationZ = starLRotation[i].z;
+		AllTheStars.push_back(DBG_NEW Model3D());
+		Managers.EM.AddModel3D(AllTheStars.back());
+		AllTheStars[i + iL]->HideCollision = true;
+		AllTheStars[i + iL]->Enabled = false;
+		AllTheStars[i + iL]->Scale = 2.5f;
+		AllTheStars[iL + i]->X(AllTheStars[StarsOffLEdge[i].ID]->X()
+			+ (float)(GetScreenWidth() * 7.0f));
+		AllTheStars[iL + i]->Z(-10.0f);
+		AllTheStars[iL + i]->Y(AllTheStars[StarsOffLEdge[i].ID]->Y());
+		AllTheStars[iL + i]->ModelColor = AllTheStars[StarsOffLEdge[i].ID]->ModelColor;
+		AllTheStars[iL + i]->RotationX = AllTheStars[StarsOffLEdge[i].ID]->RotationX;
+		AllTheStars[iL + i]->RotationY = AllTheStars[StarsOffLEdge[i].ID]->RotationY;
+		AllTheStars[iL + i]->RotationZ = AllTheStars[StarsOffLEdge[i].ID]->RotationZ;
 		AllTheStars[iL + i]->Enabled = true;
 
 		StarsOffLEdge.at(i).EdgeID = iL + i;
 	}
 
-	NumberOfStars = mainStarsCount + (int)starLEdge.size() + (int)starREdge.size();
+	for (const auto& star : AllTheStars)
+	{
+		star->SetModel(StarModel);
+	}
 }
 
 void TheBackground::ChangeTheStars()

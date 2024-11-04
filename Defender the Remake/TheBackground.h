@@ -28,7 +28,6 @@ public:
 private:
 	bool AllNotDead = true;
 	size_t StarsTimerID = 0;
-	int NumberOfStars = 0;
 	float LandRadarScale = 0.3167f;
 
 	struct Star
@@ -40,15 +39,19 @@ private:
 	std::vector<Star> StarsOffREdge;
 	std::vector<Star> StarsOffLEdge;
 
+	Model StarModel = {};
+
 	Model3D* LandParts[9] = { nullptr };
 	Model3D* RadarLandParts[14] = { nullptr };
-	Model3D* AllTheStars[180] = { nullptr };
+	//Model3D* AllTheStars[200] = { nullptr };
 	Model3D* UIBackfaceR = nullptr;
 	Model3D* UIBackfaceL = nullptr;
 	Model3D* RadarBottom = nullptr;
 	Model3D* RadarTop = nullptr;
 	Model3D* RadarLeft = nullptr;
 	Model3D* RadarRight = nullptr;
+
+	std::vector<Model3D*> AllTheStars;
 
 	ThePlayer* Player = nullptr;
 
