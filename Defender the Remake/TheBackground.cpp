@@ -126,7 +126,7 @@ bool TheBackground::BeginRun()
 	RadarRight->Position = RadarBottom->Position;
 	RadarRight->HideCollision = true;
 
-	PlaceAllTheStars();
+	if (StarsOffREdge.size() == 0) PlaceAllTheStars();
 
 	return false;
 }
@@ -240,7 +240,7 @@ void TheBackground::PlaceAllTheStars()
 		if (AllNotDead)
 		{
 			y = GetRandomFloat((float)(-GetScreenHeight() * 0.3f),
-				(float)(GetScreenHeight() * 0.333f));
+				(float)(GetScreenHeight() * 0.233f));
 		}
 		else
 		{
@@ -279,6 +279,9 @@ void TheBackground::PlaceAllTheStars()
 			starRColor.push_back(AllTheStars[i]->ModelColor);
 			starRRotation.push_back({ AllTheStars[i]->RotationX,
 				AllTheStars[i]->RotationY, AllTheStars[i]->RotationZ });
+
+			StarsOffREdge.push_back(Star());
+			StarsOffREdge.back().ID = i;
 		}
 
 		if (AllTheStars[i]->X() < -GetScreenWidth() * 2.0f)
@@ -287,10 +290,13 @@ void TheBackground::PlaceAllTheStars()
 			starLColor.push_back(AllTheStars[i]->ModelColor);
 			starLRotation.push_back({ AllTheStars[i]->RotationX,
 				AllTheStars[i]->RotationY, AllTheStars[i]->RotationZ });
+
+			StarsOffLEdge.push_back(Star());
+			StarsOffLEdge.back().ID = i;
 		}
 	}
 
-	int iR = mainStarsCount;
+	size_t iR = mainStarsCount;
 
 	for (int i = 0; i < starREdge.size(); i++)
 	{
@@ -300,11 +306,13 @@ void TheBackground::PlaceAllTheStars()
 		AllTheStars[iR + i]->RotationX = starRRotation[i].x;
 		AllTheStars[iR + i]->RotationY = starRRotation[i].y;
 		AllTheStars[iR + i]->RotationZ = starRRotation[i].z;
-
 		AllTheStars[iR + i]->Enabled = true;
+
+		StarsOffREdge.at(i).EdgeID = iR + i;
 	}
 
-	int iL = (int)starREdge.size() + iR;
+	size_t iL = (int)starREdge.size() + iR;
+	size_t offEdge = (int)starREdge.size();
 
 	for (int i = 0; i < starLEdge.size(); i++)
 	{
@@ -314,32 +322,65 @@ void TheBackground::PlaceAllTheStars()
 		AllTheStars[iL + i]->RotationX = starLRotation[i].x;
 		AllTheStars[iL + i]->RotationY = starLRotation[i].y;
 		AllTheStars[iL + i]->RotationZ = starLRotation[i].z;
-
 		AllTheStars[iL + i]->Enabled = true;
+
+		StarsOffLEdge.at(i).EdgeID = iL + i;
 	}
 
 	NumberOfStars = mainStarsCount + (int)starLEdge.size() + (int)starREdge.size();
-
-	for (auto &star : AllTheStars)
-	{
-		//star->Enabled = true;
-	}
 }
 
 void TheBackground::ChangeTheStars()
 {
-	//This needs to know what stars off edge to change along with the stars on the edge.
-	return;
+	int amount = GetRandomValue(1, 10);
 
-	size_t change = GetRandomValue(1, 10);
+	size_t changeAmount = GetRandomValue(1, amount);
 
-	for (size_t i = 0; i < change; i++)
+	for (size_t i = 0; i < changeAmount; i++)
 	{
-		AllTheStars[(size_t)(GetRandomValue(0, 100))]->Enabled = true;
+		size_t starIndex = (size_t)GetRandomValue(0, 100);
+
+		AllTheStars[starIndex]->Enabled = true;
+
+		for (auto star : StarsOffREdge)
+		{
+			if (star.ID == starIndex)
+			{
+				AllTheStars[star.EdgeID]->Enabled = true;
+			}
+		}
+
+		for (auto star : StarsOffLEdge)
+		{
+			if (star.ID == starIndex)
+			{
+				AllTheStars[star.EdgeID]->Enabled = true;
+			}
+		}
 	}
 
-	for (size_t i = 0; i < change; i++)
+	changeAmount = GetRandomValue(1, amount);
+
+	for (size_t i = 0; i < changeAmount; i++)
 	{
-		AllTheStars[(size_t)(GetRandomValue(0, 100))]->Enabled = false;
+		size_t starIndex = (size_t)GetRandomValue(0, 100);
+
+		AllTheStars[starIndex]->Enabled = false;
+
+		for (auto star : StarsOffREdge)
+		{
+			if (star.ID == starIndex)
+			{
+				AllTheStars[star.EdgeID]->Enabled = false;
+			}
+		}
+
+		for (auto star : StarsOffLEdge)
+		{
+			if (star.ID == starIndex)
+			{
+				AllTheStars[star.EdgeID]->Enabled = false;
+			}
+		}
 	}
 }
