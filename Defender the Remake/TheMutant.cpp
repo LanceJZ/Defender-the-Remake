@@ -41,7 +41,7 @@ void TheMutant::Update(float deltaTime)
 
 void TheMutant::Spawn(Vector3 position)
 {
-	Entity::Spawn(position);
+	Enemy::Spawn(position);
 }
 
 void TheMutant::ChasePlayer()

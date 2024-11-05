@@ -14,6 +14,8 @@ public:
 	Shot* Shots[12] = { nullptr };
 
 	void SetShotModel(Model model);
+	void SetFireSound(Sound sound);
+	void SetExplodeSound(Sound sound);
 
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
@@ -28,9 +30,12 @@ public:
 protected:
 	size_t ShotTimerID = 0;
 
+	Sound FireSound = {};
+	Sound ExplodeSound = {};
+
 	virtual void FireShot();
 	virtual bool CheckCollision();
-	virtual void Destroy();
+	void Destroy();
 
 private:
 

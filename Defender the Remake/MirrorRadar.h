@@ -32,7 +32,7 @@ protected:
 
 	ThePlayer* Player = nullptr;
 
-	virtual void Destroy();
+	void Destroy();
 private:
 
 

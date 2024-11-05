@@ -17,6 +17,16 @@ void Enemy::SetShotModel(Model model)
 	}
 }
 
+void Enemy::SetFireSound(Sound sound)
+{
+	FireSound = sound;
+}
+
+void Enemy::SetExplodeSound(Sound sound)
+{
+	ExplodeSound = sound;
+}
+
 bool Enemy::Initialize(Utilities* utilities)
 {
 	MirrorRadar::Initialize(utilities);
@@ -48,6 +58,8 @@ void Enemy::FireShot()
 	{
 		if (shot->Enabled) continue;
 
+		if (!Player->GameOver) PlaySound(FireSound);
+
 		shot->EnemySpawn(Position,
 			GetVelocityFromAngleZ(GetShotAngle(Position), 125.0f), 8.0f);
 
@@ -65,7 +77,6 @@ bool Enemy::CheckCollision()
 		{
 			shot->Reset();
 			Hit();
-			Destroy();
 
 			return true;
 		}
@@ -110,6 +121,7 @@ void Enemy::Hit()
 {
 	BeenHit = true;
 	Player->EnemyUpdate = true;
+	if (!Player->GameOver) PlaySound(ExplodeSound);
 	//Score->AddToScore(ScoreAmount);
 
 	float mirrorMultiplier = GetScreenWidth() * 7.0f;
@@ -133,6 +145,7 @@ void Enemy::Reset()
 {
 	BeenHit = false;
 
+	Destroy();
 }
 
 void Enemy::Spawn(Vector3 position)
@@ -145,4 +158,5 @@ void Enemy::Destroy()
 {
 	MirrorRadar::Destroy();
 
+	Player->EnemyUpdate = true;
 }

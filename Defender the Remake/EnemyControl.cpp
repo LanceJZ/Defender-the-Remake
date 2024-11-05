@@ -92,6 +92,56 @@ void EnemyControl::SetBaiterRadarModel(Model model)
 	RadarBaiterModel = model;
 }
 
+void EnemyControl::SetExplodeSound(Sound sound)
+{
+	ExplodeSound = sound;
+}
+
+void EnemyControl::SetFireSound(Sound sound)
+{
+	FireSound = sound;
+}
+
+void EnemyControl::SetLanderMutateSound(Sound sound)
+{
+	LanderMutateSound = sound;
+}
+
+void EnemyControl::SetLandersSpawnSound(Sound sound)
+{
+	LandersSpawnSound = sound;
+}
+
+void EnemyControl::SetMutantFireSound(Sound sound)
+{
+	MutantFireSound = sound;
+}
+
+void EnemyControl::SetBaiterSpawnSound(Sound sound)
+{
+	BaiterSpawnSound = sound;
+}
+
+void EnemyControl::SetBomberExplodeSound(Sound sound)
+{
+	BomberExplodeSound = sound;
+}
+
+void EnemyControl::SetPodExplodeSound(Sound sound)
+{
+	PodExplodeSound = sound;
+}
+
+void EnemyControl::SetSwarmerExplodeSound(Sound sound)
+{
+	SwarmerExplodeSound = sound;
+}
+
+void EnemyControl::SetSwarmerFireSound(Sound sound)
+{
+	SwarmerFireSound = sound;
+}
+
 bool EnemyControl::Initialize(Utilities* utilities)
 {
 	Common::Initialize(utilities);
@@ -129,12 +179,12 @@ void EnemyControl::Update()
 	if (Player->EnemyUpdate)
 	{
 		Player->EnemyUpdate = false;
-		UpdateLander();
-		UpdateMutant();
-		UpdateBomber();
-		UpdatePod();
-		UpdateSwarmer();
-		UpdateBaiter();
+		UpdateLanderStatus();
+		UpdateMutantStatus();
+		UpdateBomberStatus();
+		UpdatePodStatus();
+		UpdateSwarmerStatus();
+		UpdateBaiterStatus();
 	}
 
 	if (NoMoreLanders && NoMoreMutants && NoMoreBombers &&
@@ -165,9 +215,9 @@ void EnemyControl::NewGame()
 
 void EnemyControl::ResetField()
 {
-	for (auto lander : Landers)
+	for (const auto& lander : Landers)
 	{
-		for (auto shot : lander->Shots)
+		for (const auto& shot : lander->Shots)
 		{
 			shot->Reset();
 		}
@@ -175,9 +225,9 @@ void EnemyControl::ResetField()
 		lander->Reset();
 	}
 
-	for (auto mutant : Mutants)
+	for (const auto& mutant : Mutants)
 	{
-		for (auto shot : mutant->Shots)
+		for (const auto& shot : mutant->Shots)
 		{
 			shot->Reset();
 		}
@@ -185,9 +235,9 @@ void EnemyControl::ResetField()
 		mutant->Reset();
 	}
 
-	for (auto swarmer : Swarmers)
+	for (const auto& swarmer : Swarmers)
 	{
-		for (auto shot : swarmer->Shots)
+		for (const auto& shot : swarmer->Shots)
 		{
 			shot->Reset();
 		}
@@ -195,9 +245,9 @@ void EnemyControl::ResetField()
 		swarmer->Reset();
 	}
 
-	for (auto pod : Pods)
+	for (const auto& pod : Pods)
 	{
-		for (auto shot : pod->Shots)
+		for (const auto& shot : pod->Shots)
 		{
 			shot->Reset();
 		}
@@ -205,7 +255,7 @@ void EnemyControl::ResetField()
 		pod->Reset();
 	}
 
-	for (auto bomber : Bombers)
+	for (const auto& bomber : Bombers)
 	{
 		for (auto shot : bomber->Shots)
 		{
@@ -215,20 +265,18 @@ void EnemyControl::ResetField()
 		bomber->Reset();
 	}
 
-	for (auto baiter : Baiters)
+	for (const auto& baiter : Baiters)
 	{
-		for (auto shot : baiter->Shots)
+		for (const auto& shot : baiter->Shots)
 		{
 			shot->Reset();
 		}
 
 		baiter->Reset();
 	}
-
-	//Managers.PM.Reset();
 }
 
-void EnemyControl::UpdateLander()
+void EnemyControl::UpdateLanderStatus()
 {
 	if (NoMoreLanders) return;
 
@@ -236,7 +284,7 @@ void EnemyControl::UpdateLander()
 
 	if (NoMorePeople)
 	{
-		for (auto lander : Landers)
+		for (const auto& lander : Landers)
 		{
 			if (lander->Enabled)
 			{
@@ -244,9 +292,11 @@ void EnemyControl::UpdateLander()
 				TriggerLandChange = true;
 			}
 		}
+
+		return;
 	}
 
-	for (auto lander : Landers)
+	for (const auto& lander : Landers)
 	{
 		if (lander->Enabled)
 		{
@@ -256,6 +306,13 @@ void EnemyControl::UpdateLander()
 			{
 				lander->Reset();
 				SpawnMutant(lander->Position);
+				break;
+			}
+
+			if (lander->BeenHit)
+			{
+				lander->Reset();
+				break;
 			}
 		}
 	}
@@ -271,63 +328,72 @@ void EnemyControl::UpdateLander()
 	if (spawnCounter == 0 && NumberSpawned == TotalSpawn) NoMoreLanders = true;
 }
 
-void EnemyControl::UpdateMutant()
+void EnemyControl::UpdateMutantStatus()
 {
-	NoMoreMutants = false;
-
-	for (auto mutant : Mutants)
-	{
-		if (mutant->Enabled) return;
-	}
-
 	NoMoreMutants = true;
+
+	for (const auto& mutant : Mutants)
+	{
+		if (mutant->Enabled) NoMoreMutants = false;
+
+		if (mutant->BeenHit)
+		{
+			mutant->Reset();
+			break;
+		}
+	}
 }
 
-void EnemyControl::UpdateBomber()
+void EnemyControl::UpdateBomberStatus()
 {
-	NoMoreBombers = false;
-
-	for (auto bomber : Bombers)
-	{
-		if (bomber->Enabled) return;
-	}
-
 	NoMoreBombers = true;
-}
 
-void EnemyControl::UpdateSwarmer()
-{
-	NoMoreSwarmers = false;
-
-	for (auto swarmer : Swarmers)
+	for (const auto& bomber : Bombers)
 	{
-		if (swarmer->Enabled) return;
-	}
+		if (bomber->Enabled) NoMoreBombers = false;
 
-	NoMoreSwarmers = true;
+		if (bomber->BeenHit)
+		{
+			bomber->Reset();
+			break;
+		}
+	}
 }
 
-void EnemyControl::UpdatePod()
+void EnemyControl::UpdateSwarmerStatus()
+{
+	NoMoreSwarmers = true;
+
+	for (const auto& swarmer : Swarmers)
+	{
+		if (swarmer->Enabled) NoMoreSwarmers = false;
+
+		if (swarmer->BeenHit)
+		{
+			swarmer->Reset();
+			break;
+		}
+	}
+}
+
+void EnemyControl::UpdatePodStatus()
 {
 	NoMorePods = true;
 
-	for (auto pod : Pods)
+	for (const auto& pod : Pods)
 	{
-		if (!pod->Enabled)
-		{
-			if (pod->BeenHit)
-			{
-				pod->Reset();
-				SpawnSwarmers(pod->Position, 4);
-				break;
-			}
-		}
-
 		if (pod->Enabled) NoMorePods = false;
+
+		if (pod->BeenHit)
+		{
+			pod->Reset();
+			SpawnSwarmers(pod->Position, 4);
+			break;
+		}
 	}
 }
 
-void EnemyControl::UpdateBaiter()
+void EnemyControl::UpdateBaiterStatus()
 {
 
 }
@@ -340,7 +406,7 @@ void EnemyControl::SmartBomb()
 	float max = x + width;
 	float min = x - width;
 
-	for (auto lander : Landers)
+	for (const auto& lander : Landers)
 	{
 		if (lander->Enabled)
 		{
@@ -352,7 +418,7 @@ void EnemyControl::SmartBomb()
 		}
 	}
 
-	for (auto mutant : Mutants)
+	for (const auto& mutant : Mutants)
 	{
 		if (mutant->Enabled)
 		{
@@ -381,6 +447,8 @@ void EnemyControl::SpawnMoreLanders()
 
 void EnemyControl::SpawnLanders(int count)
 {
+	if (!Player->GameOver) PlaySound(LandersSpawnSound);
+
 	for (int i = 0; i < count; i++)
 	{
 		bool spawnNew = true;
@@ -407,6 +475,8 @@ void EnemyControl::SpawnLanders(int count)
 			Landers[landerSpawnNumber]->SetPeople(People);
 			Landers[landerSpawnNumber]->SetShotModel(ShotModel);
 			Landers[landerSpawnNumber]->SetRadarModel(RadarLanderModel);
+			Landers[landerSpawnNumber]->SetFireSound(FireSound);
+			Landers[landerSpawnNumber]->SetExplodeSound(ExplodeSound);
 		}
 
 		Landers[landerSpawnNumber]->Spawn({ 0.0f });
@@ -438,6 +508,8 @@ void EnemyControl::SpawnMutant(Vector3 position)
 		Mutants[mutantSpawnNumber]->SetPlayer(Player);
 		Mutants[mutantSpawnNumber]->SetShotModel(ShotModel);
 		Mutants[mutantSpawnNumber]->SetRadarModel(RadarMutantModel);
+		Mutants[mutantSpawnNumber]->SetFireSound(MutantFireSound);
+		Mutants[mutantSpawnNumber]->SetExplodeSound(ExplodeSound);
 	}
 
 	Mutants[mutantSpawnNumber]->Spawn(position);
@@ -470,6 +542,7 @@ void EnemyControl::SpawnBomber(int count)
 			Bombers[bomberSpawnNumber]->SetPlayer(Player);
 			Bombers[bomberSpawnNumber]->SetShotModel(BombModel);
 			Bombers[bomberSpawnNumber]->SetRadarModel(RadarBomberModel);
+			Bombers[bomberSpawnNumber]->SetExplodeSound(BomberExplodeSound);
 		}
 
 		Bombers[bomberSpawnNumber]->Spawn({ 0.0f });
@@ -505,6 +578,8 @@ void EnemyControl::SpawnSwarmers(Vector3 position, int count)
 			Swarmers[swarmerSpawnNumber]->SetPlayer(Player);
 			Swarmers[swarmerSpawnNumber]->SetShotModel(ShotModel);
 			Swarmers[swarmerSpawnNumber]->SetRadarModel(RadarSwarmerModel);
+			Swarmers[swarmerSpawnNumber]->SetExplodeSound(SwarmerExplodeSound);
+			Swarmers[swarmerSpawnNumber]->SetFireSound(SwarmerFireSound);
 		}
 
 		Swarmers[swarmerSpawnNumber]->Spawn(position);
@@ -538,6 +613,7 @@ void EnemyControl::SpawnPod(int count)
 			Pods[podSpawnNumber]->SetPlayer(Player);
 			Pods[podSpawnNumber]->SetShotModel(ShotModel);
 			Pods[podSpawnNumber]->SetRadarModel(RadarPodModel);
+			Pods[podSpawnNumber]->SetExplodeSound(PodExplodeSound);
 		}
 
 		Pods[podSpawnNumber]->Spawn({ 0.0f });
@@ -546,6 +622,8 @@ void EnemyControl::SpawnPod(int count)
 
 void EnemyControl::SpawnBaiter()
 {
+	if (!Player->GameOver) PlaySound(BaiterSpawnSound);
+
 	size_t spawnNumber = Baiters.size();
 	int baiterNumber = 0;
 	bool spawnNew = true;
@@ -569,6 +647,8 @@ void EnemyControl::SpawnBaiter()
 		Baiters[spawnNumber]->SetPlayer(Player);
 		Baiters[spawnNumber]->SetShotModel(ShotModel);
 		Baiters[spawnNumber]->SetRadarModel(RadarBaiterModel);
+		Baiters[spawnNumber]->SetExplodeSound(ExplodeSound);
+		Baiters[spawnNumber]->SetFireSound(FireSound);
 	}
 
 	Baiters[spawnNumber]->Spawn({ 0.0f });

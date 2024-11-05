@@ -34,6 +34,7 @@ bool Game::Initialize(Utilities* utilities) //Initialize
 
 bool Game::Load()
 {
+	//Models
 	for (size_t i = 0; i < 7; i++)
 	{
 		std::string name = "Ground";
@@ -79,6 +80,24 @@ bool Game::Load()
 	Enemies->SetBaiterRadarModel(Managers.CM.LoadAndGetModel("Baiter Radar"));
 
 	Particles.SetCubeModel(cube);
+
+	//Sounds
+	Player->SetFireSound(Managers.CM.LoadAndGetSound("Player Fire"));
+	Player->SetExplosionSound(Managers.CM.LoadAndGetSound("Player Explode"));
+	Player->SetThrustSound(Managers.CM.LoadAndGetSound("Player Thrust"));
+	Player->SetSmartbombSound(Managers.CM.LoadAndGetSound("Smartbomb"));
+	Player->SetBonusSound(Managers.CM.LoadAndGetSound("Bonus"));
+
+	Enemies->SetBaiterSpawnSound(Managers.CM.LoadAndGetSound("Baiter Spawn"));
+	Enemies->SetBomberExplodeSound(Managers.CM.LoadAndGetSound("Bomber Explode"));
+	Enemies->SetExplodeSound(Managers.CM.LoadAndGetSound("Enemy Explode"));
+	Enemies->SetFireSound(Managers.CM.LoadAndGetSound("Enemy Fire"));
+	Enemies->SetLanderMutateSound(Managers.CM.LoadAndGetSound("Lander Mutate"));
+	Enemies->SetLandersSpawnSound(Managers.CM.LoadAndGetSound("Landers Spawn"));
+	Enemies->SetMutantFireSound(Managers.CM.LoadAndGetSound("Mutant Fire"));
+	Enemies->SetPodExplodeSound(Managers.CM.LoadAndGetSound("Pod Explode"));
+	Enemies->SetSwarmerExplodeSound(Managers.CM.LoadAndGetSound("Swarmer Explode"));
+	Enemies->SetSwarmerFireSound(Managers.CM.LoadAndGetSound("Swarmer Fire"));
 
 	return true;
 }

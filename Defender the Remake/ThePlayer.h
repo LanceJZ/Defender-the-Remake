@@ -25,23 +25,29 @@ public:
 	void SetFlameModel(Model model);
 	void SetRadarModel(Model model);
 
+	void SetFireSound(Sound sound);
+	void SetExplosionSound(Sound sound);
+	void SetThrustSound(Sound sound);
+	void SetSmartbombSound(Sound sound);
+	void SetBonusSound(Sound sound);
+
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
 
 	void Input();
 	void Update(float deltaTime);
 
-	bool GetCollusion(Entity& entity);
+	bool GetCollusion(Entity& target);
 	void Hit();
 	void ScoreUpdate(int addToScore);
 	void Reset();
 	void NewGame();
 
 private:
-	int NextNewLifeScore = 10000;
 	bool FacingRight = true;
 	bool ChangedFacing = false;
 	bool RotateFacing = false;
+	int NextNewLifeScore = 10000;
 	int SmartBombs = 0;
 	float CameraFacingOffset = 0.0f;
 	float MoveToOffset = 1000;
@@ -54,14 +60,21 @@ private:
 	float AirDrag = 0.004f;
 	float RadarModifier = 0.0f;
 
+	Sound FireSound = {};
+	Sound ExplodeSound = {};
+	Sound ThrustSound = {};
+	Sound SmartbombSound = {};
+	Sound BonusSound = {};
+
+	Model ShotModel = {};
+	Model ShotTailModel = {};
+
 	Entity* CollusionBack = nullptr;
 	Entity* CollusionMidFront = nullptr;
 	Entity* CollusionFront = nullptr;
 	Entity* CollusionTip = nullptr;
 	Model3D* Flame = {};
 	Model3D* Radar = {};
-	Model ShotModel = {};
-	Model ShotTailModel = {};
 
 	void Thrust();
 	void ThrustOff();

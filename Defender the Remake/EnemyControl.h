@@ -46,6 +46,17 @@ public:
 	void SetPodRadarModel(Model model);
 	void SetBaiterRadarModel(Model model);
 
+	void SetExplodeSound(Sound sound);
+	void SetFireSound(Sound sound);
+	void SetLanderMutateSound(Sound sound);
+	void SetLandersSpawnSound(Sound sound);
+	void SetMutantFireSound(Sound sound);
+	void SetBaiterSpawnSound(Sound sound);
+	void SetBomberExplodeSound(Sound sound);
+	void SetPodExplodeSound(Sound sound);
+	void SetSwarmerExplodeSound(Sound sound);
+	void SetSwarmerFireSound(Sound sound);
+
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
 
@@ -76,6 +87,17 @@ private:
 
 	Vector2 AdjustedFieldSize = {};
 
+	Sound ExplodeSound = { 0 };
+	Sound FireSound = { 0 };
+	Sound LanderMutateSound = { 0 };
+	Sound LandersSpawnSound = { 0 };
+	Sound MutantFireSound = { 0 };
+	Sound BaiterSpawnSound = { 0 };
+	Sound BomberExplodeSound = { 0 };
+	Sound PodExplodeSound = { 0 };
+	Sound SwarmerExplodeSound = { 0 };
+	Sound SwarmerFireSound = { 0 };
+
 	Model LanderModel = { 0 };
 	Model MutantModel = { 0 };
 	Model BomberModel = { 0 };
@@ -94,12 +116,12 @@ private:
 	ThePlayer* Player = nullptr;
 	ThePerson* People[10] = {};
 
-	void UpdateLander();
-	void UpdateMutant();
-	void UpdateBomber();
-	void UpdateSwarmer();
-	void UpdatePod();
-	void UpdateBaiter();
+	void UpdateLanderStatus();
+	void UpdateMutantStatus();
+	void UpdateBomberStatus();
+	void UpdateSwarmerStatus();
+	void UpdatePodStatus();
+	void UpdateBaiterStatus();
 
 	void SpawnMoreLanders();
 	void SpawnLanders(int count);

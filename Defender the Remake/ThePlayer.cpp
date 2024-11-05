@@ -39,6 +39,31 @@ void ThePlayer::SetRadarModel(Model model)
 	Radar->SetModel(model);
 }
 
+void ThePlayer::SetFireSound(Sound sound)
+{
+	FireSound = sound;
+}
+
+void ThePlayer::SetExplosionSound(Sound sound)
+{
+	ExplodeSound = sound;
+}
+
+void ThePlayer::SetThrustSound(Sound sound)
+{
+	ThrustSound = sound;
+}
+
+void ThePlayer::SetSmartbombSound(Sound sound)
+{
+	SmartbombSound = sound;
+}
+
+void ThePlayer::SetBonusSound(Sound sound)
+{
+	BonusSound = sound;
+}
+
 bool ThePlayer::Initialize(Utilities* utilities)
 {
 	Model3D::Initialize(utilities);
@@ -85,6 +110,12 @@ bool ThePlayer::BeginRun()
 	{
 		shot->BeginRun();
 	}
+
+	SetSoundPitch(ExplodeSound, 0.75f);
+	SetSoundVolume(ThrustSound, 0.75f);
+	SetSoundVolume(FireSound, 0.5f);
+	SetSoundVolume(SmartbombSound, 0.5f);
+
 
 	Reset();
 
@@ -164,20 +195,23 @@ void ThePlayer::Reset()
 {
 	Position = { 0, 0, 0 };
 	Velocity = { 0, 0, 0 };
+	Acceleration = { 0, 0, 0 };
+	RotationY = (PI * 2);
 	Enabled = true;
 	BeenHit = false;
-	ThrustOff();
-	Position = { 0, 0, 0 };
-	Velocity = { 0, 0, 0 };
-	Acceleration = { 0, 0, 0 };
 	FacingRight = true;
-	RotationY = (PI * 2);
 	Enabled = true;
 	Radar->Enabled = true;
 	CollusionBack->Enabled = true;
 	CollusionMidFront->Enabled = true;
 	CollusionFront->Enabled = true;
 	CollusionTip->Enabled = true;
+	ThrustOff();
+
+	for (const auto& shot : Shots)
+	{
+		shot->Reset();
+	}
 }
 
 void ThePlayer::NewGame()
@@ -191,6 +225,8 @@ void ThePlayer::NewGame()
 
 void ThePlayer::Thrust()
 {
+	if (!IsSoundPlaying(ThrustSound)) PlaySound(ThrustSound);
+
 	Flame->RotationVelocityX = 35.0f;
 
 	if (FacingRight)
@@ -215,6 +251,7 @@ void ThePlayer::ThrustOff()
 	}
 
 	Flame->Enabled = false;
+	StopSound(ThrustSound);
 }
 
 void ThePlayer::Reverse()
@@ -327,6 +364,8 @@ void ThePlayer::Fire()
 	for (auto shot : Shots)
 	{
 		if (shot->Enabled) continue;
+
+		PlaySound(FireSound);
 
 		shot->PlayerSpawn(Position, Velocity, FacingRight);
 		return;
