@@ -136,7 +136,7 @@ protected:
 
 private:
 	Ray TheRay = { 0 };
-	RayCollision TheRayCollision = { 0 };
+	//RayCollision TheRayCollision = { 0 };
 
 	float RadianSpin(float radian);
 	float AddRotationVelAcc(float rotation, float rotationVelocity,

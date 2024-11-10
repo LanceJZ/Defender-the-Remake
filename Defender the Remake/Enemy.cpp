@@ -73,7 +73,7 @@ bool Enemy::CheckCollision()
 	{
 		if (!shot->Enabled)	continue;
 
-		if (shot->CirclesIntersectBullet(*this))
+		if (shot->CirclesIntersectBullet(*this) || shot->CirclesIntersect(*this))
 		{
 			shot->Reset();
 			Hit();
@@ -131,14 +131,14 @@ void Enemy::Hit()
 
 	Particles.SpawnCubes(Position,
 		Vector3Multiply(Velocity, { 0.25f, 0.25f, 0.25f }),
-		Radius, 100.0f, 10.0f, 3.0f, color);
+		Radius, 100.0f, 10, 3.0f, color);
 	Particles.SpawnCubes(mirrorL,
 		Vector3Multiply(Velocity, { 0.25f, 0.25f, 0.25f }),
-		Radius, 100.0f, 10.0f, 3.0f, color);
+		Radius, 100.0f, 10, 3.0f, color);
 
 	Particles.SpawnCubes(mirrorR,
 		Vector3Multiply(Velocity, { 0.25f, 0.25f, 0.25f }),
-		Radius, 100.0f, 10.0f, 3.0f, color);
+		Radius, 100.0f, 10, 3.0f, color);
 }
 
 void Enemy::Reset()

@@ -141,7 +141,7 @@ bool Entity::CirclesIntersect(Vector3 targetPosition, float targetRadius)
 /// <returns>bool</returns>
 bool Entity::CirclesIntersect(Entity& target)
 {
-	if (!target.Enabled) return false;
+	if (!target.Enabled || !Enabled) return false;
 
 	return CirclesIntersect(target.Position, (target.Radius * target.Scale));
 }
@@ -155,41 +155,55 @@ bool Entity::CirclesIntersectBullet(Entity& target)
 
 	if (Velocity.x > 0)
 	{
-		TheRay.direction.x = 1;
+		TheRay.direction.x = 1.0f;
 	}
 	else if (Velocity.x < 0)
 	{
-		TheRay.direction.x = -1;
+		TheRay.direction.x = -1.0f;
 	}
 
 	if (Velocity.y > 0)
 	{
-		TheRay.direction.y = 1;
+		TheRay.direction.y = 1.0f;
 	}
 	else if (Velocity.y < 0)
 	{
-		TheRay.direction.y = -1;
+		TheRay.direction.y = -1.0f;
 	}
 
-	TheRayCollision = GetRayCollisionSphere(TheRay,	target.Position, target.Radius);
+	RayCollision rayCollision = GetRayCollisionSphere(TheRay,
+		target.Position, (target.Radius * target.Scale));
 
-	if (TheRayCollision.hit)
+	if (rayCollision.hit)
 	{
-		float distance = (Position.x - LastFramePosition.x) +
-			(Position.y - LastFramePosition.y);
+		float distance = Vector3Distance(Position, LastFramePosition);
 
 		if (distance < 0) distance *= -1;
 
-		if (TheRayCollision.distance > 0)
+		if (rayCollision.distance > 0)
 		{
-			if (TheRayCollision.distance > distance) return false;
+			if (rayCollision.distance > Radius)
+			{
+				return false;
+			}
 		}
 		else
 		{
-			if (TheRayCollision.distance * -1 > distance) return false;
+			if (rayCollision.distance * -1 > Radius)
+			{
+				return false;
+			}
 		}
 
-		return true;
+		//TODO: Check each point from the Last frame to This frame.
+
+		for (int i = 0; i < distance; i++)
+		{
+			Vector3 point = { Position.x - LastFramePosition.x + i,
+				Position.y - LastFramePosition.y + i, 0 };
+
+			if (target.CirclesIntersect(point, Radius)) return true;
+		}
 	}
 
 	return false;

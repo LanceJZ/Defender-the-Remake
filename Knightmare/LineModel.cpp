@@ -57,7 +57,8 @@ void LineModel::Draw3D()
 	for (int i = 0; i < LinePoints.size() - 1; i++)
 	{
 		rlVertex3f(LinePoints[i].x, LinePoints[i].y, LinePoints[i].z);
-		rlVertex3f(
+		rlVertex3f
+		(
 			LinePoints[static_cast<std::vector<Vector3,
 			std::allocator<Vector3>>::size_type>(i) + 1].x,
 			LinePoints[static_cast<std::vector<Vector3,

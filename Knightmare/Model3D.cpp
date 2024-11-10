@@ -79,13 +79,6 @@ void Model3D::Draw3D()
 		if (IsChild)
 		{
 			Vector3 parentTest = GetWorldPosition();
-			//float radius = 0;
-
-			//for (const auto &parent : *Parents)
-			//{
-			//	//parentTest = Vector3Add(parent->GetWorldPosition(), parentTest);
-			//	radius += parent->VerticesSize;
-			//}
 
 			if (TheCamera3D->position.x > parentTest.x + VerticesSize +
 				ViewableArea.x || TheCamera3D->position.x < parentTest.x +

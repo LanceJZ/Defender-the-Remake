@@ -81,13 +81,13 @@ void TheLander::Spawn(Vector3 position)
 	SeekTimerAmountMin = 5.25f;
 	SeekTimerAmountMax = 15.5f;
 	SeekTimerChance = 10;
+
+	Managers.EM.ResetTimer(ShotTimerID, GetRandomFloat(10.15f, 15.75f));
 }
 
 void TheLander::Reset()
 {
 	Enemy::Reset();
-
-
 
 	Destroy();
 }
@@ -111,7 +111,7 @@ void TheLander::GoToSeek()
 
 	if (Managers.EM.TimerElapsed(ShotTimerID))
 	{
-		Managers.EM.ResetTimer(ShotTimerID, GetRandomFloat(2.75f, 4.75f));
+		Managers.EM.ResetTimer(ShotTimerID, GetRandomFloat(8.25f, 14.75f));
 		FireShot();
 	}
 
@@ -160,7 +160,7 @@ void TheLander::SeekPersonMan()
 
 	if (Managers.EM.TimerElapsed(ShotTimerID))
 	{
-		Managers.EM.ResetTimer(ShotTimerID, GetRandomFloat(2.0f, 3.5f));
+		Managers.EM.ResetTimer(ShotTimerID, GetRandomFloat(2.15f, 4.5f));
 		FireShot();
 	}
 }

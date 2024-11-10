@@ -60,9 +60,9 @@ void TheBaiter::Spawn(Vector3 position)
 	ChangeSpeed();
 
 	Position.x = Player->X();
-	Position.y = WindowHeight + 15.0f;
+	Position.y = -WindowHeight - Radius;
 
-	Velocity.y = -YVelocity;
+	Velocity.y = YVelocity;
 	Velocity.x = (Player->X() + 0.1f) * -1;
 }
 
