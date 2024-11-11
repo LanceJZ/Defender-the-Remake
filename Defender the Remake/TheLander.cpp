@@ -9,6 +9,11 @@ TheLander::~TheLander()
 {
 }
 
+void TheLander::SetPersonGrabbedSound(Sound sound)
+{
+	PersonGrabbedSound = sound;
+}
+
 void TheLander::SetPeople(ThePerson* people[10])
 {
 	for (int i = 0; i < 10; i++)
@@ -20,6 +25,8 @@ void TheLander::SetPeople(ThePerson* people[10])
 bool TheLander::Initialize(Utilities* utilities)
 {
 	Enemy::Initialize(utilities);
+
+	Points = 150;
 
 	return false;
 }
@@ -82,7 +89,7 @@ void TheLander::Spawn(Vector3 position)
 	SeekTimerAmountMax = 15.5f;
 	SeekTimerChance = 10;
 
-	Managers.EM.ResetTimer(ShotTimerID, GetRandomFloat(10.15f, 15.75f));
+	Managers.EM.ResetTimer(ShotTimerID, GetRandomFloat(15.15f, 25.75f));
 }
 
 void TheLander::Reset()
@@ -111,7 +118,7 @@ void TheLander::GoToSeek()
 
 	if (Managers.EM.TimerElapsed(ShotTimerID))
 	{
-		Managers.EM.ResetTimer(ShotTimerID, GetRandomFloat(8.25f, 14.75f));
+		Managers.EM.ResetTimer(ShotTimerID, GetRandomFloat(10.25f, 15.75f));
 		FireShot();
 	}
 
@@ -160,7 +167,7 @@ void TheLander::SeekPersonMan()
 
 	if (Managers.EM.TimerElapsed(ShotTimerID))
 	{
-		Managers.EM.ResetTimer(ShotTimerID, GetRandomFloat(2.15f, 4.5f));
+		Managers.EM.ResetTimer(ShotTimerID, GetRandomFloat(5.15f, 8.75f));
 		FireShot();
 	}
 }
@@ -173,9 +180,10 @@ void TheLander::GoingDown()
 		Velocity.x = distanceX * 2.5f;
 	}
 
-	if (Y() + 25 > People[PersonTargetID]->Y() && Y() - 25 < People[PersonTargetID]->Y())
+	if (Vector3Distance(People[PersonTargetID]->Position, Position) < 25.0f)
 	{
 		State = LanderStateList::TakePersonMan;
+		PlaySound(PersonGrabbedSound);
 		Velocity.y = GetRandomFloat(-60.0f, -40.0f);
 		Velocity.x = 0.0f;
 	}
@@ -216,17 +224,17 @@ void TheLander::SpawnMutant()
 	}
 }
 
-bool TheLander::CheckCollision()
-{
-	Enemy::CheckCollision();
-
-	return false;
-}
-
 void TheLander::Destroy()
 {
 	Enemy::Destroy();
 
 	MutateLander = false;
 	State = LanderStateList::LoweringToSeek;
+}
+
+bool TheLander::CheckCollision()
+{
+	Enemy::CheckCollision();
+
+	return false;
 }

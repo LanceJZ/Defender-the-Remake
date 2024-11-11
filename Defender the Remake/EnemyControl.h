@@ -56,6 +56,8 @@ public:
 	void SetPodExplodeSound(Sound sound);
 	void SetSwarmerExplodeSound(Sound sound);
 	void SetSwarmerFireSound(Sound sound);
+	void SetPersonGrabbedSound(Sound sound);
+	void SetPersonDroppedSound(Sound sound);
 
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
@@ -97,6 +99,8 @@ private:
 	Sound PodExplodeSound = { 0 };
 	Sound SwarmerExplodeSound = { 0 };
 	Sound SwarmerFireSound = { 0 };
+	Sound PersonGrabbedSound = { 0 };
+	Sound PersonDroppedSound = { 0 };
 
 	Model LanderModel = { 0 };
 	Model MutantModel = { 0 };

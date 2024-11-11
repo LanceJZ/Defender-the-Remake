@@ -98,6 +98,14 @@ bool Game::Load()
 	Enemies->SetPodExplodeSound(Managers.CM.LoadAndGetSound("Pod Explode"));
 	Enemies->SetSwarmerExplodeSound(Managers.CM.LoadAndGetSound("Swarmer Explode"));
 	Enemies->SetSwarmerFireSound(Managers.CM.LoadAndGetSound("Swarmer Fire"));
+	Enemies->SetPersonDroppedSound(Managers.CM.LoadAndGetSound("Person Dropped"));
+	Enemies->SetPersonGrabbedSound(Managers.CM.LoadAndGetSound("Person Grabbed"));
+
+	Logic->SetPersonCaughtSound(Managers.CM.LoadAndGetSound("Person Caught"));
+	Logic->SetPersonDroppedSound(Managers.CM.LoadAndGetSound("Person Dropped"));
+	Logic->SetPersonGrabbedSound(Managers.CM.LoadAndGetSound("Person Grabbed"));
+	Logic->SetPersonLandedSound(Managers.CM.LoadAndGetSound("Person Landed"));
+	Logic->SetPersonSplatSound(Managers.CM.LoadAndGetSound("Person Splat"));
 
 	return true;
 }
@@ -164,6 +172,7 @@ void Game::Draw3D()
 
 void Game::Draw2D()
 {
+	Managers.EM.Draw2D();
 }
 
 void Game::GameInput()

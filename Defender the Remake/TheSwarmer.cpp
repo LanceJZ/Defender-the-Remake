@@ -23,6 +23,8 @@ bool TheSwarmer::BeginRun()
 {
 	Enemy::BeginRun();
 
+	Points = 150;
+
 	return false;
 }
 

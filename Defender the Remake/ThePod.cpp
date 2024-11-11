@@ -19,6 +19,8 @@ bool ThePod::BeginRun()
 {
 	Enemy::BeginRun();
 
+	Points = 1000;
+
 	return false;
 }
 

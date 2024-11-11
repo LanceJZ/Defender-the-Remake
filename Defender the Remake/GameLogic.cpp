@@ -32,6 +32,31 @@ void GameLogic::SetPersonRadarModel(Model model)
 	PersonRadarModel = model;
 }
 
+void GameLogic::SetPersonGrabbedSound(Sound sound)
+{
+	PersonGrabbedSound = sound;
+}
+
+void GameLogic::SetPersonDroppedSound(Sound sound)
+{
+	PersonDroppedSound = sound;
+}
+
+void GameLogic::SetPersonCaughtSound(Sound sound)
+{
+	PersonCaughtSound = sound;
+}
+
+void GameLogic::SetPersonLandedSound(Sound sound)
+{
+	PersonLandedSound = sound;
+}
+
+void GameLogic::SetPersonSplatSound(Sound sound)
+{
+	PersonSplatSound = sound;
+}
+
 bool GameLogic::Initialize(Utilities* utilities)
 {
 	Common::Initialize(utilities);
@@ -54,6 +79,7 @@ bool GameLogic::BeginRun()
 
 	SetupPersonMan();
 	SpawnPersonMan(10);
+	Wave = 1;
 
 	return true;
 }
@@ -79,7 +105,6 @@ void GameLogic::Update()
 	}
 
 	UpdatePersonMan();
-
 }
 
 void GameLogic::EndOfWave()
@@ -95,8 +120,7 @@ void GameLogic::EndOfWave()
 		}
 	}
 
-	//	Score->AddToScore(NumberOfPeopleAlive * (100 * Data->Wave));
-
+	Player->ScoreUpdate(NumberOfPeopleAlive * (100 * Wave));
 }
 
 void GameLogic::UpdatePersonMan()
@@ -130,6 +154,10 @@ void GameLogic::SetupPersonMan()
 		person->SetPlayer(Player);
 		person->SetModel(PersonModel);
 		person->SetRadarModel(PersonRadarModel);
+		person->SetCaughtSound(PersonCaughtSound);
+		person->SetLandedSound(PersonLandedSound);
+		person->SetSplatSound(PersonSplatSound);
+		person->SetDroppedSound(PersonDroppedSound);
 		person->BeginRun();
 	}
 }
@@ -143,5 +171,4 @@ void GameLogic::PlayerHitReset()
 void GameLogic::ResetField()
 {
 	Enemies->ResetField();
-	//TheManagers.PM.Reset();
 }

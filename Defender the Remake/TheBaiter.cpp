@@ -23,6 +23,8 @@ bool TheBaiter::BeginRun()
 {
 	Enemy::BeginRun();
 
+	Points = 200;
+
 	return false;
 }
 

@@ -3,6 +3,7 @@
 #include "Common.h"
 #include "Utilities.h"
 #include "Shot.h"
+#include "TheScore.h"
 
 class ThePlayer : public Model3D
 {
@@ -15,11 +16,11 @@ public:
 	bool SmartBombFired = false;
 	bool EnemyUpdate = false;
 
-	int Score { 0 };
-	int HighScore { 0 };
 	int Lives { 0 };
 
 	Shot* Shots[4] = { nullptr };
+
+	TheScore* Score;
 
 	void SetShotModels(Model shotModel, Model tailModel);
 	void SetFlameModel(Model model);

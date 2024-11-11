@@ -30,6 +30,8 @@ public:
 protected:
 	size_t ShotTimerID = 0;
 
+	int Points = 0;
+
 	Sound FireSound = {};
 	Sound ExplodeSound = {};
 

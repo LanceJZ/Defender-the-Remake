@@ -19,6 +19,8 @@ bool TheBomber::BeginRun()
 {
 	Enemy::BeginRun();
 
+	Points = 250;
+
 	return false;
 }
 

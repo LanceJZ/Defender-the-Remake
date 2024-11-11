@@ -142,6 +142,16 @@ void EnemyControl::SetSwarmerFireSound(Sound sound)
 	SwarmerFireSound = sound;
 }
 
+void EnemyControl::SetPersonGrabbedSound(Sound sound)
+{
+	PersonGrabbedSound = sound;
+}
+
+void EnemyControl::SetPersonDroppedSound(Sound sound)
+{
+	PersonDroppedSound = sound;
+}
+
 bool EnemyControl::Initialize(Utilities* utilities)
 {
 	Common::Initialize(utilities);

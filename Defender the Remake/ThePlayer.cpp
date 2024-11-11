@@ -10,6 +10,8 @@ ThePlayer::ThePlayer()
 	Managers.EM.AddModel3D(Flame = DBG_NEW Model3D());
 	Managers.EM.AddModel3D(Radar = DBG_NEW Model3D());
 
+	Managers.EM.AddOnScreenText(Score = DBG_NEW TheScore());
+
 	for (int i = 0; i < 4; i++)
 	{
 		Managers.EM.AddModel3D(Shots[i] = DBG_NEW Shot());
@@ -141,7 +143,7 @@ void ThePlayer::Update(float deltaTime)
 	if (RotateFacing)
 		RotateShipFacing();
 
-	ScreenEdgeBoundY(GetScreenHeight() * 0.15f, VerticesSize * 0.5f);
+	ScreenEdgeBoundY(GetScreenHeight() * 0.15f, CollusionBack->Radius * 2.0f);
 	CheckPlayfieldSidesWarp(7.0f, 7.0f);
 
 	HorizontalFriction();
@@ -176,14 +178,9 @@ void ThePlayer::Hit()
 
 void ThePlayer::ScoreUpdate(int addToScore)
 {
-	Score += addToScore;
+	Score->AddToScore(addToScore);
 
-	if (Score > HighScore)
-	{
-		HighScore = Score;
-	}
-
-	if (Score > NextNewLifeScore)
+	if (Score->GetScore() > NextNewLifeScore)
 	{
 		NextNewLifeScore += 10000;
 		Lives++;
@@ -218,8 +215,8 @@ void ThePlayer::NewGame()
 {
 	Lives = 4;
 	NextNewLifeScore = 10000;
-	Score = 0;
 	GameOver = false;
+	Score->ClearScore();
 	Reset();
 }
 

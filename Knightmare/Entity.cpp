@@ -121,8 +121,7 @@ bool Entity::CirclesIntersect(Vector3 targetPosition, float targetRadius)
 {
 	if (!Enabled) return false;
 
-	Vector2 distance = { targetPosition.x - Position.x,
-		targetPosition.y - Position.y };
+	Vector3 distance = Vector3Subtract(targetPosition, Position);
 
 	float radius = (Radius * Scale) + targetRadius;
 
@@ -239,14 +238,17 @@ bool Entity::ScreenEdgeBoundY(float topOffset, float bottomOffset)
 {
 	bool hitBound = false;
 
-	if (Y() > WindowHeight - bottomOffset - VerticesSize)
+	float top = topOffset + Radius;
+	float bottom = bottomOffset + Radius;
+
+	if (Y() > WindowHeight - bottom)
 	{
-		Y(WindowHeight - bottomOffset - VerticesSize);
+		Y(WindowHeight - bottom);
 		hitBound = true;
 	}
-	else if (Y() < -WindowHeight + topOffset + VerticesSize)
+	else if (Y() < -WindowHeight + top)
 	{
-		Y(-WindowHeight + topOffset + VerticesSize);
+		Y(-WindowHeight + top);
 		hitBound = true;
 	}
 

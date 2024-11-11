@@ -30,6 +30,12 @@ public:
 	void SetPersonModel(Model model);
 	void SetPersonRadarModel(Model model);
 
+	void SetPersonGrabbedSound(Sound sound);
+	void SetPersonDroppedSound(Sound sound);
+	void SetPersonCaughtSound(Sound sound);
+	void SetPersonLandedSound(Sound sound);
+	void SetPersonSplatSound(Sound sound);
+
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
 
@@ -51,8 +57,15 @@ private:
 
 	GameState State = MainMenu;
 
+	Sound PersonGrabbedSound = { 0 };
+	Sound PersonDroppedSound = { 0 };
+	Sound PersonCaughtSound = { 0 };
+	Sound PersonLandedSound = { 0 };
+	Sound PersonSplatSound = { 0 };
+
 	Model PersonModel = { 0 };
 	Model PersonRadarModel = { 0 };
+
 	ThePlayer* Player = {};
 	EnemyControl* Enemies = {};
 	ThePerson* People[10] = { nullptr };

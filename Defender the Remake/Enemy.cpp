@@ -78,6 +78,8 @@ bool Enemy::CheckCollision()
 			shot->Reset();
 			Hit();
 
+			Player->ScoreUpdate(Points);
+
 			return true;
 		}
 	}
@@ -122,7 +124,6 @@ void Enemy::Hit()
 	BeenHit = true;
 	Player->EnemyUpdate = true;
 	if (!Player->GameOver) PlaySound(ExplodeSound);
-	//Score->AddToScore(ScoreAmount);
 
 	float mirrorMultiplier = GetScreenWidth() * 7.0f;
 	Color color = { 200, 150, 255, 255 };

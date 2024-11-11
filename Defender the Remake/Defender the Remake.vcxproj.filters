@@ -63,6 +63,9 @@
     <ClCompile Include="MirrorRadar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TheScore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -112,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="MirrorRadar.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TheScore.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

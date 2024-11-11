@@ -8,6 +8,26 @@ ThePerson::~ThePerson()
 {
 }
 
+void ThePerson::SetCaughtSound(Sound sound)
+{
+	CaughtSound = sound;
+}
+
+void ThePerson::SetSplatSound(Sound sound)
+{
+	SplatSound = sound;
+}
+
+void ThePerson::SetLandedSound(Sound sound)
+{
+	LandedSound = sound;
+}
+
+void ThePerson::SetDroppedSound(Sound sound)
+{
+	DroppedSound = sound;
+}
+
 bool ThePerson::Initialize(Utilities* utilities)
 {
 	MirrorRadar::Initialize(utilities);
@@ -46,6 +66,7 @@ void ThePerson::Spawn(Vector3 position)
 
 void ThePerson::Dropped()
 {
+	PlaySound(DroppedSound);
 	State = PersonState::GoingDown;
 	Velocity.y = 0.0f;
 	Acceleration.y = 0.15f;
@@ -78,16 +99,16 @@ void ThePerson::Falling()
 
 		if (DroppedY < 0)
 		{
-			//Managers.PM.SpawnExplosion(Position, { 0.25f, 0.25f, 0.25f },
-			//	VerticesSize, 20.0f, 100, 5.0f, { 255, 80, 70, 255 });
-			//PlaySound(SplatSound);
+			Particles.SpawnCubes(Position, { 0.25f, 0.25f, 0.25f },
+				VerticesSize, 20.0f, 100, 5.0f, { 255, 80, 70, 255 });
+			PlaySound(SplatSound);
 			Destroy();
 			Player->EnemyUpdate = true;
 		}
 		else
 		{
-			//PlaySound(LandedSound);
-			//Score->AddToScore(ScoreLandedAmount);
+			PlaySound(LandedSound);
+			Player->ScoreUpdate(PointsLanded);
 		}
 	}
 
@@ -101,8 +122,8 @@ void ThePerson::GoingForARide()
 
 	if (Y() > SpawnY - (VerticesSize * 3.0f))
 	{
-		//PlaySound(LeftSound);
-		//Score->AddToScore(ScoreDroppedAmount);
+		PlaySound(LandedSound);
+		Player->ScoreUpdate(PointsPlayerDroppedOff);
 		State = OnGround;
 		Y(SpawnY);
 	}
@@ -111,13 +132,14 @@ void ThePerson::GoingForARide()
 
 void ThePerson::CheckCollision()
 {
-	if (CirclesIntersect(*Player) && Player->Enabled)
+	if (!Player->Enabled) return;
+
+	if (CirclesIntersect(*Player))
 	{
-		//PlaySound(CaughtSound);
-		//Score->AddToScore(ScoreCaughtAmount);
+		PlaySound(CaughtSound);
+		Player->ScoreUpdate(PointsCaught);
 		State = CaughtByPlayer;
 		Velocity.y = 0;
 		Acceleration.y = 0;
 	}
-
 }

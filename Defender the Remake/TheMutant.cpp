@@ -14,6 +14,7 @@ bool TheMutant::Initialize(Utilities* utilities)
 	Enemy::Initialize(utilities);
 
 	WorldWidth = FieldSize.x * 0.5f;
+	Points = 150;
 
 	return true;
 }
