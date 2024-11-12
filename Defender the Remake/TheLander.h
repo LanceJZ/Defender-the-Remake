@@ -20,6 +20,7 @@ public:
 	bool MutateLander = false;
 
 	void SetPersonGrabbedSound(Sound sound);
+	void SetMutateSound(Sound sound);
 
 	void SetPeople(ThePerson* people[10]);
 	bool Initialize(Utilities* utilities);

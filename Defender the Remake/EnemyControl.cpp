@@ -487,6 +487,8 @@ void EnemyControl::SpawnLanders(int count)
 			Landers[landerSpawnNumber]->SetRadarModel(RadarLanderModel);
 			Landers[landerSpawnNumber]->SetFireSound(FireSound);
 			Landers[landerSpawnNumber]->SetExplodeSound(ExplodeSound);
+			Landers[landerSpawnNumber]->SetPersonGrabbedSound(PersonGrabbedSound);
+			Landers[landerSpawnNumber]->SetMutateSound(LanderMutateSound);
 		}
 
 		Landers[landerSpawnNumber]->Spawn({ 0.0f });

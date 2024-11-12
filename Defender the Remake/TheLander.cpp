@@ -14,6 +14,11 @@ void TheLander::SetPersonGrabbedSound(Sound sound)
 	PersonGrabbedSound = sound;
 }
 
+void TheLander::SetMutateSound(Sound sound)
+{
+	MutateSound = sound;
+}
+
 void TheLander::SetPeople(ThePerson* people[10])
 {
 	for (int i = 0; i < 10; i++)
@@ -202,6 +207,7 @@ void TheLander::GrabPersonMan()
 	if (Y() < -FieldSize.y * 0.333f)
 	{
 		State = LanderStateList::Mutate;
+		PlaySound(MutateSound);
 		Velocity.y = 0.0f;
 		People[PersonTargetID]->Velocity.y = -60.0f;
 	}
