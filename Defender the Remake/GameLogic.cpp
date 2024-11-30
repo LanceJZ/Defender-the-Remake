@@ -63,7 +63,7 @@ bool GameLogic::Initialize(Utilities* utilities)
 
 	AdjustedFieldSize = Vector2Multiply(FieldSize, { 0.5f, 0.5f });
 
-	for (auto person : People)
+	for (const auto& person : People)
 	{
 		person->Initialize(utilities);
 	}
@@ -96,7 +96,7 @@ void GameLogic::Update()
 
 	if (Player->BeenHit)
 	{
-		 PlayerHitReset();
+		if (!Particles.GetParticlesActive()) PlayerHitReset();
 	}
 
 	if (Player->SmartBombFired)
@@ -112,7 +112,7 @@ void GameLogic::EndOfWave()
 	Enemies->WaveEnded = false;
 	NumberOfPeopleAlive = 0;
 
-	for (auto& person : People)
+	for (const auto& person : People)
 	{
 		if (person->Enabled)
 		{
@@ -127,7 +127,7 @@ void GameLogic::UpdatePersonMan()
 {
 	Enemies->NoMorePeople = true;
 
-	for (auto& person : People)
+	for (const auto& person : People)
 	{
 		if (person->Enabled)
 		{
@@ -149,7 +149,7 @@ void GameLogic::SpawnPersonMan(int count)
 
 void GameLogic::SetupPersonMan()
 {
-	for (auto person : People)
+	for (const auto& person : People)
 	{
 		person->SetPlayer(Player);
 		person->SetModel(PersonModel);
@@ -165,7 +165,7 @@ void GameLogic::SetupPersonMan()
 void GameLogic::PlayerHitReset()
 {
 	Enemies->ResetField();
-	Player->BeenHit = false;
+	Player->Reset();
 }
 
 void GameLogic::ResetField()

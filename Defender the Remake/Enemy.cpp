@@ -69,7 +69,7 @@ void Enemy::FireShot()
 
 bool Enemy::CheckCollision()
 {
-	for (auto &shot : Player->Shots)
+	for (const auto &shot : Player->Shots)
 	{
 		if (!shot->Enabled)	continue;
 
@@ -79,6 +79,32 @@ bool Enemy::CheckCollision()
 			Hit();
 
 			Player->ScoreUpdate(Points);
+
+			return true;
+		}
+	}
+
+	if (!Player->Enabled) return false;
+
+	if (Player->GetCollusion(*this))
+	{
+		Hit();
+
+		Player->Hit();
+		Player->ScoreUpdate(Points);
+
+		return true;
+	}
+
+	for (const auto& shot : Shots)
+	{
+		if (!shot->Enabled) continue;
+
+		if (Player->GetCollusion(*shot))
+		{
+			Player->Hit();
+
+			shot->Reset();
 
 			return true;
 		}

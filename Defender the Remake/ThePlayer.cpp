@@ -144,7 +144,8 @@ void ThePlayer::Update(float deltaTime)
 		RotateShipFacing();
 
 	ScreenEdgeBoundY(GetScreenHeight() * 0.15f, CollusionBack->Radius * 2.0f);
-	CheckPlayfieldSidesWarp(7.0f, 7.0f);
+
+	if (CheckPlayfieldSidesWarp(7.0f, 7.0f)) SideWarped = true;
 
 	HorizontalFriction();
 
@@ -165,8 +166,29 @@ bool ThePlayer::GetCollusion(Entity& target)
 
 void ThePlayer::Hit()
 {
+	Vector3 velocity = Vector3Multiply(Velocity, { 0.1f, 0.1f, 0.1f });
+
+	Particles.SpawnCubes(Position, velocity,
+		VerticesSize, 70.0f, 200, 5.0f, { 255, 20, 80, 255 });
+
+	Particles.SpawnCubes(CollusionBack->GetWorldPosition(),
+		velocity,
+		VerticesSize, 60.0f, 200, 5.0f, { 255, 0, 100, 255 });
+	Particles.SpawnCubes(CollusionMidFront->GetWorldPosition(),
+		velocity,
+		VerticesSize, 80.0f, 200, 5.0f, { 155, 80, 200, 255 });
+	Particles.SpawnCubes(CollusionFront->GetWorldPosition(),
+		velocity,
+		VerticesSize, 30.0f, 200, 5.0f, { 55, 80, 70, 255 });
+	Particles.SpawnCubes(CollusionTip->GetWorldPosition(),
+		velocity,
+		VerticesSize, 40.0f, 200, 5.0f, { 255, 0, 170, 255 });
+
+	PlaySound(ExplodeSound);
+
 	Acceleration = { 0 };
 	Velocity = { 0 };
+	RotationVelocityY = 0;
 	Lives--;
 	Enabled = false;
 	BeenHit = true;
@@ -174,6 +196,7 @@ void ThePlayer::Hit()
 	CollusionMidFront->Enabled = false;
 	CollusionFront->Enabled = false;
 	CollusionTip->Enabled = false;
+	Flame->Enabled = false;
 }
 
 void ThePlayer::ScoreUpdate(int addToScore)
@@ -194,6 +217,7 @@ void ThePlayer::Reset()
 	Velocity = { 0, 0, 0 };
 	Acceleration = { 0, 0, 0 };
 	RotationY = (PI * 2);
+	RotationVelocityY = 0;
 	Enabled = true;
 	BeenHit = false;
 	FacingRight = true;
@@ -203,6 +227,7 @@ void ThePlayer::Reset()
 	CollusionMidFront->Enabled = true;
 	CollusionFront->Enabled = true;
 	CollusionTip->Enabled = true;
+	Spawned = true;
 	ThrustOff();
 
 	for (const auto& shot : Shots)

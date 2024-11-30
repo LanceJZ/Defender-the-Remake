@@ -119,7 +119,7 @@ public:
 	void CheckScreenEdgeY();
 	void LeavePlay(float turnSpeed, float speed);
 	void CheckPlayfieldSidesWarp();
-	void CheckPlayfieldSidesWarp(float left, float right);
+	bool CheckPlayfieldSidesWarp(float left, float right);
 	void CheckPlayfieldHeightWarp(float top, float bottom);
 
 protected:

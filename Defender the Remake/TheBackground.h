@@ -21,30 +21,26 @@ public:
 
 	void Update();
 
+	void PlaceAllTheStars();
 	void AllThePersonManDead();
 	void AllThePersonManNotDead();
 	void NewLevel();
 
 private:
+	struct Star : public Model3D
+	{
+		float RelativeVelocity = 0.0f;
+	};
+
 	bool AllNotDead = true;
 	size_t StarsTimerID = 0;
 	int NumberOfStars = 0;
 	float LandRadarScale = 0.3167f;
 
-	struct Star
-	{
-		size_t ID = {};
-		size_t EdgeID = {};
-	};
-
-	std::vector<Star> StarsOffREdge;
-	std::vector<Star> StarsOffLEdge;
-
 	Model StarModel = {};
 
 	Model3D* LandParts[9] = { nullptr };
 	Model3D* RadarLandParts[14] = { nullptr };
-	//Model3D* AllTheStars[200] = { nullptr };
 	Model3D* UIBackfaceR = nullptr;
 	Model3D* UIBackfaceL = nullptr;
 	Model3D* RadarBottom = nullptr;
@@ -52,12 +48,11 @@ private:
 	Model3D* RadarLeft = nullptr;
 	Model3D* RadarRight = nullptr;
 
-	std::vector<Model3D*> AllTheStars;
+	std::vector<Star*> AllTheStars;
 
 	ThePlayer* Player = nullptr;
 
 	float UpdateRadar(float x);
-	void PlaceAllTheStars();
 	void ChangeTheStars();
+	void ParallaxTheStars();
 };
-

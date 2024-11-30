@@ -121,7 +121,10 @@ bool Entity::CirclesIntersect(Vector3 targetPosition, float targetRadius)
 {
 	if (!Enabled) return false;
 
-	Vector3 distance = Vector3Subtract(targetPosition, Position);
+	Vector3 distance = {};
+
+	if (!IsChild) distance = Vector3Subtract(targetPosition, Position);
+	else distance = Vector3Subtract(targetPosition, GetWorldPosition());
 
 	float radius = (Radius * Scale) + targetRadius;
 
@@ -663,16 +666,22 @@ void Entity::CheckPlayfieldSidesWarp()
 	if (X() < -WindowWidth) X(WindowWidth);
 }
 
-void Entity::CheckPlayfieldSidesWarp(float left, float right)
+bool Entity::CheckPlayfieldSidesWarp(float left, float right)
 {
+	bool warped = false;
+
 	if (X() > WindowWidth * right)
 	{
 		X(-WindowWidth * left);
+		warped = true;
 	}
 	else if (X() < -WindowWidth * left)
 	{
 		X(WindowWidth * right);
+		warped = true;
 	}
+
+	return warped;
 }
 
 void Entity::CheckPlayfieldHeightWarp(float top, float bottom)

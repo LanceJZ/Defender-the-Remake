@@ -32,23 +32,6 @@ void LineModel::Draw3D()
 	}
 
 	BeforeCalculate();
-
-	if (IsChild)
-	{
-		for (auto &parent : *Parents)
-		{
-			rlTranslatef(parent->Position.x, parent->Position.y, Position.z);
-
-			if (!RotationLocked)
-			{
-				rlRotatef(parent->RotationX, 1, 0, 0);
-				rlRotatef(parent->RotationY, 0, 1, 0);
-				rlRotatef(parent->RotationZ, 0, 0, 1);
-			}
-		}
-
-	}
-
 	CalculateWorldVectors();
 
 	rlBegin(RL_LINES);

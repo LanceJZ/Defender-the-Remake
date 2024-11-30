@@ -115,7 +115,20 @@ bool TheBackground::BeginRun()
 	RadarRight->Position = RadarBottom->Position;
 	RadarRight->HideCollision = true;
 
-	if (StarsOffREdge.size() == 0) PlaceAllTheStars();
+	NumberOfStars = 75;
+
+	for (int i = 0; i < NumberOfStars; i++)
+	{
+		AllTheStars.push_back(DBG_NEW Star());
+		Managers.EM.AddModel3D(AllTheStars.back());
+		AllTheStars[i]->SetModel(StarModel);
+		AllTheStars[i]->HideCollision = true;
+		AllTheStars[i]->Scale = 2.5f;
+		AllTheStars[i]->RelativeVelocity = GetRandomFloat(0.85f, 0.99f);
+	}
+
+	PlaceAllTheStars();
+	ChangeTheStars();
 
 	return false;
 }
@@ -153,11 +166,19 @@ void TheBackground::Update()
 		}
 	}
 
+	if (Player->Spawned)
+	{
+		PlaceAllTheStars();
+		Player->Spawned = false;
+	}
+
 	if (Managers.EM.TimerElapsed(StarsTimerID))
 	{
 		Managers.EM.ResetTimer(StarsTimerID, GetRandomFloat(0.25f, 0.75f));
 		ChangeTheStars();
 	}
+
+	ParallaxTheStars();
 }
 
 void TheBackground::AllThePersonManDead()
@@ -172,6 +193,40 @@ void TheBackground::AllThePersonManDead()
 	for (auto radar : RadarLandParts)
 	{
 		radar->Enabled = false;
+	}
+}
+
+void TheBackground::PlaceAllTheStars()
+{
+	for (const auto& star : AllTheStars)
+	{
+		float x = GetRandomFloat((float)(-GetScreenWidth()),
+			(float)(GetScreenWidth()));
+		float y = 0.0f;
+
+		if (AllNotDead)
+		{
+			y = GetRandomFloat((float)(-GetScreenHeight() * 0.3f),
+				(float)(GetScreenHeight() * 0.15f));
+		}
+		else
+		{
+			y = GetRandomFloat((float)(-GetScreenHeight() * 0.3f),
+				(float)(GetScreenHeight()));
+		}
+
+		Color color = {(unsigned char)GetRandomValue(10, 200),
+			(unsigned char)GetRandomValue(10, 200),
+			(unsigned char)GetRandomValue(10, 200), 255 };
+
+		star->Position = { x, y, -10.0f };
+		star->ModelColor = color;
+
+		float rotation = GetRandomFloat(-16.66f, 16.66f);
+
+		star->RotationVelocityX = rotation;
+		star->RotationVelocityY = rotation;
+		star->RotationVelocityZ = rotation;
 	}
 }
 
@@ -216,117 +271,9 @@ float TheBackground::UpdateRadar(float x)
 	return x;
 }
 
-void TheBackground::PlaceAllTheStars()
-{
-	NumberOfStars = 300;
-
-	for (int i = 0; i < NumberOfStars; i++)
-	{
-		AllTheStars.push_back(DBG_NEW Model3D());
-		Managers.EM.AddModel3D(AllTheStars.back());
-		AllTheStars[i]->HideCollision = true;
-		AllTheStars[i]->Enabled = false;
-		AllTheStars[i]->Scale = 2.5f;
-
-		float x = GetRandomFloat((float)(-GetScreenWidth() * 3.5f),
-			(float)(GetScreenWidth() * 3.5f));
-		float y = 0.0f;
-
-		if (AllNotDead)
-		{
-			y = GetRandomFloat((float)(-GetScreenHeight() * 0.3f),
-				(float)(GetScreenHeight() * 0.15f));
-		}
-		else
-		{
-			y = GetRandomFloat((float)(-GetScreenHeight() * 0.3f),
-				(float)(GetScreenHeight()));
-		}
-
-		Color color = {(unsigned char)GetRandomValue(10, 200),
-			(unsigned char)GetRandomValue(10, 200),
-			(unsigned char)GetRandomValue(10, 200), 255 };
-
-		AllTheStars[i]->Position = { x, y, -10.0f };
-		AllTheStars[i]->ModelColor = color;
-
-		float rotation = GetRandomFloat(-16.66f, 16.66f);
-
-		AllTheStars[i]->RotationVelocityX = rotation;
-		AllTheStars[i]->RotationVelocityY = rotation;
-		AllTheStars[i]->RotationVelocityZ = rotation;
-
-		AllTheStars[i]->Enabled = true;
-	}
-
-	for (int i = 0; i < NumberOfStars; i++)
-	{
-		if (AllTheStars[i]->X() > GetScreenWidth() * 2.0f)
-		{
-			StarsOffREdge.push_back(Star());
-			StarsOffREdge.back().ID = i;
-		}
-
-		if (AllTheStars[i]->X() < -GetScreenWidth() * 2.0f)
-		{
-			StarsOffLEdge.push_back(Star());
-			StarsOffLEdge.back().ID = i;
-		}
-	}
-
-	size_t iR = AllTheStars.size();
-
-	for (int i = 0; i < StarsOffREdge.size(); i++)
-	{
-		AllTheStars.push_back(DBG_NEW Model3D());
-		Managers.EM.AddModel3D(AllTheStars.back());
-		AllTheStars[iR + i]->HideCollision = true;
-		AllTheStars[iR + i]->Enabled = false;
-		AllTheStars[iR + i]->Scale = 2.5f;
-		AllTheStars[iR + i]->X(AllTheStars[StarsOffREdge[i].ID]->X()
-			- (float)(GetScreenWidth() * 7.0f));
-		AllTheStars[iR + i]->Y(AllTheStars[StarsOffREdge[i].ID]->Y());
-		AllTheStars[iR + i]->Z(-10.0f);
-		AllTheStars[iR + i]->ModelColor = AllTheStars[StarsOffREdge[i].ID]->ModelColor;
-		AllTheStars[iR + i]->RotationX = AllTheStars[StarsOffREdge[i].ID]->RotationX;
-		AllTheStars[iR + i]->RotationY = AllTheStars[StarsOffREdge[i].ID]->RotationY;
-		AllTheStars[iR + i]->RotationZ = AllTheStars[StarsOffREdge[i].ID]->RotationZ;
-		AllTheStars[iR + i]->Enabled = true;
-
-		StarsOffREdge.at(i).EdgeID = iR + i;
-	}
-
-	size_t iL = AllTheStars.size();
-
-	for (int i = 0; i < StarsOffLEdge.size(); i++)
-	{
-		AllTheStars.push_back(DBG_NEW Model3D());
-		Managers.EM.AddModel3D(AllTheStars.back());
-		AllTheStars[i + iL]->HideCollision = true;
-		AllTheStars[i + iL]->Enabled = false;
-		AllTheStars[i + iL]->Scale = 2.5f;
-		AllTheStars[iL + i]->X(AllTheStars[StarsOffLEdge[i].ID]->X()
-			+ (float)(GetScreenWidth() * 7.0f));
-		AllTheStars[iL + i]->Z(-10.0f);
-		AllTheStars[iL + i]->Y(AllTheStars[StarsOffLEdge[i].ID]->Y());
-		AllTheStars[iL + i]->ModelColor = AllTheStars[StarsOffLEdge[i].ID]->ModelColor;
-		AllTheStars[iL + i]->RotationX = AllTheStars[StarsOffLEdge[i].ID]->RotationX;
-		AllTheStars[iL + i]->RotationY = AllTheStars[StarsOffLEdge[i].ID]->RotationY;
-		AllTheStars[iL + i]->RotationZ = AllTheStars[StarsOffLEdge[i].ID]->RotationZ;
-		AllTheStars[iL + i]->Enabled = true;
-
-		StarsOffLEdge.at(i).EdgeID = iL + i;
-	}
-
-	for (const auto& star : AllTheStars)
-	{
-		star->SetModel(StarModel);
-	}
-}
-
 void TheBackground::ChangeTheStars()
 {
-	int amount = GetRandomValue(1, 200);
+	int amount = GetRandomValue(1, 40);
 
 	size_t changeAmount = GetRandomValue(1, amount);
 
@@ -334,23 +281,7 @@ void TheBackground::ChangeTheStars()
 	{
 		size_t starIndex = (size_t)GetRandomValue(0, NumberOfStars - 1);
 
-		AllTheStars[starIndex]->Enabled = true;
-
-		for (auto star : StarsOffREdge)
-		{
-			if (star.ID == starIndex)
-			{
-				AllTheStars[star.EdgeID]->Enabled = true;
-			}
-		}
-
-		for (auto star : StarsOffLEdge)
-		{
-			if (star.ID == starIndex)
-			{
-				AllTheStars[star.EdgeID]->Enabled = true;
-			}
-		}
+		AllTheStars[starIndex]->ModelColor.a = 255;
 	}
 
 	changeAmount = GetRandomValue(1, amount);
@@ -359,22 +290,43 @@ void TheBackground::ChangeTheStars()
 	{
 		size_t starIndex = (size_t)GetRandomValue(0, NumberOfStars - 1);
 
-		AllTheStars[starIndex]->Enabled = false;
+		AllTheStars[starIndex]->ModelColor.a = 0;
+	}
+}
 
-		for (auto star : StarsOffREdge)
+void TheBackground::ParallaxTheStars()
+{
+	bool sideWarped = false;
+
+	if (Player->SideWarped)
+	{
+		sideWarped = true;
+		Player->SideWarped = false;
+	}
+
+	for (const auto& star : AllTheStars)
+	{
+		if (sideWarped)
 		{
-			if (star.ID == starIndex)
+			float buffer = (Player->Velocity.x * star->RelativeVelocity)
+				* GetFrameTime();
+
+			if (Player->X() > 0.0f)	star->X((star->X() - buffer) +
+				(GetScreenWidth() * 7.0f));
+			else star->X((star->X() - buffer) - (GetScreenWidth() * 7.0f));
+		}
+		else
+		{
+			if (star->X() > GetScreenWidth() + Player->X())
 			{
-				AllTheStars[star.EdgeID]->Enabled = false;
+				star->X(-GetScreenWidth() + Player->X());
+			}
+			else if (star->X() < -GetScreenWidth() + Player->X())
+			{
+				star->X(GetScreenWidth() + Player->X());
 			}
 		}
 
-		for (auto star : StarsOffLEdge)
-		{
-			if (star.ID == starIndex)
-			{
-				AllTheStars[star.EdgeID]->Enabled = false;
-			}
-		}
+		star->Velocity.x = Player->Velocity.x * star->RelativeVelocity;
 	}
 }

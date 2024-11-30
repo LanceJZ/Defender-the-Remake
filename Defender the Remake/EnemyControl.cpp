@@ -203,6 +203,8 @@ void EnemyControl::Update()
 
 void EnemyControl::StartNewWave()
 {
+	WaveEnded = false;
+
 	if (TotalSpawn < 30) TotalSpawn += 5;
 
 	NumberSpawned = 0;
@@ -284,6 +286,8 @@ void EnemyControl::ResetField()
 
 		baiter->Reset();
 	}
+
+	Particles.ResetCubes();
 }
 
 void EnemyControl::UpdateLanderStatus()
@@ -668,6 +672,8 @@ void EnemyControl::SpawnBaiter()
 
 void EnemyControl::EndOfWave()
 {
+	if (Particles.GetParticlesActive()) return;
+
 	NoMoreBombers = false;
 	NoMorePods = false;
 	NoMoreSwarmers = false;

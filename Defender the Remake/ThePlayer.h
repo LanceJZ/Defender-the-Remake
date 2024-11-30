@@ -15,6 +15,8 @@ public:
 	bool GameOver = false;
 	bool SmartBombFired = false;
 	bool EnemyUpdate = false;
+	bool SideWarped = false;
+	bool Spawned = false;
 
 	int Lives { 0 };
 

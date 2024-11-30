@@ -28,7 +28,6 @@ bool Game::Initialize(Utilities* utilities) //Initialize
 	FieldSize = { GetScreenWidth() * multi, (float)GetScreenHeight() };
 
 	//Any Entities added after this point need this method fired manually.
-	Managers.Initialize();
 	return true;
 }
 
@@ -113,7 +112,6 @@ bool Game::Load()
 bool Game::BeginRun()
 {
 	//Any Entities added after this point need this method fired manually.
-	Managers.BeginRun();
 
 	return true;
 }
@@ -121,7 +119,6 @@ bool Game::BeginRun()
 void Game::ProcessInput()
 {
 	GameInput();
-	Managers.EM.Input();
 }
 
 
@@ -137,28 +134,10 @@ void Game::Update(float deltaTime)
 		if (Enemies->NoMorePeople) BackGround->AllThePersonManDead();
 		else BackGround->AllThePersonManNotDead();
 	}
-
-	Managers.EM.Update(deltaTime);
-}
-
-void Game::Draw()
-{
-	BeginMode3D(TheCamera);
-
-	//3D Drawing here.
-	Draw3D();
-
-	EndMode3D();
-
-	//2D drawing, fonts go here.
-
-	Draw2D();
 }
 
 void Game::Draw3D()
 {
-	Managers.EM.Draw3D();
-
 #ifdef _DEBUG
 	int fsx = int(FieldSize.x * 0.5f);
 	int fsy = int(FieldSize.y * 0.5f);
@@ -172,7 +151,6 @@ void Game::Draw3D()
 
 void Game::Draw2D()
 {
-	Managers.EM.Draw2D();
 }
 
 void Game::GameInput()

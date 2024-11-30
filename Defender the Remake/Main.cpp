@@ -48,7 +48,7 @@ int WinMain()
 
 	Managers.EM.SetUtilities(&TheUtilities);
 	Particles.Initialize(&TheUtilities);
-	Particles.SetManagers(Managers);
+	Particles.SetManagers(Managers.EM);
 
 	// Define the camera to look into our 3D world
 	// Camera position
@@ -74,13 +74,28 @@ int WinMain()
 	while (!WindowShouldClose())
 	{
 		game.ProcessInput();
-		game.Update(GetFrameTime());
+		Managers.EM.Input();
+
+		float deltaTime = GetFrameTime() * 0.5f;
+
+		game.Update(deltaTime);
+
+		Managers.EM.Update(deltaTime);
+		Managers.EM.Update(deltaTime);
+
 		BeginDrawing();
 		ClearBackground({ 8, 2, 16, 100 });
-		game.Draw();
+		BeginMode3D(TheCamera);
+		game.Draw3D();
+		Managers.EM.Draw3D();
+		EndMode3D();
+		game.Draw2D();
+		Managers.EM.Draw2D();
+
 #ifdef _DEBUG
 		DrawFPS(5, 5);
 #endif
+
 		EndDrawing();
 	}
 
