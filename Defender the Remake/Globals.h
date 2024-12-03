@@ -1,7 +1,9 @@
-#include "TheManagers.h"
 #include "ParticleManager.h"
+#include "EntityManager.h"
+#include "ContentManager.h"
 
 extern Camera TheCamera;
-extern TheManagers Managers;
+extern ContentManager CM;
+extern EntityManager EM;
 extern ParticleManager Particles;
 extern Vector2 FieldSize;

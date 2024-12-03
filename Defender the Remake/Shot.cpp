@@ -2,7 +2,7 @@
 
 Shot::Shot()
 {
-	LifeTimerID = Managers.EM.AddTimer();
+	LifeTimerID = EM.AddTimer();
 }
 
 Shot::~Shot()
@@ -11,9 +11,9 @@ Shot::~Shot()
 
 void Shot::SetPlayerShotTailModel(Model model)
 {
-	Managers.EM.AddModel3D(PlayerShotTail = DBG_NEW Model3D(), model);
-	Managers.EM.AddModel3D(PlayerShotTailMirrorL = DBG_NEW Model3D(), model);
-	Managers.EM.AddModel3D(PlayerShotTailMirrorR = DBG_NEW Model3D(), model);
+	EM.AddModel3D(PlayerShotTail = DBG_NEW Model3D(), model);
+	EM.AddModel3D(PlayerShotTailMirrorL = DBG_NEW Model3D(), model);
+	EM.AddModel3D(PlayerShotTailMirrorR = DBG_NEW Model3D(), model);
 
 	PlayerShotTail->SetParent(*this);
 
@@ -29,8 +29,8 @@ bool Shot::Initialize(Utilities* utilities)
 {
 	Model3D::Initialize(utilities);
 
-	Managers.EM.AddModel3D(MirrorL = DBG_NEW Model3D());
-	Managers.EM.AddModel3D(MirrorR = DBG_NEW Model3D());
+	EM.AddModel3D(MirrorL = DBG_NEW Model3D());
+	EM.AddModel3D(MirrorR = DBG_NEW Model3D());
 
 	if (PlayerShotTail != nullptr) PlayerShotTail->Initialize(utilities);
 	if (PlayerShotTailMirrorL != nullptr) PlayerShotTailMirrorL->Initialize(utilities);
@@ -70,7 +70,7 @@ void Shot::Update(float deltaTime)
 
 	Model3D::Update(deltaTime);
 
-	if (Managers.EM.TimerElapsed(LifeTimerID)) Destroy();
+	if (EM.TimerElapsed(LifeTimerID)) Destroy();
 
 	if (Y() > WindowHeight || Y() < -WindowHeight * 0.685f)	Destroy();
 }
@@ -96,7 +96,7 @@ void Shot::EnemySpawn(Vector3 position, Vector3 velocity, float lifeTime)
 	Entity::Spawn(position);
 
 	Velocity = velocity;
-	Managers.EM.ResetTimer(LifeTimerID, lifeTime);
+	EM.ResetTimer(LifeTimerID, lifeTime);
 
 	MirrorL->Enabled = true;
 	MirrorR->Enabled = true;
@@ -107,7 +107,7 @@ void Shot::BombSpawn(Vector3 position, float lifeTime)
 	Entity::Spawn(position);
 
 	Velocity = { 0, 0, 0 };
-	Managers.EM.ResetTimer(LifeTimerID, lifeTime);
+	EM.ResetTimer(LifeTimerID, lifeTime);
 
 	MirrorL->Enabled = true;
 	MirrorR->Enabled = true;
@@ -141,5 +141,5 @@ void Shot::PlayerSpawn(Vector3 position, Vector3 velocity, bool facingRight)
 		RotationY = 0.0f;
 	}
 
-	Managers.EM.ResetTimer(LifeTimerID, 0.666f);
+	EM.ResetTimer(LifeTimerID, 0.666f);
 }

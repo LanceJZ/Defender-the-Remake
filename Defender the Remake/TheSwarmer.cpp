@@ -2,8 +2,8 @@
 
 TheSwarmer::TheSwarmer()
 {
-	AfterSpawnTimerID = Managers.EM.AddTimer();
-	DistanceTimerID = Managers.EM.AddTimer();
+	AfterSpawnTimerID = EM.AddTimer();
+	DistanceTimerID = EM.AddTimer();
 }
 
 TheSwarmer::~TheSwarmer()
@@ -32,14 +32,14 @@ void TheSwarmer::Update(float deltaTime)
 {
 	Enemy::Update(deltaTime);
 
-	if (Managers.EM.TimerElapsed(AfterSpawnTimerID))
+	if (EM.TimerElapsed(AfterSpawnTimerID))
 	{
 		AfterSpawnTimer = true;
 
 		if (XVelocity < 0.0f) XVelocity *= -1.0f;
 	}
 
-	if (Managers.EM.TimerElapsed(ShotTimerID))
+	if (EM.TimerElapsed(ShotTimerID))
 	{
 		FireShot();
 	}
@@ -71,8 +71,8 @@ void TheSwarmer::Spawn(Vector3 position)
 		XVelocity *= -1;
 	}
 
-	Managers.EM.ResetTimer(ShotTimerID, 1.5f);
-	Managers.EM.ResetTimer(AfterSpawnTimerID, GetRandomFloat(2.75f, 4.5f));
+	EM.ResetTimer(ShotTimerID, 1.5f);
+	EM.ResetTimer(AfterSpawnTimerID, GetRandomFloat(2.75f, 4.5f));
 }
 
 void TheSwarmer::Reset()
@@ -85,7 +85,7 @@ void TheSwarmer::Reset()
 void TheSwarmer::FireShot()
 {
 
-	Managers.EM.ResetTimer(ShotTimerID, GetRandomFloat(0.25f, 0.5f));
+	EM.ResetTimer(ShotTimerID, GetRandomFloat(0.25f, 0.5f));
 
 	if (Velocity.x > 0)
 	{
@@ -119,9 +119,9 @@ void TheSwarmer::AfterSpawn()
 		Velocity.x = XVelocity;
 	}
 
-	if (Managers.EM.TimerElapsed(DistanceTimerID))
+	if (EM.TimerElapsed(DistanceTimerID))
 	{
-		Managers.EM.ResetTimer(DistanceTimerID, (GetRandomFloat(0.25f, 0.75f)));
+		EM.ResetTimer(DistanceTimerID, (GetRandomFloat(0.25f, 0.75f)));
 		DistanceX = GetRandomFloat(200.0f, 250.0f);
 		DistanceY = GetRandomFloat(25.0f, 50.0f);
 	}

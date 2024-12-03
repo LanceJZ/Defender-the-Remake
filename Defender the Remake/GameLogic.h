@@ -2,6 +2,7 @@
 #include "Globals.h"
 #include "Common.h"
 #include "Utilities.h"
+#include "TheBackground.h"
 #include "ThePlayer.h"
 #include "EnemyControl.h"
 #include "ThePerson.h"
@@ -12,7 +13,7 @@ enum GameState
 	AfterPlayerHit,
 	WaveStart,
 	NewWave,
-	GaveOver,
+	GameOver,
 	InPlay,
 	Pause,
 	HighScores,
@@ -25,6 +26,9 @@ public:
 	GameLogic();
 	virtual ~GameLogic();
 
+	GameState State = MainMenu;
+
+	void SetBackground(TheBackground* background);
 	void SetPlayer(ThePlayer* player);
 	void SetEnemies(EnemyControl* enemies);
 	void SetPersonModel(Model model);
@@ -39,7 +43,9 @@ public:
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
 
+	void Input();
 	void Update();
+	void Draw2D();
 
 	void EndOfWave();
 
@@ -55,7 +61,6 @@ private:
 
 	Vector2 AdjustedFieldSize = {};
 
-	GameState State = MainMenu;
 
 	Sound PersonGrabbedSound = { 0 };
 	Sound PersonDroppedSound = { 0 };
@@ -66,14 +71,22 @@ private:
 	Model PersonModel = { 0 };
 	Model PersonRadarModel = { 0 };
 
+	std::vector<Model3D*> PlayerLives = {};
+
 	ThePlayer* Player = {};
 	EnemyControl* Enemies = {};
+	TheBackground* BackGround = {};
 	ThePerson* People[10] = { nullptr };
 
 	void UpdatePersonMan();
 	void SpawnPersonMan(int count);
 	void SetupPersonMan();
 	void PlayerHitReset();
+	void GameInPlay();
+	void WaveStarting();
 	void ResetField();
+	void LivesDisplay();
+	void LivesDisplayUpdate();
+	void NewGame();
 };
 

@@ -2,8 +2,8 @@
 
 TheBaiter::TheBaiter()
 {
-	SpeedChangeTimerID = Managers.EM.AddTimer();
-	AfterSpawnTimerID = Managers.EM.AddTimer();
+	SpeedChangeTimerID = EM.AddTimer();
+	AfterSpawnTimerID = EM.AddTimer();
 }
 
 TheBaiter::~TheBaiter()
@@ -32,22 +32,22 @@ void TheBaiter::Update(float deltaTime)
 {
 	Enemy::Update(deltaTime);
 
-	if (Managers.EM.TimerElapsed(SpeedChangeTimerID))
+	if (EM.TimerElapsed(SpeedChangeTimerID))
 	{
 		ChangeSpeed();
 	}
 
-	if (Managers.EM.TimerElapsed(AfterSpawnTimerID))
+	if (EM.TimerElapsed(AfterSpawnTimerID))
 	{
 		AfterSpawn();
 	}
 
 	CheckPlayfieldHeightWarp(0.679f, 1.0f);
 
-	if (Managers.EM.TimerElapsed(ShotTimerID))
+	if (EM.TimerElapsed(ShotTimerID))
 	{
 		FireShot();
-		Managers.EM.ResetTimer(ShotTimerID, GetRandomFloat(0.15f, 0.25f));
+		EM.ResetTimer(ShotTimerID, GetRandomFloat(0.15f, 0.25f));
 	}
 }
 
@@ -55,9 +55,9 @@ void TheBaiter::Spawn(Vector3 position)
 {
 	Enemy::Spawn(position);
 
-	Managers.EM.ResetTimer(SpeedChangeTimerID, 5.5f);
-	Managers.EM.ResetTimer(AfterSpawnTimerID, 4.0f);
-	Managers.EM.ResetTimer(ShotTimerID, 1.5f);
+	EM.ResetTimer(SpeedChangeTimerID, 5.5f);
+	EM.ResetTimer(AfterSpawnTimerID, 4.0f);
+	EM.ResetTimer(ShotTimerID, 1.5f);
 
 	ChangeSpeed();
 
@@ -102,7 +102,7 @@ void TheBaiter::AfterSpawn()
 
 void TheBaiter::ChangeSpeed()
 {
-	Managers.EM.ResetTimer(SpeedChangeTimerID, GetRandomFloat(2.75f, 5.5f));
+	EM.ResetTimer(SpeedChangeTimerID, GetRandomFloat(2.75f, 5.5f));
 	float multiplier = 1.2f;
 	XVelocity = (Player->Velocity.x + 0.1f) * multiplier;
 	YVelocity = GetRandomFloat(20, 80);
@@ -112,7 +112,7 @@ void TheBaiter::FireShot()
 {
 	Enemy::FireShot();
 
-	Managers.EM.ResetTimer(ShotTimerID, GetRandomFloat(0.25f, 0.5f));
+	EM.ResetTimer(ShotTimerID, GetRandomFloat(0.25f, 0.5f));
 }
 
 bool TheBaiter::CheckCollision()

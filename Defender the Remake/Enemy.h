@@ -24,8 +24,8 @@ public:
 
 	void Update(float deltaTime);
 
-	virtual void Hit();
-	virtual void Reset();
+	void Hit();
+	void Reset();
 
 protected:
 	size_t ShotTimerID = 0;

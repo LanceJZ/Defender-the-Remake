@@ -2,19 +2,19 @@
 
 ThePlayer::ThePlayer()
 {
-	Managers.EM.AddEntity(CollusionBack = DBG_NEW Entity());
-	Managers.EM.AddEntity(CollusionMidFront = DBG_NEW Entity());
-	Managers.EM.AddEntity(CollusionFront = DBG_NEW Entity());
-	Managers.EM.AddEntity(CollusionTip = DBG_NEW Entity());
+	EM.AddEntity(CollusionBack = DBG_NEW Entity());
+	EM.AddEntity(CollusionMidFront = DBG_NEW Entity());
+	EM.AddEntity(CollusionFront = DBG_NEW Entity());
+	EM.AddEntity(CollusionTip = DBG_NEW Entity());
 
-	Managers.EM.AddModel3D(Flame = DBG_NEW Model3D());
-	Managers.EM.AddModel3D(Radar = DBG_NEW Model3D());
+	EM.AddModel3D(Flame = DBG_NEW Model3D());
+	EM.AddModel3D(Radar = DBG_NEW Model3D());
 
-	Managers.EM.AddOnScreenText(Score = DBG_NEW TheScore());
+	EM.AddOnScreenText(Score = DBG_NEW TheScore());
 
 	for (int i = 0; i < 4; i++)
 	{
-		Managers.EM.AddModel3D(Shots[i] = DBG_NEW Shot());
+		EM.AddModel3D(Shots[i] = DBG_NEW Shot());
 	}
 }
 
@@ -171,37 +171,28 @@ void ThePlayer::Hit()
 	Particles.SpawnCubes(Position, velocity,
 		VerticesSize, 70.0f, 200, 5.0f, { 255, 20, 80, 255 });
 
-	Particles.SpawnCubes(CollusionBack->GetWorldPosition(),
-		velocity,
+	Particles.SpawnCubes(CollusionBack->GetWorldPosition(),	velocity,
 		VerticesSize, 60.0f, 200, 5.0f, { 255, 0, 100, 255 });
-	Particles.SpawnCubes(CollusionMidFront->GetWorldPosition(),
-		velocity,
+	Particles.SpawnCubes(CollusionMidFront->GetWorldPosition(),	velocity,
 		VerticesSize, 80.0f, 200, 5.0f, { 155, 80, 200, 255 });
-	Particles.SpawnCubes(CollusionFront->GetWorldPosition(),
-		velocity,
+	Particles.SpawnCubes(CollusionFront->GetWorldPosition(), velocity,
 		VerticesSize, 30.0f, 200, 5.0f, { 55, 80, 70, 255 });
-	Particles.SpawnCubes(CollusionTip->GetWorldPosition(),
-		velocity,
+	Particles.SpawnCubes(CollusionTip->GetWorldPosition(), velocity,
 		VerticesSize, 40.0f, 200, 5.0f, { 255, 0, 170, 255 });
 
 	PlaySound(ExplodeSound);
 
-	Acceleration = { 0 };
-	Velocity = { 0 };
-	RotationVelocityY = 0;
-	Lives--;
-	Enabled = false;
 	BeenHit = true;
-	CollusionBack->Enabled = false;
-	CollusionMidFront->Enabled = false;
-	CollusionFront->Enabled = false;
-	CollusionTip->Enabled = false;
-	Flame->Enabled = false;
+	Lives--;
+	Disable();
+
+	if (Lives < 0) GameOver = true;
 }
 
 void ThePlayer::ScoreUpdate(int addToScore)
 {
 	Score->AddToScore(addToScore);
+	EnemyUpdate = true;
 
 	if (Score->GetScore() > NextNewLifeScore)
 	{
@@ -213,27 +204,35 @@ void ThePlayer::ScoreUpdate(int addToScore)
 
 void ThePlayer::Reset()
 {
-	Position = { 0, 0, 0 };
-	Velocity = { 0, 0, 0 };
-	Acceleration = { 0, 0, 0 };
+	Entity::Reset();
+
 	RotationY = (PI * 2);
 	RotationVelocityY = 0;
-	Enabled = true;
-	BeenHit = false;
 	FacingRight = true;
+	Spawned = true;
 	Enabled = true;
 	Radar->Enabled = true;
 	CollusionBack->Enabled = true;
 	CollusionMidFront->Enabled = true;
 	CollusionFront->Enabled = true;
 	CollusionTip->Enabled = true;
-	Spawned = true;
 	ThrustOff();
 
 	for (const auto& shot : Shots)
 	{
 		shot->Reset();
 	}
+}
+
+void ThePlayer::Disable()
+{
+	Velocity = { 0.0f, 0.0f, 0.0f };
+	CollusionBack->Enabled = false;
+	CollusionMidFront->Enabled = false;
+	CollusionFront->Enabled = false;
+	CollusionTip->Enabled = false;
+	Flame->Enabled = false;
+	Enabled = false;
 }
 
 void ThePlayer::NewGame()

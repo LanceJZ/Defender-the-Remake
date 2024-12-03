@@ -696,6 +696,14 @@ void Entity::CheckPlayfieldHeightWarp(float top, float bottom)
 	}
 }
 
+void Entity::Reset()
+{
+	Position = { 0, 0, 0 };
+	Acceleration = { 0, 0, 0 };
+	Velocity = { 0, 0, 0 };
+	RotationVelocityY = 0;
+}
+
 void Entity::BeforeCalculate()
 {
 	rlPushMatrix();

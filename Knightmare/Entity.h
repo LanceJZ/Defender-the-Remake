@@ -112,6 +112,7 @@ public:
 	virtual void SetModel(LineModelPoints lines);
 	virtual void SetModel(LineModelPoints lines, float scale);
 	virtual Model& Get3DModel();
+	virtual void Reset();
 	void RemoveParent(Entity* parent);
 	void ClearParents();
 	void CheckScreenEdge();

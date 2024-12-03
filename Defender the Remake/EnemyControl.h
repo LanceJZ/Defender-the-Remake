@@ -28,6 +28,7 @@ public:
 	bool NoMorePeople = false;
 	bool WaveEnded = false;
 	bool TriggerLandChange = false;
+	bool RestartWaveTriggered = false;
 
 	void SetPlayer(ThePlayer* player);
 	void SetPeople(ThePerson* people[10]);
@@ -68,6 +69,8 @@ public:
 	void AllDead();
 	void NewGame();
 	void ResetField();
+	void RestartWave();
+	void PlayerHitReset();
 	void SmartBomb();
 
 private:
@@ -83,6 +86,9 @@ private:
 	int TotalSpawn = 0;
 	int NumberSpawned = 0;
 	int NumberMutants = 0;
+	int NumberBombers = 0;
+	int NumberSwarmers = 0;
+	int NumberPods = 0;
 	int Wave = 0;
 
 	float SpawnTimerAmount = 10.0f;

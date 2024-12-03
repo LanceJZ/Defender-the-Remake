@@ -2,7 +2,7 @@
 
 Enemy::Enemy()
 {
-	ShotTimerID = Managers.EM.AddTimer();
+	ShotTimerID = EM.AddTimer();
 }
 
 Enemy::~Enemy()
@@ -13,7 +13,7 @@ void Enemy::SetShotModel(Model model)
 {
 	for (size_t i = 0; i < 12; i++)
 	{
-		Managers.EM.AddModel3D(Shots[i] = DBG_NEW Shot(), model);
+		EM.AddModel3D(Shots[i] = DBG_NEW Shot(), model);
 	}
 }
 
@@ -30,8 +30,6 @@ void Enemy::SetExplodeSound(Sound sound)
 bool Enemy::Initialize(Utilities* utilities)
 {
 	MirrorRadar::Initialize(utilities);
-
-	//Radius = 14.0f;
 
 	return true;
 }
@@ -171,6 +169,11 @@ void Enemy::Hit()
 void Enemy::Reset()
 {
 	BeenHit = false;
+
+	for (const auto& shot : Shots)
+	{
+		shot->Reset();
+	}
 
 	Destroy();
 }

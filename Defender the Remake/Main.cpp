@@ -17,7 +17,8 @@
 	#define DBG_NEW new
 #endif
 
-TheManagers Managers = {};
+ContentManager CM = {};
+EntityManager EM = {};
 ParticleManager Particles = {};
 Camera TheCamera = {};
 Vector2 FieldSize = {};
@@ -46,9 +47,9 @@ int WinMain()
 
 	static Utilities TheUtilities = {};
 
-	Managers.EM.SetUtilities(&TheUtilities);
+	EM.SetUtilities(&TheUtilities);
 	Particles.Initialize(&TheUtilities);
-	Particles.SetManagers(Managers.EM);
+	Particles.SetManagers(EM);
 
 	// Define the camera to look into our 3D world
 	// Camera position
@@ -62,35 +63,37 @@ int WinMain()
 	// Camera mode type
 	TheCamera.projection = CAMERA_ORTHOGRAPHIC;
 	// The Managers needs a reference to The Camera
-	Managers.SetCamera(TheCamera);
+	EM.SetCamera(TheCamera);
 
 	game.Initialize(&TheUtilities);
-	Managers.Initialize();
+	EM.Initialize();
 	game.Load();
 	game.BeginRun();
-	Managers.BeginRun();
+	EM.BeginRun();
 	Particles.BeginRun();
 
 	while (!WindowShouldClose())
 	{
-		game.ProcessInput();
-		Managers.EM.Input();
+		EM.Input();
 
-		float deltaTime = GetFrameTime() * 0.5f;
+		if (game.Logic->State != GameState::Pause)
+		{
+			float deltaTime = GetFrameTime() * 0.5f;
 
-		game.Update(deltaTime);
+			game.Update(deltaTime);
 
-		Managers.EM.Update(deltaTime);
-		Managers.EM.Update(deltaTime);
+			EM.Update(deltaTime);
+			EM.Update(deltaTime);
+		}
 
 		BeginDrawing();
 		ClearBackground({ 8, 2, 16, 100 });
 		BeginMode3D(TheCamera);
 		game.Draw3D();
-		Managers.EM.Draw3D();
+		EM.Draw3D();
 		EndMode3D();
 		game.Draw2D();
-		Managers.EM.Draw2D();
+		EM.Draw2D();
 
 #ifdef _DEBUG
 		DrawFPS(5, 5);

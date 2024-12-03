@@ -2,7 +2,7 @@
 
 EnemyControl::EnemyControl()
 {
-	SpawnTimerID = Managers.EM.AddTimer();
+	SpawnTimerID = EM.AddTimer(SpawnTimerAmount);
 }
 
 EnemyControl::~EnemyControl()
@@ -165,9 +165,7 @@ bool EnemyControl::BeginRun()
 {
 	Common::BeginRun();
 
-	ResetField();
-
-	TotalSpawn = 10;
+	NewGame();
 
 	return true;
 }
@@ -176,10 +174,8 @@ void EnemyControl::Update()
 {
 	Common::Update();
 
-	if (Managers.EM.TimerElapsed(SpawnTimerID))
+	if (EM.TimerElapsed(SpawnTimerID))
 	{
-		Managers.EM.ResetTimer(SpawnTimerID, SpawnTimerAmount);
-
 		if (NumberSpawned < TotalSpawn)
 		{
 			SpawnMoreLanders();
@@ -197,8 +193,8 @@ void EnemyControl::Update()
 		UpdateBaiterStatus();
 	}
 
-	if (NoMoreLanders && NoMoreMutants && NoMoreBombers &&
-		NoMoreSwarmers && NoMorePods && !GameEnded) EndOfWave();
+	if (NoMoreLanders && NoMoreMutants && NoMoreBombers && NoMoreSwarmers &&
+		NoMorePods && !GameEnded && !RestartWaveTriggered) EndOfWave();
 }
 
 void EnemyControl::StartNewWave()
@@ -209,7 +205,7 @@ void EnemyControl::StartNewWave()
 
 	NumberSpawned = 0;
 	Wave++;
-	Managers.EM.ResetTimer(SpawnTimerID);
+	EM.ResetTimer(SpawnTimerID);
 
 	SpawnBomber(Wave);
 	SpawnPod(Wave);
@@ -223,6 +219,9 @@ void EnemyControl::AllDead()
 
 void EnemyControl::NewGame()
 {
+	TotalSpawn = 10;
+
+	SpawnMoreLanders();
 }
 
 void EnemyControl::ResetField()
@@ -288,6 +287,84 @@ void EnemyControl::ResetField()
 	}
 
 	Particles.ResetCubes();
+}
+
+void EnemyControl::RestartWave()
+{
+	SpawnMoreLanders();
+	SpawnBomber(NumberBombers);
+	SpawnPod(NumberPods);
+
+	Vector3 position = { GameWindowHalfWidth * 4, -GameWindowHalfHeight, 0.0f };
+
+	SpawnSwarmers(position, NumberSwarmers);
+
+	for (int i = 0; i < NumberMutants; i++)
+	{
+		SpawnMutant(position);
+	}
+
+}
+
+void EnemyControl::PlayerHitReset()
+{
+	int numberSpawned = 0;
+
+	for (const auto& lander : Landers)
+	{
+		if (lander->Enabled)
+		{
+			numberSpawned++;
+		}
+	}
+
+	NumberSpawned -= numberSpawned;
+	numberSpawned = 0;
+
+	for (const auto& mutant : Mutants)
+	{
+		if (mutant->Enabled)
+		{
+			numberSpawned++;
+		}
+	}
+
+	NumberMutants = numberSpawned;
+	numberSpawned = 0;
+
+	for (const auto& bomber : Bombers)
+	{
+		if (bomber->Enabled)
+		{
+			numberSpawned++;
+		}
+	}
+
+	NumberBombers = numberSpawned;
+	numberSpawned = 0;
+
+	for (const auto& pod : Pods)
+	{
+		if (pod->Enabled)
+		{
+			numberSpawned++;
+		}
+	}
+
+	NumberPods = numberSpawned;
+	numberSpawned = 0;
+
+	for (const auto& swarmer : Swarmers)
+	{
+		if (swarmer->Enabled)
+		{
+			numberSpawned++;
+		}
+	}
+
+	NumberSwarmers = numberSpawned;
+
+	ResetField();
 }
 
 void EnemyControl::UpdateLanderStatus()
@@ -456,7 +533,7 @@ void EnemyControl::SpawnMoreLanders()
 
 	NumberSpawned += spawn;
 	SpawnLanders(spawn);
-	Managers.EM.ResetTimer(SpawnTimerID);
+	EM.ResetTimer(SpawnTimerID);
 }
 
 void EnemyControl::SpawnLanders(int count)
@@ -484,7 +561,7 @@ void EnemyControl::SpawnLanders(int count)
 		if (spawnNew)
 		{
 			Landers.push_back(DBG_NEW TheLander());
-			Managers.EM.AddModel3D(Landers[landerSpawnNumber], LanderModel);
+			EM.AddModel3D(Landers[landerSpawnNumber], LanderModel);
 			Landers[landerSpawnNumber]->SetPlayer(Player);
 			Landers[landerSpawnNumber]->SetPeople(People);
 			Landers[landerSpawnNumber]->SetShotModel(ShotModel);
@@ -520,7 +597,7 @@ void EnemyControl::SpawnMutant(Vector3 position)
 	if (spawnNew)
 	{
 		Mutants.push_back(DBG_NEW TheMutant());
-		Managers.EM.AddModel3D(Mutants[mutantSpawnNumber], MutantModel);
+		EM.AddModel3D(Mutants[mutantSpawnNumber], MutantModel);
 		Mutants[mutantSpawnNumber]->SetPlayer(Player);
 		Mutants[mutantSpawnNumber]->SetShotModel(ShotModel);
 		Mutants[mutantSpawnNumber]->SetRadarModel(RadarMutantModel);
@@ -554,7 +631,7 @@ void EnemyControl::SpawnBomber(int count)
 		if (spawnNew)
 		{
 			Bombers.push_back(DBG_NEW TheBomber());
-			Managers.EM.AddModel3D(Bombers[bomberSpawnNumber], BomberModel);
+			EM.AddModel3D(Bombers[bomberSpawnNumber], BomberModel);
 			Bombers[bomberSpawnNumber]->SetPlayer(Player);
 			Bombers[bomberSpawnNumber]->SetShotModel(BombModel);
 			Bombers[bomberSpawnNumber]->SetRadarModel(RadarBomberModel);
@@ -590,7 +667,7 @@ void EnemyControl::SpawnSwarmers(Vector3 position, int count)
 		if (spawnNew)
 		{
 			Swarmers.push_back(DBG_NEW TheSwarmer());
-			Managers.EM.AddModel3D(Swarmers[swarmerSpawnNumber], SwarmerModel);
+			EM.AddModel3D(Swarmers[swarmerSpawnNumber], SwarmerModel);
 			Swarmers[swarmerSpawnNumber]->SetPlayer(Player);
 			Swarmers[swarmerSpawnNumber]->SetShotModel(ShotModel);
 			Swarmers[swarmerSpawnNumber]->SetRadarModel(RadarSwarmerModel);
@@ -625,7 +702,7 @@ void EnemyControl::SpawnPod(int count)
 		if (spawnNew)
 		{
 			Pods.push_back(DBG_NEW ThePod());
-			Managers.EM.AddModel3D(Pods[podSpawnNumber], PodModel);
+			EM.AddModel3D(Pods[podSpawnNumber], PodModel);
 			Pods[podSpawnNumber]->SetPlayer(Player);
 			Pods[podSpawnNumber]->SetShotModel(ShotModel);
 			Pods[podSpawnNumber]->SetRadarModel(RadarPodModel);
@@ -659,7 +736,7 @@ void EnemyControl::SpawnBaiter()
 	if (spawnNew)
 	{
 		Baiters.push_back(DBG_NEW TheBaiter());
-		Managers.EM.AddModel3D(Baiters[spawnNumber], BaiterModel);
+		EM.AddModel3D(Baiters[spawnNumber], BaiterModel);
 		Baiters[spawnNumber]->SetPlayer(Player);
 		Baiters[spawnNumber]->SetShotModel(ShotModel);
 		Baiters[spawnNumber]->SetRadarModel(RadarBaiterModel);
@@ -680,7 +757,4 @@ void EnemyControl::EndOfWave()
 	NoMoreMutants = false;
 	NoMoreLanders = false;
 	WaveEnded = true;
-
-	ResetField();
-	StartNewWave();
 }

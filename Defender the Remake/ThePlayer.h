@@ -44,6 +44,7 @@ public:
 	void Hit();
 	void ScoreUpdate(int addToScore);
 	void Reset();
+	void Disable();
 	void NewGame();
 
 private:

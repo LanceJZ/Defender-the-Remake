@@ -2,9 +2,9 @@
 
 MirrorRadar::MirrorRadar()
 {
-	Managers.EM.AddModel3D(MirrorL = DBG_NEW Model3D());
-	Managers.EM.AddModel3D(MirrorR = DBG_NEW Model3D());
-	Managers.EM.AddModel3D(Radar = DBG_NEW Model3D());
+	EM.AddModel3D(MirrorL = DBG_NEW Model3D());
+	EM.AddModel3D(MirrorR = DBG_NEW Model3D());
+	EM.AddModel3D(Radar = DBG_NEW Model3D());
 }
 
 MirrorRadar::~MirrorRadar()

@@ -4,12 +4,23 @@ GameLogic::GameLogic()
 {
 	for (int i = 0; i < 10; i++)
 	{
-		PeopleIDs[i] = Managers.EM.AddModel3D(People[i] = DBG_NEW ThePerson());
+		PeopleIDs[i] = EM.AddModel3D(People[i] = DBG_NEW ThePerson());
 	}
+
+	NewWaveTimerID = EM.AddTimer(1.5f);
+	PlayerDeathTimerID = EM.AddTimer();
+	PlayerResetTimerID = EM.AddTimer(5.5f);
+	WaveStartTimerID = EM.AddTimer(2.0f);
+
 }
 
 GameLogic::~GameLogic()
 {
+}
+
+void GameLogic::SetBackground(TheBackground* background)
+{
+	BackGround = background;
 }
 
 void GameLogic::SetPlayer(ThePlayer* player)
@@ -68,47 +79,69 @@ bool GameLogic::Initialize(Utilities* utilities)
 		person->Initialize(utilities);
 	}
 
-	return false;
+	return true;
 }
 
 bool GameLogic::BeginRun()
 {
 	Common::BeginRun();
 
-	Enemies->SetPeople(People);
-
 	SetupPersonMan();
-	SpawnPersonMan(10);
-	Wave = 1;
+	Enemies->SetPeople(People);
+	NewGame();
 
 	return true;
+}
+
+void GameLogic::Input()
+{
+	if (IsKeyPressed(KEY_P))
+	{
+		if (State == Pause) State = InPlay;
+		else if (State == InPlay) State = Pause;
+	}
 }
 
 void GameLogic::Update()
 {
 	Common::Update();
 
-	if (Enemies->WaveEnded)
+	if (State == InPlay)
 	{
-		EndOfWave();
-		return;
+		GameInPlay();
+		LivesDisplayUpdate();
 	}
 
-	if (Player->BeenHit)
+	if (State == WaveStart)
 	{
-		if (!Particles.GetParticlesActive()) PlayerHitReset();
+		WaveStarting();
 	}
 
-	if (Player->SmartBombFired)
+	if (State == PlayerHitByEnemy)
 	{
-		Enemies->SmartBomb();
+		if (EM.TimerElapsed(PlayerResetTimerID)) PlayerHitReset();
 	}
 
-	UpdatePersonMan();
+}
+
+void GameLogic::Draw2D()
+{
+	if (State == WaveStart)
+	{
+		DrawText("Get Ready", GameWindowHalfWidth - (40 * 10) * 0.25f,
+			GameWindowHalfHeight - (40 * 0.5f), 40, GRAY);
+	}
+
+	if (State == GameOver)
+	{
+		DrawText("Game Over", GameWindowHalfWidth - (40 * 10) * 0.25f,
+			GameWindowHalfHeight - (40 * 0.5f), 40, GRAY);
+	}
 }
 
 void GameLogic::EndOfWave()
 {
+	Player->Disable();
 	Enemies->WaveEnded = false;
 	NumberOfPeopleAlive = 0;
 
@@ -164,11 +197,116 @@ void GameLogic::SetupPersonMan()
 
 void GameLogic::PlayerHitReset()
 {
-	Enemies->ResetField();
 	Player->Reset();
+	BackGround->PlaceAllTheStars();
+	Enemies->PlayerHitReset();
+	Enemies->RestartWave();
+	ResetField();
+	LivesDisplay();
+	State = InPlay;
+	Enemies->RestartWaveTriggered = false;
+}
+
+void GameLogic::GameInPlay()
+{
+	if (Enemies->WaveEnded)
+	{
+		EndOfWave();
+		EM.ResetTimer(WaveStartTimerID);
+		State = WaveStart;
+		return;
+	}
+
+	if (Player->BeenHit)
+	{
+		Player->BeenHit = false;
+		EM.ResetTimer(PlayerResetTimerID);
+		State = PlayerHitByEnemy;
+		Enemies->RestartWaveTriggered = true;
+
+		if (Player->GameOver)
+		{
+			State = GameOver;
+		}
+
+		return;
+	}
+
+	if (Player->SmartBombFired)
+	{
+		Enemies->SmartBomb();
+	}
+
+	UpdatePersonMan();
+}
+
+void GameLogic::WaveStarting()
+{
+	if (EM.TimerElapsed(WaveStartTimerID))
+	{
+		State = InPlay;
+		Player->Reset();
+		BackGround->PlaceAllTheStars();
+		Enemies->StartNewWave();
+	}
 }
 
 void GameLogic::ResetField()
 {
-	Enemies->ResetField();
+	for (const auto& person : People)
+	{
+		person->Reset();
+	}
+}
+
+void GameLogic::LivesDisplay()
+{
+	size_t ships = PlayerLives.size();
+	float row = -GameWindowHalfHeight + Player->Radius * 3.250f;
+
+	if (Player->Lives > ships)
+	{
+		for (size_t i = 0; i < Player->Lives - ships; i++)
+		{
+			PlayerLives.push_back(DBG_NEW Model3D());
+			EM.AddModel3D(PlayerLives.back(), Player->Get3DModel(),
+				Player->ModelScale * 0.5f);
+			PlayerLives.back()->Initialize(TheUtilities);
+			PlayerLives.back()->HideCollision = true;
+			PlayerLives.back()->Position = { 0.0f , row, -200.0f };
+			PlayerLives.back()->BeginRun();
+		}
+	}
+
+	for (const auto& ship : PlayerLives)
+	{
+		ship->Enabled = false;
+	}
+
+	for (size_t i = 0; i < Player->Lives; i++)
+	{
+		PlayerLives[i]->Enabled = true;
+	}
+}
+
+void GameLogic::LivesDisplayUpdate()
+{
+	float column = GameWindowHalfWidth - Player->Radius * 4.5f;
+
+	for (const auto& ship : PlayerLives)
+	{
+		ship->X(-column + TheCamera.position.x);
+		column -= Player->Radius * 6.0f;
+	}
+}
+
+void GameLogic::NewGame()
+{
+	SpawnPersonMan(10);
+	Wave = 1;
+	State = InPlay;
+
+	Player->NewGame();
+
+	LivesDisplay();
 }

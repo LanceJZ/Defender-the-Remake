@@ -2,26 +2,26 @@
 
 TheBackground::TheBackground()
 {
-	StarsTimerID = Managers.EM.AddTimer();
+	StarsTimerID = EM.AddTimer();
 
 	for (size_t i = 0; i < 9; i++)
 	{
-		Managers.EM.AddModel3D(LandParts[i] = DBG_NEW Model3D());
+		EM.AddModel3D(LandParts[i] = DBG_NEW Model3D());
 		LandParts[i]->HideCollision = true;
 	}
 
 	for (size_t i = 0; i < 14; i++)
 	{
-		Managers.EM.AddModel3D(RadarLandParts[i] = DBG_NEW Model3D());
+		EM.AddModel3D(RadarLandParts[i] = DBG_NEW Model3D());
 		RadarLandParts[i]->HideCollision = true;
 	}
 
-	Managers.EM.AddModel3D(UIBackfaceL = DBG_NEW Model3D());
-	Managers.EM.AddModel3D(UIBackfaceR = DBG_NEW Model3D());
-	Managers.EM.AddModel3D(RadarBottom = DBG_NEW Model3D());
-	Managers.EM.AddModel3D(RadarTop = DBG_NEW Model3D());
-	Managers.EM.AddModel3D(RadarLeft = DBG_NEW Model3D());
-	Managers.EM.AddModel3D(RadarRight = DBG_NEW Model3D());
+	EM.AddModel3D(UIBackfaceL = DBG_NEW Model3D());
+	EM.AddModel3D(UIBackfaceR = DBG_NEW Model3D());
+	EM.AddModel3D(RadarBottom = DBG_NEW Model3D());
+	EM.AddModel3D(RadarTop = DBG_NEW Model3D());
+	EM.AddModel3D(RadarLeft = DBG_NEW Model3D());
+	EM.AddModel3D(RadarRight = DBG_NEW Model3D());
 }
 
 TheBackground::~TheBackground()
@@ -74,7 +74,8 @@ bool TheBackground::BeginRun()
 
 	for (int i = 7; i < 14; i++)
 	{
-		RadarLandParts[i]->SetModel(RadarLandParts[i - 7]->Get3DModel(), LandRadarScale);
+		RadarLandParts[i]->SetModel(RadarLandParts[i - 7]->Get3DModel(),
+			LandRadarScale);
 	}
 
 	float landY = (GetScreenHeight() / 2.0f) - 160.0f;
@@ -120,7 +121,7 @@ bool TheBackground::BeginRun()
 	for (int i = 0; i < NumberOfStars; i++)
 	{
 		AllTheStars.push_back(DBG_NEW Star());
-		Managers.EM.AddModel3D(AllTheStars.back());
+		EM.AddModel3D(AllTheStars.back());
 		AllTheStars[i]->SetModel(StarModel);
 		AllTheStars[i]->HideCollision = true;
 		AllTheStars[i]->Scale = 2.5f;
@@ -166,15 +167,9 @@ void TheBackground::Update()
 		}
 	}
 
-	if (Player->Spawned)
+	if (EM.TimerElapsed(StarsTimerID))
 	{
-		PlaceAllTheStars();
-		Player->Spawned = false;
-	}
-
-	if (Managers.EM.TimerElapsed(StarsTimerID))
-	{
-		Managers.EM.ResetTimer(StarsTimerID, GetRandomFloat(0.25f, 0.75f));
+		EM.ResetTimer(StarsTimerID, GetRandomFloat(0.25f, 0.75f));
 		ChangeTheStars();
 	}
 
@@ -219,7 +214,7 @@ void TheBackground::PlaceAllTheStars()
 			(unsigned char)GetRandomValue(10, 200),
 			(unsigned char)GetRandomValue(10, 200), 255 };
 
-		star->Position = { x, y, -10.0f };
+		star->Position = { x, y, 100.0f };
 		star->ModelColor = color;
 
 		float rotation = GetRandomFloat(-16.66f, 16.66f);
@@ -273,7 +268,7 @@ float TheBackground::UpdateRadar(float x)
 
 void TheBackground::ChangeTheStars()
 {
-	int amount = GetRandomValue(1, 40);
+	int amount = GetRandomValue(10, 40);
 
 	size_t changeAmount = GetRandomValue(1, amount);
 

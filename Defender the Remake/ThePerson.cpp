@@ -81,7 +81,7 @@ void ThePerson::Destroy()
 
 void ThePerson::Reset()
 {
-
+	Y(SpawnY);
 }
 
 void ThePerson::Falling()
