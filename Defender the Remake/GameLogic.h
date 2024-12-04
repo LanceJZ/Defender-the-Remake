@@ -33,6 +33,7 @@ public:
 	void SetEnemies(EnemyControl* enemies);
 	void SetPersonModel(Model model);
 	void SetPersonRadarModel(Model model);
+	void SetSmartBombModel(Model model);
 
 	void SetPersonGrabbedSound(Sound sound);
 	void SetPersonDroppedSound(Sound sound);
@@ -70,8 +71,10 @@ private:
 
 	Model PersonModel = { 0 };
 	Model PersonRadarModel = { 0 };
+	Model SmartBombModel = { 0 };
 
 	std::vector<Model3D*> PlayerLives = {};
+	std::vector<Model3D*> SmartbombIcons = {};
 
 	ThePlayer* Player = {};
 	EnemyControl* Enemies = {};
@@ -87,6 +90,8 @@ private:
 	void ResetField();
 	void LivesDisplay();
 	void LivesDisplayUpdate();
+	void SmartbombsDisplay();
+	void SmartbombsDisplayUpdate();
 	void NewGame();
 };
 

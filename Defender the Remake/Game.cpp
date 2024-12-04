@@ -64,6 +64,7 @@ bool Game::Load()
 
 	Logic->SetPersonModel(CM.LoadAndGetModel("Person"));
 	Logic->SetPersonRadarModel(CM.LoadAndGetModel("Person Radar"));
+	Logic->SetSmartBombModel(CM.LoadAndGetModel("BombIcon"));
 
 	Enemies->SetLanderModel(CM.LoadAndGetModel("Lander"));
 	Enemies->SetMutantModel(CM.LoadAndGetModel("Mutant"));

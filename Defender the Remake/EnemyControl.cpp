@@ -165,8 +165,6 @@ bool EnemyControl::BeginRun()
 {
 	Common::BeginRun();
 
-	NewGame();
-
 	return true;
 }
 
@@ -220,7 +218,11 @@ void EnemyControl::AllDead()
 void EnemyControl::NewGame()
 {
 	TotalSpawn = 10;
-
+	NumberSpawned = 0;
+	Wave = 0;
+	EM.ResetTimer(SpawnTimerID);
+	GameEnded = false;
+	ResetField();
 	SpawnMoreLanders();
 }
 
@@ -291,7 +293,7 @@ void EnemyControl::ResetField()
 
 void EnemyControl::RestartWave()
 {
-	SpawnMoreLanders();
+	EM.ResetTimer(SpawnTimerID);
 	SpawnBomber(NumberBombers);
 	SpawnPod(NumberPods);
 

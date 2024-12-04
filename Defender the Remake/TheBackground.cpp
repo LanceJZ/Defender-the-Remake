@@ -301,27 +301,24 @@ void TheBackground::ParallaxTheStars()
 
 	for (const auto& star : AllTheStars)
 	{
+		star->Velocity.x = Player->Velocity.x * star->RelativeVelocity;
+
 		if (sideWarped)
 		{
-			float buffer = (Player->Velocity.x * star->RelativeVelocity)
-				* GetFrameTime();
-
-			if (Player->X() > 0.0f)	star->X((star->X() - buffer) +
+			if (TheCamera.position.x > 0.0f) star->X((star->X()) +
 				(GetScreenWidth() * 7.0f));
-			else star->X((star->X() - buffer) - (GetScreenWidth() * 7.0f));
+			else star->X((star->X()) - (GetScreenWidth() * 7.0f));
 		}
 		else
 		{
-			if (star->X() > GetScreenWidth() + Player->X())
+			if (star->X() > GetScreenWidth() + TheCamera.position.x)
 			{
-				star->X(-GetScreenWidth() + Player->X());
+				star->X(-GetScreenWidth() + TheCamera.position.x);
 			}
-			else if (star->X() < -GetScreenWidth() + Player->X())
+			else if (star->X() < -GetScreenWidth() + TheCamera.position.x)
 			{
-				star->X(GetScreenWidth() + Player->X());
+				star->X(GetScreenWidth() + TheCamera.position.x);
 			}
 		}
-
-		star->Velocity.x = Player->Velocity.x * star->RelativeVelocity;
 	}
 }

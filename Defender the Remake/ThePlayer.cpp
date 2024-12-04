@@ -118,8 +118,7 @@ bool ThePlayer::BeginRun()
 	SetSoundVolume(FireSound, 0.5f);
 	SetSoundVolume(SmartbombSound, 0.5f);
 
-
-	Reset();
+	Disable();
 
 	return true;
 }
@@ -232,12 +231,14 @@ void ThePlayer::Disable()
 	CollusionFront->Enabled = false;
 	CollusionTip->Enabled = false;
 	Flame->Enabled = false;
+	Radar->Enabled = false;
 	Enabled = false;
 }
 
 void ThePlayer::NewGame()
 {
 	Lives = 4;
+	SmartBombs = 4;
 	NextNewLifeScore = 10000;
 	GameOver = false;
 	Score->ClearScore();

@@ -74,14 +74,11 @@ int WinMain()
 
 	while (!WindowShouldClose())
 	{
-		EM.Input();
-
 		if (game.Logic->State != GameState::Pause)
 		{
+			EM.Input();
 			float deltaTime = GetFrameTime() * 0.5f;
-
 			game.Update(deltaTime);
-
 			EM.Update(deltaTime);
 			EM.Update(deltaTime);
 		}

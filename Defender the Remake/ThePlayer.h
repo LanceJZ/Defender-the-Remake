@@ -18,7 +18,8 @@ public:
 	bool SideWarped = false;
 	bool Spawned = false;
 
-	int Lives { 0 };
+	int SmartBombs = 0;
+	int Lives = 0;
 
 	Shot* Shots[4] = { nullptr };
 
@@ -52,7 +53,6 @@ private:
 	bool ChangedFacing = false;
 	bool RotateFacing = false;
 	int NextNewLifeScore = 10000;
-	int SmartBombs = 0;
 	float CameraFacingOffset = 0.0f;
 	float MoveToOffset = 1000;
 	float HorzSpeed = 30.0f;

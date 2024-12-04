@@ -43,6 +43,11 @@ void GameLogic::SetPersonRadarModel(Model model)
 	PersonRadarModel = model;
 }
 
+void GameLogic::SetSmartBombModel(Model model)
+{
+	SmartBombModel = model;
+}
+
 void GameLogic::SetPersonGrabbedSound(Sound sound)
 {
 	PersonGrabbedSound = sound;
@@ -88,7 +93,9 @@ bool GameLogic::BeginRun()
 
 	SetupPersonMan();
 	Enemies->SetPeople(People);
-	NewGame();
+	State = GameOver;
+	Player->GameOver = true;
+	Enemies->GameEnded = true;
 
 	return true;
 }
@@ -100,6 +107,11 @@ void GameLogic::Input()
 		if (State == Pause) State = InPlay;
 		else if (State == InPlay) State = Pause;
 	}
+
+	if (State == GameOver)
+	{
+		if (IsKeyPressed(KEY_N)) NewGame();
+	}
 }
 
 void GameLogic::Update()
@@ -110,6 +122,7 @@ void GameLogic::Update()
 	{
 		GameInPlay();
 		LivesDisplayUpdate();
+		SmartbombsDisplayUpdate();
 	}
 
 	if (State == WaveStart)
@@ -122,6 +135,10 @@ void GameLogic::Update()
 		if (EM.TimerElapsed(PlayerResetTimerID)) PlayerHitReset();
 	}
 
+	if (State == GameOver)
+	{
+
+	}
 }
 
 void GameLogic::Draw2D()
@@ -136,6 +153,9 @@ void GameLogic::Draw2D()
 	{
 		DrawText("Game Over", GameWindowHalfWidth - (40 * 10) * 0.25f,
 			GameWindowHalfHeight - (40 * 0.5f), 40, GRAY);
+
+		DrawText("Press N to start new game.", GameWindowHalfWidth - (40 * 26) * 0.25f,
+			GameWindowHalfHeight + (40 * 1.5f), 40, GRAY);
 	}
 }
 
@@ -192,6 +212,7 @@ void GameLogic::SetupPersonMan()
 		person->SetSplatSound(PersonSplatSound);
 		person->SetDroppedSound(PersonDroppedSound);
 		person->BeginRun();
+		person->Enabled = false;
 	}
 }
 
@@ -262,7 +283,7 @@ void GameLogic::ResetField()
 void GameLogic::LivesDisplay()
 {
 	size_t ships = PlayerLives.size();
-	float row = -GameWindowHalfHeight + Player->Radius * 3.250f;
+	float row = -GameWindowHalfHeight + Player->Radius * 18.0f;
 
 	if (Player->Lives > ships)
 	{
@@ -300,6 +321,47 @@ void GameLogic::LivesDisplayUpdate()
 	}
 }
 
+void GameLogic::SmartbombsDisplay()
+{
+	int bombs = (int)SmartbombIcons.size();
+	float row = -GameWindowHalfWidth + 285.0f;
+
+	if (Player->SmartBombs > bombs)
+	{
+		for (int i = 0; i < Player->SmartBombs - bombs; i++)
+		{
+			SmartbombIcons.push_back(DBG_NEW Model3D());
+			EM.AddModel3D(SmartbombIcons.back(), SmartBombModel);
+			SmartbombIcons.back()->Initialize(TheUtilities);
+			SmartbombIcons.back()->HideCollision = true;
+			SmartbombIcons.back()->Position = { 0.0f , row, -200.0f };
+			SmartbombIcons.back()->BeginRun();
+
+			row -= 17.5f;
+		}
+	}
+
+	for (auto& bomb : SmartbombIcons)
+	{
+		bomb->Enabled = false;
+	}
+
+	for (int i = 0; i < Player->SmartBombs; i++)
+	{
+		SmartbombIcons[i]->Enabled = true;
+	}
+}
+
+void GameLogic::SmartbombsDisplayUpdate()
+{
+	float column = GameWindowHalfWidth - 341.25f;
+
+	for (auto& bomb : SmartbombIcons)
+	{
+		bomb->X(-column + TheCamera.position.x);
+	}
+}
+
 void GameLogic::NewGame()
 {
 	SpawnPersonMan(10);
@@ -309,4 +371,7 @@ void GameLogic::NewGame()
 	Player->NewGame();
 
 	LivesDisplay();
+	SmartbombsDisplay();
+
+	Enemies->NewGame();
 }
