@@ -141,4 +141,5 @@ private:
 	void SpawnPod(int count);
 	void SpawnBaiter();
 	void EndOfWave();
+	void SmartBomb(float min, float max);
 };

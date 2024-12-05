@@ -226,6 +226,7 @@ void GameLogic::PlayerHitReset()
 	LivesDisplay();
 	State = InPlay;
 	Enemies->RestartWaveTriggered = false;
+	SmartbombsDisplay();
 }
 
 void GameLogic::GameInPlay()
@@ -256,6 +257,7 @@ void GameLogic::GameInPlay()
 	if (Player->SmartBombFired)
 	{
 		Enemies->SmartBomb();
+		SmartbombsDisplay();
 	}
 
 	UpdatePersonMan();

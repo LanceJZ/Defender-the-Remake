@@ -90,6 +90,7 @@ private:
 	void MoveDown();
 	void HorizontalFriction();
 	void Fire();
+	void SmartBomb();
 
 	void CameraMovement(float deltaTime);
 	void RadarMovement(float deltaTime);

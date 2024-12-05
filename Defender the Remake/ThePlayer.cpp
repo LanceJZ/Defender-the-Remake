@@ -183,6 +183,7 @@ void ThePlayer::Hit()
 
 	BeenHit = true;
 	Lives--;
+	SmartBombs = 4;
 	Disable();
 
 	if (Lives < 0) GameOver = true;
@@ -394,6 +395,14 @@ void ThePlayer::Fire()
 	}
 }
 
+void ThePlayer::SmartBomb()
+{
+	if (SmartBombs <= 0) return;
+
+	SmartBombFired = true;
+	SmartBombs--;
+}
+
 void ThePlayer::CameraMovement(float deltaTime)
 {
 	if (ChangedFacing)
@@ -483,26 +492,11 @@ void ThePlayer::Gamepad()
 
 void ThePlayer::Keyboard()
 {
-	if (IsKeyDown(KEY_RIGHT))
-	{
-	}
-	else if (IsKeyDown(KEY_LEFT))
-	{
-	}
-	else
-	{
-	}
-
 	if (IsKeyDown(KEY_UP))
 	{
 		MoveUp();
 	}
 	else
-	{
-	}
-
-	if (IsKeyPressed(KEY_RIGHT_CONTROL) || IsKeyPressed(KEY_LEFT_CONTROL) ||
-		IsKeyPressed(KEY_SPACE))
 	{
 	}
 
@@ -528,8 +522,14 @@ void ThePlayer::Keyboard()
 		Reverse();
 	}
 
-	if (IsKeyPressed(KEY_LEFT_CONTROL))
+	if (IsKeyPressed(KEY_LEFT_CONTROL) ||
+		IsKeyPressed(KEY_SPACE))
 	{
 		Fire();
+	}
+
+	if (IsKeyPressed(KEY_RIGHT_CONTROL))
+	{
+		SmartBomb();
 	}
 }

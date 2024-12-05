@@ -369,6 +369,32 @@ void EnemyControl::PlayerHitReset()
 	ResetField();
 }
 
+void EnemyControl::SmartBomb()
+{
+	Player->SmartBombFired = false;
+	float width = GetScreenWidth() / 1.4f;
+	float x = Player->X();
+	float max = x + width;
+	float min = x - width;
+
+	SmartBomb(min, max);
+
+	if (max > GetScreenWidth() * 3.5f)
+	{
+		x = Player->X() - GetScreenWidth() * 7;
+		max = x + width;
+		min = x - width;
+		SmartBomb(min, max);
+	}
+	else if (min < -GetScreenWidth() * 3.5f)
+	{
+		x = Player->X() + GetScreenWidth() * 7;
+		max = x + width;
+		min = x - width;
+		SmartBomb(min, max);
+	}
+}
+
 void EnemyControl::UpdateLanderStatus()
 {
 	if (NoMoreLanders) return;
@@ -489,53 +515,6 @@ void EnemyControl::UpdatePodStatus()
 void EnemyControl::UpdateBaiterStatus()
 {
 
-}
-
-void EnemyControl::SmartBomb()
-{
-	Player->SmartBombFired = false;
-	float width = GetScreenWidth() / 1.4f;
-	float x = Player->X();
-	float max = x + width;
-	float min = x - width;
-
-	for (const auto& lander : Landers)
-	{
-		if (lander->Enabled)
-		{
-			if (lander->X() > min && lander->X() < max)
-			{
-				lander->Hit();
-				lander->Reset();
-			}
-		}
-	}
-
-	for (const auto& mutant : Mutants)
-	{
-		if (mutant->Enabled)
-		{
-			if (mutant->X() > min && mutant->X() < max)
-			{
-				mutant->Hit();
-				mutant->Reset();
-			}
-		}
-	}
-}
-
-void EnemyControl::SpawnMoreLanders()
-{
-	int spawn = 5;
-
-	if (NumberSpawned + spawn > TotalSpawn)
-	{
-		spawn = TotalSpawn - NumberSpawned;
-	}
-
-	NumberSpawned += spawn;
-	SpawnLanders(spawn);
-	EM.ResetTimer(SpawnTimerID);
 }
 
 void EnemyControl::SpawnLanders(int count)
@@ -759,4 +738,87 @@ void EnemyControl::EndOfWave()
 	NoMoreMutants = false;
 	NoMoreLanders = false;
 	WaveEnded = true;
+}
+
+void EnemyControl::SmartBomb(float min, float max)
+{
+	for (const auto& lander : Landers)
+	{
+		if (lander->Enabled)
+		{
+			if (lander->X() > min && lander->X() < max)
+			{
+				lander->Hit();
+			}
+		}
+	}
+
+	for (const auto& mutant : Mutants)
+	{
+		if (mutant->Enabled)
+		{
+			if (mutant->X() > min && mutant->X() < max)
+			{
+				mutant->Hit();
+			}
+		}
+	}
+
+	for (const auto& bomber : Bombers)
+	{
+		if (bomber->Enabled)
+		{
+			if (bomber->X() > min && bomber->X() < max)
+			{
+				bomber->Hit();
+			}
+		}
+	}
+
+	for (const auto& pod : Pods)
+	{
+		if (pod->Enabled)
+		{
+			if (pod->X() > min && pod->X() < max)
+			{
+				pod->Hit();
+			}
+		}
+	}
+
+	for (const auto& swarmer : Swarmers)
+	{
+		if (swarmer->Enabled)
+		{
+			if (swarmer->X() > min && swarmer->X() < max)
+			{
+				swarmer->Hit();
+			}
+		}
+	}
+
+	for (const auto& baiter : Baiters)
+	{
+		if (baiter->Enabled)
+		{
+			if (baiter->X() > min && baiter->X() < max)
+			{
+				baiter->Hit();
+			}
+		}
+	}
+}
+
+void EnemyControl::SpawnMoreLanders()
+{
+	int spawn = 5;
+
+	if (NumberSpawned + spawn > TotalSpawn)
+	{
+		spawn = TotalSpawn - NumberSpawned;
+	}
+
+	NumberSpawned += spawn;
+	SpawnLanders(spawn);
+	EM.ResetTimer(SpawnTimerID);
 }
