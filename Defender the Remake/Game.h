@@ -20,6 +20,7 @@ public:
 	bool Initialize(Utilities* utilities);
 	bool Load();
 	bool BeginRun();
+	void Input();
 	void Update(float deltaTime);
 	void Draw3D();
 	void Draw2D();

@@ -119,6 +119,20 @@ bool Game::BeginRun()
 	return true;
 }
 
+void Game::Input()
+{
+	if (IsKeyPressed(KEY_P))
+	{
+		if (Logic->State == Pause) Logic->State = InPlay;
+		else if (Logic->State == InPlay) Logic->State = Pause;
+	}
+
+	if (Logic->State == GameOver)
+	{
+		if (IsKeyPressed(KEY_N)) Logic->NewGame();
+	}
+}
+
 void Game::Update(float deltaTime)
 {
 	if (Enemies->TriggerLandChange)

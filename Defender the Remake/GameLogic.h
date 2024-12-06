@@ -49,6 +49,7 @@ public:
 	void Draw2D();
 
 	void EndOfWave();
+	void NewGame();
 
 private:
 	size_t NewWaveTimerID = 0;
@@ -92,6 +93,5 @@ private:
 	void LivesDisplayUpdate();
 	void SmartbombsDisplay();
 	void SmartbombsDisplayUpdate();
-	void NewGame();
 };
 

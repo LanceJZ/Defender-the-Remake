@@ -125,6 +125,8 @@ bool ThePlayer::BeginRun()
 
 void ThePlayer::Input()
 {
+	if (Paused) return;
+
 	Model3D::Input();
 
 	Keyboard();

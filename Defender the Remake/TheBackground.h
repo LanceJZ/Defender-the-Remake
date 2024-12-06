@@ -22,6 +22,8 @@ public:
 	void Update();
 
 	void PlaceAllTheStars();
+	void ParallaxTheStars();
+	void StillTheStars();
 	void AllThePersonManDead();
 	void AllThePersonManNotDead();
 	void NewLevel();
@@ -54,5 +56,4 @@ private:
 
 	float UpdateRadar(float x);
 	void ChangeTheStars();
-	void ParallaxTheStars();
 };

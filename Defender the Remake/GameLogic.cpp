@@ -102,16 +102,6 @@ bool GameLogic::BeginRun()
 
 void GameLogic::Input()
 {
-	if (IsKeyPressed(KEY_P))
-	{
-		if (State == Pause) State = InPlay;
-		else if (State == InPlay) State = Pause;
-	}
-
-	if (State == GameOver)
-	{
-		if (IsKeyPressed(KEY_N)) NewGame();
-	}
 }
 
 void GameLogic::Update()
@@ -234,6 +224,7 @@ void GameLogic::GameInPlay()
 	if (Enemies->WaveEnded)
 	{
 		EndOfWave();
+		BackGround->StillTheStars();
 		EM.ResetTimer(WaveStartTimerID);
 		State = WaveStart;
 		return;
@@ -242,6 +233,7 @@ void GameLogic::GameInPlay()
 	if (Player->BeenHit)
 	{
 		Player->BeenHit = false;
+		BackGround->StillTheStars();
 		EM.ResetTimer(PlayerResetTimerID);
 		State = PlayerHitByEnemy;
 		Enemies->RestartWaveTriggered = true;
@@ -253,6 +245,7 @@ void GameLogic::GameInPlay()
 
 		return;
 	}
+	else BackGround->ParallaxTheStars();
 
 	if (Player->SmartBombFired)
 	{

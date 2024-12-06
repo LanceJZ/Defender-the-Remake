@@ -129,7 +129,7 @@ bool TheBackground::BeginRun()
 	}
 
 	PlaceAllTheStars();
-	ChangeTheStars();
+	Update();
 
 	return false;
 }
@@ -172,8 +172,6 @@ void TheBackground::Update()
 		EM.ResetTimer(StarsTimerID, GetRandomFloat(0.25f, 0.75f));
 		ChangeTheStars();
 	}
-
-	ParallaxTheStars();
 }
 
 void TheBackground::AllThePersonManDead()
@@ -223,6 +221,9 @@ void TheBackground::PlaceAllTheStars()
 		star->RotationVelocityY = rotation;
 		star->RotationVelocityZ = rotation;
 	}
+
+	ChangeTheStars();
+	ChangeTheStars();
 }
 
 void TheBackground::AllThePersonManNotDead()
@@ -320,5 +321,13 @@ void TheBackground::ParallaxTheStars()
 				star->X(GetScreenWidth() + TheCamera.position.x);
 			}
 		}
+	}
+}
+
+void TheBackground::StillTheStars()
+{
+	for (const auto& star : AllTheStars)
+	{
+		star->Velocity.x = 0.0f;
 	}
 }
