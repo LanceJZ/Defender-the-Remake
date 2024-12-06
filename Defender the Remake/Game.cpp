@@ -135,13 +135,6 @@ void Game::Input()
 
 void Game::Update(float deltaTime)
 {
-	if (Enemies->TriggerLandChange)
-	{
-		Enemies->TriggerLandChange = false;
-
-		if (Enemies->NoMorePeople) BackGround->AllThePersonManDead();
-		else BackGround->AllThePersonManNotDead();
-	}
 }
 
 void Game::Draw3D()

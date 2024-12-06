@@ -75,15 +75,14 @@ int WinMain()
 	while (!WindowShouldClose())
 	{
 		game.Input();
+		game.Update(GetFrameTime());
 
 		if (game.Logic->State != GameState::Pause &&
 			game.Logic->State != GameState::GameOver)
 		{
 			EM.Input();
 			float deltaTime = GetFrameTime() * 0.5f;
-			game.Update(deltaTime);
-			EM.Update(deltaTime);
-			EM.Update(deltaTime);
+			EM.Update(GetFrameTime());
 		}
 
 		BeginDrawing();

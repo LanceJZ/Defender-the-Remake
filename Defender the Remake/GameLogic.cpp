@@ -125,9 +125,12 @@ void GameLogic::Update()
 		if (EM.TimerElapsed(PlayerResetTimerID)) PlayerHitReset();
 	}
 
-	if (State == GameOver)
+	if (Enemies->TriggerLandChange)
 	{
+		Enemies->TriggerLandChange = false;
 
+		if (Enemies->NoMorePeople) BackGround->AllThePersonManDead();
+		else BackGround->AllThePersonManNotDead();
 	}
 }
 

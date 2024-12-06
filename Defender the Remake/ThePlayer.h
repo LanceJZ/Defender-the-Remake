@@ -17,7 +17,6 @@ public:
 	bool EnemyUpdate = false;
 	bool SideWarped = false;
 	bool Spawned = false;
-	bool Paused = false;
 
 	int SmartBombs = 0;
 	int Lives = 0;
