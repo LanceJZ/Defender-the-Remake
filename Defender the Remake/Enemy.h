@@ -23,9 +23,11 @@ public:
 	void Spawn(Vector3 position);
 
 	void Update(float deltaTime);
+	void FixedUpdate(float deltaTime);
 
 	void Hit();
 	void Reset();
+	void Destroy();
 
 protected:
 	size_t ShotTimerID = 0;
@@ -37,7 +39,6 @@ protected:
 
 	virtual void FireShot();
 	virtual bool CheckCollision();
-	void Destroy();
 
 private:
 

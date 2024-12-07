@@ -27,9 +27,11 @@ public:
 	bool BeginRun();
 
 	void Update(float deltaTime);
+	void FixedUpdate(float deltaTime);
 
 	void Spawn(Vector3 position);
 	void Reset();
+	void Destroy();
 	void Hit();
 
 private:
@@ -55,7 +57,6 @@ private:
 	void GoingDown();
 	void GrabPersonMan();
 	void SpawnMutant();
-	void Destroy();
 
 	bool CheckCollision();
 };

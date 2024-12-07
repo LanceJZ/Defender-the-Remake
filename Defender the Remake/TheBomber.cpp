@@ -28,6 +28,12 @@ void TheBomber::Update(float deltaTime)
 {
 	Enemy::Update(deltaTime);
 
+}
+
+void TheBomber::FixedUpdate(float deltaTime)
+{
+	Enemy::FixedUpdate(deltaTime);
+
 	if (EM.TimerElapsed(ShotTimerID))
 	{
 		DropBomb();

@@ -81,8 +81,11 @@ int WinMain()
 			game.Logic->State != GameState::GameOver)
 		{
 			EM.Input();
-			float deltaTime = GetFrameTime() * 0.5f;
-			EM.Update(GetFrameTime());
+
+			float deltaTime = GetFrameTime();
+
+			EM.FixedUpdate(deltaTime);
+			EM.Update(deltaTime);
 		}
 
 		BeginDrawing();

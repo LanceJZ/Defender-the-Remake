@@ -32,6 +32,12 @@ void TheBaiter::Update(float deltaTime)
 {
 	Enemy::Update(deltaTime);
 
+}
+
+void TheBaiter::FixedUpdate(float deltaTime)
+{
+	Enemy::FixedUpdate(deltaTime);
+
 	if (EM.TimerElapsed(SpeedChangeTimerID))
 	{
 		ChangeSpeed();

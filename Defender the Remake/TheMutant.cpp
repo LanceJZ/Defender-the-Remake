@@ -30,6 +30,12 @@ void TheMutant::Update(float deltaTime)
 {
 	Enemy::Update(deltaTime);
 
+}
+
+void TheMutant::FixedUpdate(float deltaTime)
+{
+	Enemy::FixedUpdate(deltaTime);
+
 	ScreenEdgeBoundY(GetScreenHeight() * 0.15f, VerticesSize * 0.5f);
 	ChasePlayer();
 

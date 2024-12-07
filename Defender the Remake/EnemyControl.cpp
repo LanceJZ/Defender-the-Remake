@@ -203,7 +203,7 @@ void EnemyControl::StartNewWave()
 
 	NumberSpawned = 0;
 	Wave++;
-	EM.ResetTimer(SpawnTimerID);
+	EM.ResetTimer(SpawnTimerID, 1.0f);
 
 	SpawnBomber(Wave);
 	SpawnPod(Wave);
@@ -220,7 +220,7 @@ void EnemyControl::NewGame()
 	TotalSpawn = 10;
 	NumberSpawned = 0;
 	Wave = 0;
-	EM.ResetTimer(SpawnTimerID);
+	EM.ResetTimer(SpawnTimerID, 1.0f);
 	GameEnded = false;
 	ResetField();
 	SpawnMoreLanders();
@@ -293,7 +293,7 @@ void EnemyControl::ResetField()
 
 void EnemyControl::RestartWave()
 {
-	EM.ResetTimer(SpawnTimerID);
+	EM.ResetTimer(SpawnTimerID, 1.0f);
 	SpawnBomber(NumberBombers);
 	SpawnPod(NumberPods);
 
@@ -423,14 +423,14 @@ void EnemyControl::UpdateLanderStatus()
 
 			if (lander->MutateLander)
 			{
-				lander->Reset();
+				lander->Destroy();
 				SpawnMutant(lander->Position);
 				break;
 			}
 
 			if (lander->BeenHit)
 			{
-				lander->Reset();
+				lander->Destroy();
 				break;
 			}
 		}
@@ -457,7 +457,7 @@ void EnemyControl::UpdateMutantStatus()
 
 		if (mutant->BeenHit)
 		{
-			mutant->Reset();
+			mutant->Destroy();
 			break;
 		}
 	}
@@ -473,7 +473,7 @@ void EnemyControl::UpdateBomberStatus()
 
 		if (bomber->BeenHit)
 		{
-			bomber->Reset();
+			bomber->Destroy();
 			break;
 		}
 	}
@@ -489,7 +489,7 @@ void EnemyControl::UpdateSwarmerStatus()
 
 		if (swarmer->BeenHit)
 		{
-			swarmer->Reset();
+			swarmer->Destroy();
 			break;
 		}
 	}
@@ -514,7 +514,14 @@ void EnemyControl::UpdatePodStatus()
 
 void EnemyControl::UpdateBaiterStatus()
 {
-
+	for (const auto& baiter : Baiters)
+	{
+		if (baiter->BeenHit)
+		{
+			baiter->Destroy();
+			break;
+		}
+	}
 }
 
 void EnemyControl::SpawnLanders(int count)
@@ -807,6 +814,8 @@ void EnemyControl::SmartBomb(float min, float max)
 			}
 		}
 	}
+
+	
 }
 
 void EnemyControl::SpawnMoreLanders()
@@ -820,5 +829,5 @@ void EnemyControl::SpawnMoreLanders()
 
 	NumberSpawned += spawn;
 	SpawnLanders(spawn);
-	EM.ResetTimer(SpawnTimerID);
+	EM.ResetTimer(SpawnTimerID, SpawnTimerAmount);
 }

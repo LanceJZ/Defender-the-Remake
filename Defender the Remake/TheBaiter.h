@@ -11,9 +11,11 @@ public:
 	bool BeginRun();
 
 	void Update(float deltaTime);
+	void FixedUpdate(float deltaTime);
 
 	void Spawn(Vector3 position);
 	void Reset();
+	void Destroy();
 
 private:
 	size_t AfterSpawnTimerID = 0;
@@ -27,5 +29,4 @@ private:
 	void ChangeSpeed();
 	void FireShot();
 	bool CheckCollision();
-	void Destroy();
 };

@@ -32,6 +32,12 @@ void TheSwarmer::Update(float deltaTime)
 {
 	Enemy::Update(deltaTime);
 
+}
+
+void TheSwarmer::FixedUpdate(float deltaTime)
+{
+	Enemy::FixedUpdate(deltaTime);
+
 	if (EM.TimerElapsed(AfterSpawnTimerID))
 	{
 		AfterSpawnTimer = true;

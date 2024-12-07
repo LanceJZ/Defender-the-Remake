@@ -47,6 +47,12 @@ void TheLander::Update(float deltaTime)
 {
 	Enemy::Update(deltaTime);
 
+}
+
+void TheLander::FixedUpdate(float deltaTime)
+{
+	Enemy::FixedUpdate(deltaTime);
+
 	switch (State)
 	{
 	case LanderStateList::LoweringToSeek:

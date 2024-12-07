@@ -66,9 +66,15 @@ bool Shot::BeginRun()
 
 void Shot::Update(float deltaTime)
 {
-	CheckPlayfieldSidesWarp(7.0f, 7.0f); //This needs to be before for ray cast.
-
 	Model3D::Update(deltaTime);
+
+}
+
+void Shot::FixedUpdate(float deltaTime)
+{
+	Model3D::FixedUpdate(deltaTime);
+
+	CheckPlayfieldSidesWarp(7.0f, 7.0f); //This needs to be before for ray cast.
 
 	if (EM.TimerElapsed(LifeTimerID)) Destroy();
 

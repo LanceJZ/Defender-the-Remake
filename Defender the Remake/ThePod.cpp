@@ -28,6 +28,12 @@ void ThePod::Update(float deltaTime)
 {
 	Enemy::Update(deltaTime);
 
+}
+
+void ThePod::FixedUpdate(float deltaTime)
+{
+	Enemy::FixedUpdate(deltaTime);
+
 	CheckPlayfieldHeightWarp(0.679f, 1.0f);
 }
 

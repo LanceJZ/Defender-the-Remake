@@ -139,14 +139,19 @@ void ThePlayer::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
 
+	HorizontalFriction();
+}
+
+void ThePlayer::FixedUpdate(float deltaTime)
+{
+	Model3D::FixedUpdate(deltaTime);
+
 	if (RotateFacing)
 		RotateShipFacing();
 
-	ScreenEdgeBoundY(GetScreenHeight() * 0.15f, CollusionBack->Radius * 2.0f);
+	ScreenEdgeBoundY(GetScreenHeight() * 0.16f, CollusionBack->Radius * 2.0f);
 
 	if (CheckPlayfieldSidesWarp(7.0f, 7.0f)) SideWarped = true;
-
-	HorizontalFriction();
 
 	CameraMovement(deltaTime);
 	RadarMovement(deltaTime);
@@ -374,7 +379,10 @@ void ThePlayer::HorizontalFriction()
 {
 	if (Velocity.y > 0.0f)
 	{
-		Acceleration.y = -HorzSpeed / (HorzDrag / (Velocity.y * AirDrag));
+		float airDrag = (Velocity.y * AirDrag);
+		float horzDrag = HorzDrag / airDrag;
+
+		Acceleration.y = -HorzSpeed / horzDrag;
 	}
 	else if (Velocity.y < 0.0f)
 	{
@@ -399,6 +407,7 @@ void ThePlayer::SmartBomb()
 {
 	if (SmartBombs <= 0) return;
 
+	EnemyUpdate = true;
 	SmartBombFired = true;
 	SmartBombs--;
 }

@@ -28,7 +28,8 @@ TheBackground::~TheBackground()
 {
 }
 
-void TheBackground::SetLandPartsModel(Model landPart, Model radarLandPart, int index)
+void TheBackground::SetLandPartsModel(Model landPart, Model radarLandPart,
+	size_t index)
 {
 	LandParts[index]->SetModel(landPart, 5.0f);
 	RadarLandParts[index]->SetModel(radarLandPart, LandRadarScale);
@@ -306,7 +307,7 @@ void TheBackground::ParallaxTheStars()
 
 		if (sideWarped)
 		{
-			if (TheCamera.position.x > 0.0f) star->X((star->X()) +
+			if (Player->X() > 0.0f) star->X((star->X()) +
 				(GetScreenWidth() * 7.0f));
 			else star->X((star->X()) - (GetScreenWidth() * 7.0f));
 		}

@@ -9,7 +9,7 @@ public:
 	TheBackground();
 	virtual ~TheBackground();
 
-	void SetLandPartsModel(Model landPart, Model radarLandPart, int index);
+	void SetLandPartsModel(Model landPart, Model radarLandPart, size_t index);
 	void SetUIBackfaceModel(Model model);
 	void SetRadarModel(Model horizontal, Model side);
 	void SetStarModel(Model model);

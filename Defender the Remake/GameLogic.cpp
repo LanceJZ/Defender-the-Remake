@@ -138,17 +138,18 @@ void GameLogic::Draw2D()
 {
 	if (State == WaveStart)
 	{
-		DrawText("Get Ready", GameWindowHalfWidth - (40 * 10) * 0.25f,
-			GameWindowHalfHeight - (40 * 0.5f), 40, GRAY);
+		DrawText("Get Ready", (int)(GameWindowHalfWidth - (40 * 10) * 0.25f),
+			(int)(GameWindowHalfHeight - (40 * 0.5f)), 40, GRAY);
 	}
 
 	if (State == GameOver)
 	{
-		DrawText("Game Over", GameWindowHalfWidth - (40 * 10) * 0.25f,
-			GameWindowHalfHeight - (40 * 0.5f), 40, GRAY);
+		DrawText("Game Over", (int)(GameWindowHalfWidth - (40 * 10) * 0.25f),
+			(int)(GameWindowHalfHeight - (40 * 0.5f)), 40, GRAY);
 
-		DrawText("Press N to start new game.", GameWindowHalfWidth - (40 * 26) * 0.25f,
-			GameWindowHalfHeight + (40 * 1.5f), 40, GRAY);
+		DrawText("Press N to start new game.",
+			(int)(GameWindowHalfWidth - (40 * 26) * 0.25f),
+			(int)(GameWindowHalfHeight + (40 * 1.5f)), 40, GRAY);
 	}
 }
 
@@ -205,7 +206,6 @@ void GameLogic::SetupPersonMan()
 		person->SetSplatSound(PersonSplatSound);
 		person->SetDroppedSound(PersonDroppedSound);
 		person->BeginRun();
-		person->Enabled = false;
 	}
 }
 

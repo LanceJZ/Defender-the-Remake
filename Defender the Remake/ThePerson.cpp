@@ -39,12 +39,21 @@ bool ThePerson::BeginRun()
 {
 	MirrorRadar::BeginRun();
 
+	Enabled = false;
+	Radar->Enabled = false;
+
 	return true;
 }
 
 void ThePerson::Update(float deltaTime)
 {
 	MirrorRadar::Update(deltaTime);
+
+}
+
+void ThePerson::FixedUpdate(float deltaTime)
+{
+	MirrorRadar::FixedUpdate(deltaTime);
 
 	if (State == PersonState::GoingDown)
 	{

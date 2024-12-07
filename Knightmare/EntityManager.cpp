@@ -111,6 +111,11 @@ void EntityManager::Update(float deltaTime)
 
 void EntityManager::FixedUpdate(float deltaTime)
 {
+	for (int i = 0; i < Entities.size(); i++)
+	{
+		if (Entities.at(i)->Enabled) Entities.at(i)->FixedUpdate(deltaTime);
+	}
+
 	for (const auto& timer : Timers)
 	{
 		timer->FixedUpdate(deltaTime);
@@ -119,11 +124,6 @@ void EntityManager::FixedUpdate(float deltaTime)
 	for (const auto& common : Commons)
 	{
 		common->FixedUpdate();
-	}
-
-	for (int i = 0; i < Entities.size(); i++)
-	{
-		if (Entities.at(i)->Enabled) Entities.at(i)->FixedUpdate(deltaTime);
 	}
 }
 

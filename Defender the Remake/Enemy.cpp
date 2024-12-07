@@ -45,9 +45,14 @@ void Enemy::Update(float deltaTime)
 {
 	MirrorRadar::Update(deltaTime);
 
-	CheckPlayfieldSidesWarp(7.0f, 7.0f);
-
 	CheckCollision();
+}
+
+void Enemy::FixedUpdate(float deltaTime)
+{
+	MirrorRadar::FixedUpdate(deltaTime);
+
+	CheckPlayfieldSidesWarp(7.0f, 7.0f);
 }
 
 void Enemy::FireShot()
@@ -76,8 +81,6 @@ bool Enemy::CheckCollision()
 			shot->Reset();
 			Hit();
 
-			Player->ScoreUpdate(Points);
-
 			return true;
 		}
 	}
@@ -89,7 +92,6 @@ bool Enemy::CheckCollision()
 		Hit();
 
 		Player->Hit();
-		Player->ScoreUpdate(Points);
 
 		return true;
 	}
@@ -146,9 +148,10 @@ float Enemy::AimedShot(Vector3 position)
 void Enemy::Hit()
 {
 	BeenHit = true;
-	Player->EnemyUpdate = true;
+
 	if (!Player->GameOver) PlaySound(ExplodeSound);
 
+	Player->ScoreUpdate(Points);
 	float mirrorMultiplier = GetScreenWidth() * 7.0f;
 	Color color = { 200, 150, 255, 255 };
 	Vector3 mirrorL	= { X() - mirrorMultiplier, Y(), 0.0f};

@@ -16,8 +16,10 @@ public:
 	bool BeginRun();
 
 	void Update(float deltaTime);
+	void FixedUpdate(float deltaTime);
 
 	void Spawn(Vector3 position);
+	void Destroy();
 
 protected:
 	float HeightMultiplier = 0;
@@ -32,7 +34,6 @@ protected:
 
 	ThePlayer* Player = nullptr;
 
-	void Destroy();
 private:
 
 

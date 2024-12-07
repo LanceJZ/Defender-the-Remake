@@ -7,9 +7,9 @@ ParticleCube::~ParticleCube()
 {
 }
 
-void ParticleCube::SetManagers(EntityManager* managers)
+void ParticleCube::SetManagers(EntityManager* entityManager)
 {
-	EM = managers;
+	EM = entityManager;
 
 	LifeTimerID = EM->AddTimer();
 }
@@ -25,6 +25,8 @@ bool ParticleCube::BeginRun()
 {
 	Model3D::BeginRun();
 
+	Enabled = false;
+
 	return false;
 }
 
@@ -32,16 +34,16 @@ void ParticleCube::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
 
-	if (EM->TimerElapsed(LifeTimerID))
-	{
-		Enabled = false;
-	}
 }
 
 void ParticleCube::FixedUpdate(float deltaTime)
 {
 	Model3D::FixedUpdate(deltaTime);
 
+	if (EM->TimerElapsed(LifeTimerID))
+	{
+		Enabled = false;
+	}
 }
 
 void ParticleCube::Draw3D()

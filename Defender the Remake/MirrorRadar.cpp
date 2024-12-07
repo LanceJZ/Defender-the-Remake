@@ -63,6 +63,12 @@ void MirrorRadar::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
 
+}
+
+void MirrorRadar::FixedUpdate(float deltaTime)
+{
+	Model3D::FixedUpdate(deltaTime);
+
 	Radar->X(TheCamera.position.x + (-Player->X() * WidthCameraOffset) +
 		(X() * WidthCameraOffset));
 

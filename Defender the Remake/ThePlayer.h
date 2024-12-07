@@ -40,6 +40,7 @@ public:
 
 	void Input();
 	void Update(float deltaTime);
+	void FixedUpdate(float deltaTime);
 
 	bool GetCollusion(Entity& target);
 	void Hit();
@@ -52,7 +53,7 @@ private:
 	bool FacingRight = true;
 	bool ChangedFacing = false;
 	bool RotateFacing = false;
-	int NextNewLifeScore = 10000;
+	unsigned int NextNewLifeScore = 10000;
 	float CameraFacingOffset = 0.0f;
 	float MoveToOffset = 1000;
 	float HorzSpeed = 30.0f;
