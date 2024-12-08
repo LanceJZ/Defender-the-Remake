@@ -17,9 +17,15 @@ public:
 	bool EnemyUpdate = false;
 	bool SideWarped = false;
 	bool Spawned = false;
+	bool FacingRight = true;
+	bool RotateFacing = false;
+	bool ChangedFacing = false;
 
 	int SmartBombs = 0;
 	int Lives = 0;
+
+	float CameraFacingOffset = 0.0f;
+	float MoveToOffset = 1000;
 
 	Shot* Shots[4] = { nullptr };
 
@@ -50,12 +56,7 @@ public:
 	void NewGame();
 
 private:
-	bool FacingRight = true;
-	bool ChangedFacing = false;
-	bool RotateFacing = false;
 	unsigned int NextNewLifeScore = 10000;
-	float CameraFacingOffset = 0.0f;
-	float MoveToOffset = 1000;
 	float HorzSpeed = 30.0f;
 	float HorzMaxSpeed = 200.0f;
 	float HorzDrag = 2.0f;
@@ -70,9 +71,6 @@ private:
 	Sound ThrustSound = {};
 	Sound SmartbombSound = {};
 	Sound BonusSound = {};
-
-	Model ShotModel = {};
-	Model ShotTailModel = {};
 
 	Entity* CollusionBack = nullptr;
 	Entity* CollusionMidFront = nullptr;

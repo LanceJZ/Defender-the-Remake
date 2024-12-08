@@ -11,11 +11,6 @@ ThePlayer::ThePlayer()
 	EM.AddModel3D(Radar = DBG_NEW Model3D());
 
 	EM.AddOnScreenText(Score = DBG_NEW TheScore());
-
-	for (int i = 0; i < 4; i++)
-	{
-		EM.AddModel3D(Shots[i] = DBG_NEW Shot());
-	}
 }
 
 ThePlayer::~ThePlayer()
@@ -24,10 +19,15 @@ ThePlayer::~ThePlayer()
 
 void ThePlayer::SetShotModels(Model shotModel, Model tailModel)
 {
+	for (size_t i = 0; i < 4; i++)
+	{
+		EM.AddModel3D(Shots[i] = DBG_NEW Shot(), shotModel);
+	}
+
 	for(auto shot : Shots)
 	{
-		shot->SetModel(shotModel);
 		shot->SetPlayerShotTailModel(tailModel);
+		shot->Initialize(TheUtilities);
 	}
 }
 
@@ -69,11 +69,6 @@ void ThePlayer::SetBonusSound(Sound sound)
 bool ThePlayer::Initialize(Utilities* utilities)
 {
 	Model3D::Initialize(utilities);
-
-	for(auto shot : Shots)
-	{
-		shot->Initialize(utilities);
-	}
 
 	RadarModifier = GetScreenHeight() * 0.4374f;
 	CameraFacingOffset = GetScreenWidth() * 0.2f;

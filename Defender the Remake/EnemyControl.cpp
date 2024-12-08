@@ -531,8 +531,8 @@ void EnemyControl::SpawnLanders(int count)
 	for (int i = 0; i < count; i++)
 	{
 		bool spawnNew = true;
-		int landerNumber = 0;
-		int landerSpawnNumber = (int)Landers.size();
+		size_t landerNumber = 0;
+		size_t landerSpawnNumber = Landers.size();
 
 		for (const auto& lander : Landers)
 		{
@@ -567,8 +567,8 @@ void EnemyControl::SpawnLanders(int count)
 void EnemyControl::SpawnMutant(Vector3 position)
 {
 	bool spawnNew = true;
-	int mutantNumber = 0;
-	int mutantSpawnNumber = (int)Mutants.size();
+	size_t mutantNumber = 0;
+	size_t mutantSpawnNumber = Mutants.size();
 
 	for (const auto& mutant : Mutants)
 	{
@@ -601,8 +601,8 @@ void EnemyControl::SpawnBomber(int count)
 	for (int i = 0; i < count; i++)
 	{
 		bool spawnNew = true;
-		int bomberNumber = 0;
-		int bomberSpawnNumber = (int)Bombers.size();
+		size_t bomberNumber = 0;
+		size_t bomberSpawnNumber = Bombers.size();
 
 		for (const auto& bomber : Bombers)
 		{
@@ -637,8 +637,8 @@ void EnemyControl::SpawnSwarmers(Vector3 position, int count)
 	for (int i = 0; i < count; i++)
 	{
 		bool spawnNew = true;
-		int swarmerNumber = 0;
-		int swarmerSpawnNumber = (int)Swarmers.size();
+		size_t swarmerNumber = 0;
+		size_t swarmerSpawnNumber = Swarmers.size();
 
 		for (const auto& swarmer : Swarmers)
 		{
@@ -672,8 +672,8 @@ void EnemyControl::SpawnPod(int count)
 	for (int i = 0; i < count; i++)
 	{
 		bool spawnNew = true;
-		int podNumber = 0;
-		int podSpawnNumber = (int)Pods.size();
+		size_t podNumber = 0;
+		size_t podSpawnNumber = Pods.size();
 
 		for (const auto& pod : Pods)
 		{
@@ -706,7 +706,7 @@ void EnemyControl::SpawnBaiter()
 	if (!Player->GameOver) PlaySound(BaiterSpawnSound);
 
 	size_t spawnNumber = Baiters.size();
-	int baiterNumber = 0;
+	size_t baiterNumber = 0;
 	bool spawnNew = true;
 
 	for (const auto& baiter : Baiters)
@@ -815,7 +815,7 @@ void EnemyControl::SmartBomb(float min, float max)
 		}
 	}
 
-	
+
 }
 
 void EnemyControl::SpawnMoreLanders()

@@ -305,6 +305,20 @@ void TheBackground::ParallaxTheStars()
 	{
 		star->Velocity.x = Player->Velocity.x * star->RelativeVelocity;
 
+		if (Player->ChangedFacing)
+		{
+			if (Player->FacingRight)
+			{
+				star->Position.x += Player->CameraFacingOffset *
+					Player->MoveToOffset * GetFrameTime();
+			}
+			else
+			{
+				star->Position.x -= Player->CameraFacingOffset *
+					Player->MoveToOffset * GetFrameTime();
+			}
+		}
+
 		if (sideWarped)
 		{
 			if (Player->X() > 0.0f) star->X((star->X()) +
