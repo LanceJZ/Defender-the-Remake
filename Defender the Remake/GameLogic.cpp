@@ -7,7 +7,7 @@ GameLogic::GameLogic()
 		PeopleIDs[i] = EM.AddModel3D(People[i] = DBG_NEW ThePerson());
 	}
 
-	NewWaveTimerID = EM.AddTimer(1.5f);
+	NewWaveTimerID = EM.AddTimer(4.75f);
 	PlayerDeathTimerID = EM.AddTimer();
 	PlayerResetTimerID = EM.AddTimer(5.5f);
 	WaveStartTimerID = EM.AddTimer(2.0f);
@@ -115,6 +115,21 @@ void GameLogic::Update()
 		SmartbombsDisplayUpdate();
 	}
 
+	if (State == NewWave)
+	{
+		if (EM.TimerElapsed(NewWaveTimerID))
+		{
+			EM.ResetTimer(WaveStartTimerID);
+			BackGround->NewWaveDisplayDone();
+			State = WaveStart;
+
+			for (size_t i = 0; i < 10; i++)
+			{
+				People[i]->Position = TempPersonPosition[i];
+			}
+		}
+	}
+
 	if (State == WaveStart)
 	{
 		WaveStarting();
@@ -129,13 +144,29 @@ void GameLogic::Update()
 	{
 		Enemies->TriggerLandChange = false;
 
-		if (Enemies->NoMorePeople) BackGround->AllThePersonManDead();
-		else BackGround->AllThePersonManNotDead();
+		if (Enemies->NoMorePeople && !BackGround->WorldGone) BackGround->WorldExplode();
 	}
 }
 
 void GameLogic::Draw2D()
 {
+	if (State == NewWave)
+	{
+		std::string wave = "Attack Wave " + std::to_string(Wave);
+		std::string bonus = "Bonus X " + std::to_string(NumberOfPeopleAlive * 150);
+
+		DrawText(wave.c_str(),
+			(int)(GameWindowHalfWidth - (40 * 12) * 0.25f),
+			(int)(GameWindowHalfHeight - (40 * 3.5f)), 40, GRAY);
+
+		DrawText("Completed", (int)(GameWindowHalfWidth - (40 * 9) * 0.25f),
+			(int)(GameWindowHalfHeight - (40 * 2.5f)), 40, GRAY);
+
+		DrawText(bonus.c_str(),
+			(int)(GameWindowHalfWidth - (40 * 12) * 0.25f),
+			(int)(GameWindowHalfHeight + (40 * 1.5f)), 40, GRAY);
+	}
+
 	if (State == WaveStart)
 	{
 		DrawText("Get Ready", (int)(GameWindowHalfWidth - (40 * 10) * 0.25f),
@@ -167,7 +198,28 @@ void GameLogic::EndOfWave()
 		}
 	}
 
+	for (size_t i = 0; i < 10; i++)
+	{
+		TempPersonPosition[i] = People[i]->Position;
+	}
+
+	float x = TheCamera.position.x -90;
+
+	for (const auto& person : People)
+	{
+		if (person->Enabled)
+		{
+			person->Position.x = x;
+			person->Position.y = GameWindowHalfHeight * 0.5f;
+
+			x += person->Radius * 4.5f;
+		}
+	}
+
 	Player->ScoreUpdate(NumberOfPeopleAlive * (100 * Wave));
+	BackGround->NewWave();
+
+	State = NewWave;
 }
 
 void GameLogic::UpdatePersonMan()
@@ -228,8 +280,7 @@ void GameLogic::GameInPlay()
 	{
 		EndOfWave();
 		BackGround->StillTheStars();
-		EM.ResetTimer(WaveStartTimerID);
-		State = WaveStart;
+		EM.ResetTimer(NewWaveTimerID);
 		return;
 	}
 

@@ -9,6 +9,8 @@ public:
 	TheBackground();
 	virtual ~TheBackground();
 
+	bool WorldGone = false;
+
 	void SetLandPartsModel(Model landPart, Model radarLandPart, size_t index);
 	void SetUIBackfaceModel(Model model);
 	void SetRadarModel(Model horizontal, Model side);
@@ -23,10 +25,11 @@ public:
 
 	void PlaceAllTheStars();
 	void ParallaxTheStars();
+	void NewWave();
+	void NewWaveDisplayDone();
+	void WorldExplode();
+	void NewGame();
 	void StillTheStars();
-	void AllThePersonManDead();
-	void AllThePersonManNotDead();
-	void NewLevel();
 
 private:
 	struct Star : public Model3D
@@ -55,5 +58,8 @@ private:
 	ThePlayer* Player = nullptr;
 
 	float UpdateRadar(float x);
-	void ChangeTheStars();
+
+	void BlinkTheStars();
+	void AllThePersonManDead();
+	void AllThePersonManNotDead();
 };

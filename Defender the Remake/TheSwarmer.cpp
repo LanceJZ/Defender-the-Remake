@@ -91,7 +91,7 @@ void TheSwarmer::Reset()
 void TheSwarmer::FireShot()
 {
 
-	EM.ResetTimer(ShotTimerID, GetRandomFloat(0.25f, 0.5f));
+	EM.ResetTimer(ShotTimerID, GetRandomFloat(0.75f, 1.5f));
 
 	if (Velocity.x > 0)
 	{

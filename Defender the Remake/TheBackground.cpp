@@ -130,6 +130,10 @@ bool TheBackground::BeginRun()
 	}
 
 	PlaceAllTheStars();
+	BlinkTheStars();
+	BlinkTheStars();
+	BlinkTheStars();
+	BlinkTheStars();
 	Update();
 
 	return false;
@@ -170,23 +174,8 @@ void TheBackground::Update()
 
 	if (EM.TimerElapsed(StarsTimerID))
 	{
-		EM.ResetTimer(StarsTimerID, GetRandomFloat(0.25f, 0.75f));
-		ChangeTheStars();
-	}
-}
-
-void TheBackground::AllThePersonManDead()
-{
-	AllNotDead = false;
-
-	for (auto land : LandParts)
-	{
-		land->Enabled = false;
-	}
-
-	for (auto radar : RadarLandParts)
-	{
-		radar->Enabled = false;
+		EM.ResetTimer(StarsTimerID, GetRandomFloat(0.15f, 0.5f));
+		BlinkTheStars();
 	}
 }
 
@@ -209,86 +198,45 @@ void TheBackground::PlaceAllTheStars()
 				(float)(GetScreenHeight()));
 		}
 
-		Color color = {(unsigned char)GetRandomValue(10, 200),
-			(unsigned char)GetRandomValue(10, 200),
-			(unsigned char)GetRandomValue(10, 200), 255 };
-
 		star->Position = { x, y, 100.0f };
-		star->ModelColor = color;
-
-		float rotation = GetRandomFloat(-16.66f, 16.66f);
-
-		star->RotationVelocityX = rotation;
-		star->RotationVelocityY = rotation;
-		star->RotationVelocityZ = rotation;
+		star->ModelColor.r = (unsigned char)GetRandomValue(10, 200);
+		star->ModelColor.g = (unsigned char)GetRandomValue(10, 200);
+		star->ModelColor.b = (unsigned char)GetRandomValue(10, 200);
+		star->RotationVelocityX = GetRandomFloat(-16.66f, 16.66f);
+		star->RotationVelocityY = GetRandomFloat(-16.66f, 16.66f);
+		star->RotationVelocityZ = GetRandomFloat(-16.66f, 16.66f);
 	}
-
-	ChangeTheStars();
-	ChangeTheStars();
 }
 
-void TheBackground::AllThePersonManNotDead()
+void TheBackground::NewWave()
 {
-	AllNotDead = true;
+	for (const auto& land : LandParts)
+	{
+		land->Enabled = false;
+	}
+}
 
-	for (auto land : LandParts)
+void TheBackground::NewWaveDisplayDone()
+{
+	if (!AllNotDead) return;
+
+	for (const auto& land : LandParts)
 	{
 		land->Enabled = true;
 	}
-
-	for (auto radar : RadarLandParts)
-	{
-		radar->Enabled = true;
-	}
 }
 
-void TheBackground::NewLevel()
+void TheBackground::WorldExplode()
 {
+	AllThePersonManDead();
+	AllNotDead = false;
+	WorldGone = true;
 }
 
-float TheBackground::UpdateRadar(float x)
+void TheBackground::NewGame()
 {
-	float comp = 0.064f;
-	float ww = 7.0f;
-	float swww = (GetScreenWidth() * ww);
-	float swcalc = (swww * comp);
-	float swwwcalc = (swww * 2) * comp;
-
-	x = (TheCamera.position.x + (-Player->X() * comp) + (x * comp));
-
-	if (x > TheCamera.position.x + swcalc)
-	{
-		x = (x - swwwcalc);
-	}
-	else if (x < TheCamera.position.x - swcalc)
-	{
-		x = (x + swwwcalc);
-	}
-
-	return x;
-}
-
-void TheBackground::ChangeTheStars()
-{
-	int amount = GetRandomValue(10, 40);
-
-	size_t changeAmount = GetRandomValue(1, amount);
-
-	for (size_t i = 0; i < changeAmount; i++)
-	{
-		size_t starIndex = (size_t)GetRandomValue(0, NumberOfStars - 1);
-
-		AllTheStars[starIndex]->ModelColor.a = 255;
-	}
-
-	changeAmount = GetRandomValue(1, amount);
-
-	for (size_t i = 0; i < changeAmount; i++)
-	{
-		size_t starIndex = (size_t)GetRandomValue(0, NumberOfStars - 1);
-
-		AllTheStars[starIndex]->ModelColor.a = 0;
-	}
+	AllThePersonManNotDead();
+	AllNotDead = true;
 }
 
 void TheBackground::ParallaxTheStars()
@@ -339,10 +287,71 @@ void TheBackground::ParallaxTheStars()
 	}
 }
 
+float TheBackground::UpdateRadar(float x)
+{
+	float comp = 0.064f;
+	float ww = 7.0f;
+	float swww = (GetScreenWidth() * ww);
+	float swcalc = (swww * comp);
+	float swwwcalc = (swww * 2) * comp;
+
+	x = (TheCamera.position.x + (-Player->X() * comp) + (x * comp));
+
+	if (x > TheCamera.position.x + swcalc)
+	{
+		x = (x - swwwcalc);
+	}
+	else if (x < TheCamera.position.x - swcalc)
+	{
+		x = (x + swwwcalc);
+	}
+
+	return x;
+}
+
 void TheBackground::StillTheStars()
 {
 	for (const auto& star : AllTheStars)
 	{
 		star->Velocity.x = 0.0f;
+	}
+}
+
+void TheBackground::BlinkTheStars()
+{
+	size_t changeAmount = GetRandomValue(1, GetRandomValue(20, NumberOfStars));
+
+	for (size_t i = 0; i < changeAmount; i++)
+	{
+		size_t starIndex = (size_t)GetRandomValue(0, NumberOfStars - 1);
+
+		if (GetRandomValue(0, 1) == 0) AllTheStars[starIndex]->ModelColor.a = 255;
+		else AllTheStars[starIndex]->ModelColor.a = 0;
+	}
+}
+
+void TheBackground::AllThePersonManDead()
+{
+	for (auto land : LandParts)
+	{
+		land->Enabled = false;
+	}
+
+	for (auto radar : RadarLandParts)
+	{
+		radar->Enabled = false;
+	}
+}
+
+void TheBackground::AllThePersonManNotDead()
+{
+	for (auto land : LandParts)
+	{
+		land->Enabled = true;
+	}
+
+	for (auto radar : RadarLandParts)
+	{
+		radar->Enabled = true;
 	}
 }

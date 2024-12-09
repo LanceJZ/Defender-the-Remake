@@ -62,7 +62,7 @@ private:
 	int NumberOfPeopleAlive = 0;
 
 	Vector2 AdjustedFieldSize = {};
-
+	Vector3 TempPersonPosition[10] = {};
 
 	Sound PersonGrabbedSound = { 0 };
 	Sound PersonDroppedSound = { 0 };

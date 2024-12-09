@@ -403,12 +403,13 @@ void EnemyControl::UpdateLanderStatus()
 
 	if (NoMorePeople)
 	{
+		TriggerLandChange = true;
+
 		for (const auto& lander : Landers)
 		{
 			if (lander->Enabled)
 			{
 				lander->MutateLander = true;
-				TriggerLandChange = true;
 			}
 		}
 
