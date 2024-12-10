@@ -172,18 +172,19 @@ void EnemyControl::Update()
 {
 	Common::Update();
 
+	if (NoMoreLanders && NoMoreMutants && NoMoreBombers && NoMoreSwarmers &&
+		NoMorePods && !GameEnded && !RestartWaveTriggered && !Player->EnemyUpdate)
+	{
+		EndOfWave();
+	}
+
 	if (EM.TimerElapsed(SpawnTimerID))
 	{
 		if (NumberSpawned < TotalSpawn)
 		{
 			SpawnMoreLanders();
+			Player->EnemyUpdate = true;
 		}
-	}
-
-	if (NoMoreLanders && NoMoreMutants && NoMoreBombers && NoMoreSwarmers &&
-		NoMorePods && !GameEnded && !RestartWaveTriggered)
-	{
-		EndOfWave();
 	}
 
 	if (Player->EnemyUpdate)

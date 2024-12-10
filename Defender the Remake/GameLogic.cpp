@@ -154,8 +154,7 @@ void GameLogic::Update()
 			person->Destroy();
 		}
 
-		//People[0]->Enabled = true;
-
+		Player->KillPersonMan = false;
 		Player->EnemyUpdate = true;
 		UpdatePersonMan();
 	}
