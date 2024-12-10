@@ -549,11 +549,18 @@ void ThePlayer::Keyboard()
 		SmartBomb();
 	}
 
+	if (DebugMode)
+	{
+		if (IsKeyPressed(KEY_K))
+		{
+			KillPersonMan = true;
+		}
+	}
+
 #ifdef _DEBUG
 	if (IsKeyPressed(KEY_D))
 	{
 		DebugMode = !DebugMode;
 	}
 #endif
-
 }

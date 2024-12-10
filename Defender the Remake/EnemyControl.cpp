@@ -180,6 +180,12 @@ void EnemyControl::Update()
 		}
 	}
 
+	if (NoMoreLanders && NoMoreMutants && NoMoreBombers && NoMoreSwarmers &&
+		NoMorePods && !GameEnded && !RestartWaveTriggered)
+	{
+		EndOfWave();
+	}
+
 	if (Player->EnemyUpdate)
 	{
 		Player->EnemyUpdate = false;
@@ -190,9 +196,6 @@ void EnemyControl::Update()
 		UpdateSwarmerStatus();
 		UpdateBaiterStatus();
 	}
-
-	if (NoMoreLanders && NoMoreMutants && NoMoreBombers && NoMoreSwarmers &&
-		NoMorePods && !GameEnded && !RestartWaveTriggered) EndOfWave();
 }
 
 void EnemyControl::StartNewWave()
@@ -397,24 +400,7 @@ void EnemyControl::SmartBomb()
 
 void EnemyControl::UpdateLanderStatus()
 {
-	if (NoMoreLanders) return;
-
 	int spawnCounter = 0;
-
-	if (NoMorePeople)
-	{
-		TriggerLandChange = true;
-
-		for (const auto& lander : Landers)
-		{
-			if (lander->Enabled)
-			{
-				lander->MutateLander = true;
-			}
-		}
-
-		return;
-	}
 
 	for (const auto& lander : Landers)
 	{
@@ -435,6 +421,24 @@ void EnemyControl::UpdateLanderStatus()
 				break;
 			}
 		}
+	}
+
+	if (NoMorePeople)
+	{
+		TriggerLandChange = true;
+
+		for (const auto& lander : Landers)
+		{
+			if (lander->Enabled)
+			{
+				lander->MutateLander = true;
+				Player->EnemyUpdate = true;
+			}
+		}
+
+		NoMoreLanders = true;
+
+		return;
 	}
 
 	if (spawnCounter == 0 && NumberSpawned < TotalSpawn)

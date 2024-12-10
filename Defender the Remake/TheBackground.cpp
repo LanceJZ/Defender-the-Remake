@@ -251,7 +251,7 @@ void TheBackground::WorldExplode()
 
 
 		Particles.SpawnCubes(position, { 0.0f, 0.0f, 0.0f },
-			25.0f, 50.0f, 100, 3.75f, color);
+			50.0f, 50.0f, 50, 6.75f, color);
 	}
 }
 

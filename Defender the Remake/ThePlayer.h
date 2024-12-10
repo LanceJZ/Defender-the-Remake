@@ -20,6 +20,7 @@ public:
 	bool FacingRight = true;
 	bool RotateFacing = false;
 	bool ChangedFacing = false;
+	bool KillPersonMan = false;
 
 	int SmartBombs = 0;
 	int Lives = 0;

@@ -146,6 +146,19 @@ void GameLogic::Update()
 
 		if (Enemies->NoMorePeople && !BackGround->WorldGone) BackGround->WorldExplode();
 	}
+
+	if (Player->KillPersonMan)
+	{
+		for (const auto& person : People)
+		{
+			person->Destroy();
+		}
+
+		//People[0]->Enabled = true;
+
+		Player->EnemyUpdate = true;
+		UpdatePersonMan();
+	}
 }
 
 void GameLogic::Draw2D()
