@@ -127,6 +127,11 @@ void Model3D::Draw3D()
 	AfterCalculate();
 }
 
+void Model3D::Draw2D()
+{
+	Entity::Draw2D();
+}
+
 void Model3D::SetModel(Model &model, float scale)
 {
 	Entity::SetModel(model, scale);

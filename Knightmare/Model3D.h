@@ -20,6 +20,7 @@ public:
 	void Update(float deltaTime);
 	void FixedUpdate(float deltaTime);
 	void Draw3D();
+	void Draw2D();
 
 	void SetModel(Model &model, float scale);
 	void SetModel(Model &model);

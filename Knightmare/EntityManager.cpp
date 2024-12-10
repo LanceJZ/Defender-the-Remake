@@ -137,6 +137,11 @@ void EntityManager::Draw3D()
 
 void EntityManager::Draw2D()
 {
+	for (int i = 0; i < Entities.size(); i++)
+	{
+		if (Entities.at(i)->Enabled) Entities.at(i)->Draw2D();
+	}
+
 	for (const auto& common : Commons)
 	{
 		common->Draw2D();

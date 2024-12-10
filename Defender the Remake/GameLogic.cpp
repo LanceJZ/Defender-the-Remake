@@ -125,7 +125,7 @@ void GameLogic::Update()
 
 			for (size_t i = 0; i < 10; i++)
 			{
-				People[i]->Position = TempPersonPosition[i];
+				People[i]->Position = PersonManPosition[i];
 			}
 		}
 	}
@@ -153,7 +153,7 @@ void GameLogic::Draw2D()
 	if (State == NewWave)
 	{
 		std::string wave = "Attack Wave " + std::to_string(Wave);
-		std::string bonus = "Bonus X " + std::to_string(NumberOfPeopleAlive * 150);
+		std::string bonus = "Bonus X " + std::to_string(NumberOfPersonManAlive * 150);
 
 		DrawText(wave.c_str(),
 			(int)(GameWindowHalfWidth - (40 * 12) * 0.25f),
@@ -188,35 +188,27 @@ void GameLogic::EndOfWave()
 {
 	Player->Disable();
 	Enemies->WaveEnded = false;
-	NumberOfPeopleAlive = 0;
-
-	for (const auto& person : People)
-	{
-		if (person->Enabled)
-		{
-			NumberOfPeopleAlive++;
-		}
-	}
+	NumberOfPersonManAlive = 0;
+	float x = TheCamera.position.x -90;
 
 	for (size_t i = 0; i < 10; i++)
 	{
-		TempPersonPosition[i] = People[i]->Position;
+		PersonManPosition[i] = People[i]->Position;
 	}
-
-	float x = TheCamera.position.x -90;
 
 	for (const auto& person : People)
 	{
 		if (person->Enabled)
 		{
+			NumberOfPersonManAlive++;
 			person->Position.x = x;
-			person->Position.y = GameWindowHalfHeight * 0.5f;
+			person->Position.y = GameWindowHalfHeight * 0.25f;
 
 			x += person->Radius * 4.5f;
 		}
 	}
 
-	Player->ScoreUpdate(NumberOfPeopleAlive * (100 * Wave));
+	Player->ScoreUpdate(NumberOfPersonManAlive * (100 * Wave));
 	BackGround->NewWave();
 
 	State = NewWave;

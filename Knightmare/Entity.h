@@ -54,10 +54,11 @@ public:
 	Entity();
 	virtual ~Entity();
 
-	virtual bool Initialize(Utilities* utilities);
+	bool Initialize(Utilities* utilities);
 	virtual void Update(float deltaTime);
 	virtual void FixedUpdate(float deltaTime);
 	virtual void Draw3D();
+	void Draw2D();
 
 	void X(float x);
 	void Y(float y);

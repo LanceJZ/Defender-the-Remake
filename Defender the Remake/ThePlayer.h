@@ -48,6 +48,8 @@ public:
 	void Update(float deltaTime);
 	void FixedUpdate(float deltaTime);
 
+	void Draw2D();
+
 	bool GetCollusion(Entity& target);
 	void Hit();
 	void ScoreUpdate(int addToScore);
@@ -56,6 +58,8 @@ public:
 	void NewGame();
 
 private:
+	bool DebugMode = false;
+
 	unsigned int NextNewLifeScore = 10000;
 	float HorzSpeed = 30.0f;
 	float HorzMaxSpeed = 200.0f;

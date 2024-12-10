@@ -152,6 +152,16 @@ void ThePlayer::FixedUpdate(float deltaTime)
 	RadarMovement(deltaTime);
 }
 
+void ThePlayer::Draw2D()
+{
+	Model3D::Draw2D();
+
+	if (DebugMode)
+	{
+		DrawText("Debug Mode On!", 20, 20, 20, RED);
+	}
+}
+
 bool ThePlayer::GetCollusion(Entity& target)
 {
 	if (CollusionBack->CirclesIntersect(target) ||
@@ -165,6 +175,8 @@ bool ThePlayer::GetCollusion(Entity& target)
 
 void ThePlayer::Hit()
 {
+	if (DebugMode) return;
+
 	Vector3 velocity = Vector3Multiply(Velocity, { 0.1f, 0.1f, 0.1f });
 
 	Particles.SpawnCubes(Position, velocity,
@@ -536,4 +548,12 @@ void ThePlayer::Keyboard()
 	{
 		SmartBomb();
 	}
+
+#ifdef _DEBUG
+	if (IsKeyPressed(KEY_D))
+	{
+		DebugMode = !DebugMode;
+	}
+#endif
+
 }

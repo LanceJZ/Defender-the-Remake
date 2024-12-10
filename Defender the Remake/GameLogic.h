@@ -59,10 +59,10 @@ private:
 	size_t PeopleIDs[10] = { 0 };
 
 	int Wave = 0;
-	int NumberOfPeopleAlive = 0;
+	int NumberOfPersonManAlive = 0;
 
 	Vector2 AdjustedFieldSize = {};
-	Vector3 TempPersonPosition[10] = {};
+	Vector3 PersonManPosition[10] = {};
 
 	Sound PersonGrabbedSound = { 0 };
 	Sound PersonDroppedSound = { 0 };

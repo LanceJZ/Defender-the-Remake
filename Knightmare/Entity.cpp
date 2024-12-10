@@ -66,6 +66,11 @@ void Entity::Draw3D()
 #endif
 }
 
+void Entity::Draw2D()
+{
+	Common::Draw2D();
+}
+
 void Entity::X(float x)
 {
 	Position.x = x;

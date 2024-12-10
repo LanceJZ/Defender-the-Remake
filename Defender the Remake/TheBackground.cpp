@@ -228,9 +228,31 @@ void TheBackground::NewWaveDisplayDone()
 
 void TheBackground::WorldExplode()
 {
-	AllThePersonManDead();
 	AllNotDead = false;
 	WorldGone = true;
+	AllThePersonManDead();
+	PlaceAllTheStars();
+
+	float yTop = (float)(GetScreenHeight() * 0.15f);
+	float yBottom = (float)(GetScreenHeight() * 0.9f);
+
+	for (int i = 0; i < 50; i++)
+	{
+		Vector3 position = Vector3();
+		Color color = Color();
+
+		position.x = GetRandomFloat((float)(-GetScreenWidth()),
+			(float)(GetScreenWidth()));
+		position.y = GetRandomFloat(yTop, yBottom);
+
+		color.r = (unsigned char)GetRandomValue(10, 200);
+		color.g = (unsigned char)GetRandomValue(10, 200);
+		color.b = (unsigned char)GetRandomValue(10, 200);
+
+
+		Particles.SpawnCubes(position, { 0.0f, 0.0f, 0.0f },
+			25.0f, 50.0f, 100, 3.75f, color);
+	}
 }
 
 void TheBackground::NewGame()
