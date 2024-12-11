@@ -28,6 +28,7 @@ public:
 	void Hit();
 	void Reset();
 	void Destroy();
+	bool CheckShotCollisions();
 
 protected:
 	size_t ShotTimerID = 0;

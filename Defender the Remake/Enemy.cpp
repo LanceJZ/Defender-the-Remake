@@ -85,8 +85,6 @@ bool Enemy::CheckCollision()
 		}
 	}
 
-	if (!Player->Enabled) return false;
-
 	if (Player->GetCollusion(*this))
 	{
 		Hit();
@@ -94,20 +92,6 @@ bool Enemy::CheckCollision()
 		Player->Hit();
 
 		return true;
-	}
-
-	for (const auto& shot : Shots)
-	{
-		if (!shot->Enabled) continue;
-
-		if (Player->GetCollusion(*shot))
-		{
-			Player->Hit();
-
-			shot->Reset();
-
-			return true;
-		}
 	}
 
 	return false;
@@ -192,4 +176,23 @@ void Enemy::Destroy()
 	MirrorRadar::Destroy();
 
 	Player->EnemyUpdate = true;
+}
+
+bool Enemy::CheckShotCollisions()
+{
+	for (const auto& shot : Shots)
+	{
+		if (!shot->Enabled) continue;
+
+		if (Player->GetCollusion(*shot))
+		{
+			Player->Hit();
+
+			shot->Reset();
+
+			return true;
+		}
+	}
+
+	return false;
 }
