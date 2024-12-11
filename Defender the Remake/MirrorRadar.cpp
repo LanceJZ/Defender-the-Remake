@@ -62,7 +62,11 @@ bool MirrorRadar::BeginRun()
 void MirrorRadar::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
+}
 
+void MirrorRadar::AlwaysUpdate(float deltaTime)
+{
+	Model3D::AlwaysUpdate(deltaTime);
 }
 
 void MirrorRadar::FixedUpdate(float deltaTime)

@@ -109,6 +109,21 @@ void EntityManager::Update(float deltaTime)
 	}
 }
 
+void EntityManager::AlwaysUpdate(float deltaTime)
+{
+	float halfDeltaTime = deltaTime * 0.5f;
+
+	for (int i = 0; i < Entities.size(); i++)
+	{
+		Entities.at(i)->AlwaysUpdate(deltaTime);
+	}
+
+	for (int i = 0; i < Entities.size(); i++)
+	{
+		Entities.at(i)->AlwaysUpdate(deltaTime);
+	}
+}
+
 void EntityManager::FixedUpdate(float deltaTime)
 {
 	for (int i = 0; i < Entities.size(); i++)

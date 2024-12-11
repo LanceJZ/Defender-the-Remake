@@ -86,6 +86,7 @@ int WinMain()
 
 			EM.FixedUpdate(deltaTime);
 			EM.Update(deltaTime);
+			EM.AlwaysUpdate(deltaTime);
 		}
 
 		BeginDrawing();

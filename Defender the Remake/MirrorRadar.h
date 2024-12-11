@@ -16,6 +16,7 @@ public:
 	bool BeginRun();
 
 	void Update(float deltaTime);
+	void AlwaysUpdate(float deltaTime);
 	void FixedUpdate(float deltaTime);
 
 	void Spawn(Vector3 position);

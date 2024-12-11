@@ -135,13 +135,13 @@ void Game::Input()
 
 void Game::Update(float deltaTime)
 {
-	for (const auto& lander : Enemies->Landers) lander->CheckShotCollisions();
+	//for (const auto& lander : Enemies->Landers) lander->CheckShotCollisions();
 
-	for (const auto& mutant : Enemies->Mutants) mutant->CheckShotCollisions();
+	//for (const auto& mutant : Enemies->Mutants) mutant->CheckShotCollisions();
 
-	for (const auto& bomber : Enemies->Bombers) bomber->CheckShotCollisions();
+	//for (const auto& bomber : Enemies->Bombers) bomber->CheckShotCollisions();
 
-	for (const auto& swarmer : Enemies->Swarmers) swarmer->CheckShotCollisions();
+	//for (const auto& swarmer : Enemies->Swarmers) swarmer->CheckShotCollisions();
 }
 
 void Game::Draw3D()

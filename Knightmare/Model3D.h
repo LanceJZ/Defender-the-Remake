@@ -18,6 +18,7 @@ public:
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
 	void Update(float deltaTime);
+	void AlwaysUpdate(float deltaTime);
 	void FixedUpdate(float deltaTime);
 	void Draw3D();
 	void Draw2D();

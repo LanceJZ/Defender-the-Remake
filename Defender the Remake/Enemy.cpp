@@ -48,6 +48,13 @@ void Enemy::Update(float deltaTime)
 	CheckCollision();
 }
 
+void Enemy::AlwaysUpdate(float deltaTime)
+{
+	MirrorRadar::AlwaysUpdate(deltaTime);
+
+	CheckShotCollisions();
+}
+
 void Enemy::FixedUpdate(float deltaTime)
 {
 	MirrorRadar::FixedUpdate(deltaTime);

@@ -54,6 +54,11 @@ void Model3D::Update(float deltaTime)
 	Entity::Update(deltaTime);
 }
 
+void Model3D::AlwaysUpdate(float deltaTime)
+{
+	Entity::AlwaysUpdate(deltaTime);
+}
+
 void Model3D::FixedUpdate(float deltaTime)
 {
 	Entity::FixedUpdate(deltaTime);
