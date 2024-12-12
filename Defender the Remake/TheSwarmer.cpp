@@ -124,11 +124,11 @@ void TheSwarmer::AfterSpawn()
 {
 	float percentChange = 0.5f;
 
-	if (Player->X() + (WindowWidth * percentChange) < X())
+	if (Player->X() + (GameWindowHalfWidth * percentChange) < X())
 	{
 		Velocity.x = -XVelocity;
 	}
-	else if (Player->X() - (WindowWidth * percentChange) > X())
+	else if (Player->X() - (GameWindowHalfWidth * percentChange) > X())
 	{
 		Velocity.x = XVelocity;
 	}

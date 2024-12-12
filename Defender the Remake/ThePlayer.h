@@ -63,7 +63,7 @@ private:
 
 	unsigned int NextNewLifeScore = 10000;
 	float HorzSpeed = 30.0f;
-	float HorzMaxSpeed = 200.0f;
+	float HorzMaxSpeed = 500.0f;
 	float HorzDrag = 2.0f;
 	float ForwardAcceleration = 40.0f;
 	float MaxForwardV = 1000.0f;

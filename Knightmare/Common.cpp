@@ -2,8 +2,10 @@
 
 bool Common::Initialize(Utilities* utilities)
 {
-	GameWindowHalfHeight = GetScreenHeight() * 0.5f;
-	GameWindowHalfWidth = GetScreenWidth() * 0.5f;
+	WindowWidth = GetScreenWidth();
+	WindowHeight = GetScreenHeight();
+	GameWindowHalfHeight = (int)GetScreenHeight() * 0.5f;
+	GameWindowHalfWidth = (int)GetScreenWidth() * 0.5f;
 
 	TheUtilities = utilities;
 

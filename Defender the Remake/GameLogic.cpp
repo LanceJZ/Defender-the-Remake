@@ -117,18 +117,7 @@ void GameLogic::Update()
 
 	if (State == NewWave)
 	{
-		if (EM.TimerElapsed(NewWaveTimerID))
-		{
-			EM.ResetTimer(WaveStartTimerID);
-			BackGround->NewWaveDisplayDone();
-			State = WaveStart;
-
-			for (size_t i = 0; i < 10; i++)
-			{
-				People[i]->TurnOnRadar();
-				People[i]->Position = PersonManPosition[i];
-			}
-		}
+		NewWaveUpdate();
 	}
 
 	if (State == WaveStart)
@@ -247,7 +236,7 @@ void GameLogic::SpawnPersonMan(int count)
 	for (int i = 0; i < count; i++)
 	{
 		float x = GetRandomFloat(-AdjustedFieldSize.x, AdjustedFieldSize.x);
-		float y = GetScreenHeight() * 0.5f - (People[i]->VerticesSize * 2.0f);
+		float y = GameWindowHalfHeight - (People[i]->VerticesSize * 2.0f);
 		People[i]->Spawn({x, y, 0.0f});
 	}
 }
@@ -316,14 +305,37 @@ void GameLogic::GameInPlay()
 	UpdatePersonMan();
 }
 
+void GameLogic::NewWaveUpdate()
+{
+	if (EM.TimerElapsed(NewWaveTimerID))
+	{
+		EM.ResetTimer(WaveStartTimerID);
+		BackGround->NewWaveDisplayDone();
+		State = WaveStart;
+		Player->Reset();
+		Player->Update(GetFrameTime());
+		Player->FixedUpdate(GetFrameTime());
+		Player->Disable();
+		BackGround->Update();
+		BackGround->PlaceAllTheStars();
+
+		for (size_t i = 0; i < 10; i++)
+		{
+			People[i]->TurnOnRadar();
+			People[i]->Position = PersonManPosition[i];
+		}
+	}
+}
+
 void GameLogic::WaveStarting()
 {
+	BackGround->Update();
+
 	if (EM.TimerElapsed(WaveStartTimerID))
 	{
 		State = InPlay;
-		Player->Reset();
-		BackGround->PlaceAllTheStars();
 		Enemies->StartNewWave();
+		Player->Reset();
 	}
 }
 

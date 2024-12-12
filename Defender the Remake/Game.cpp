@@ -27,7 +27,7 @@ bool Game::Initialize(Utilities* utilities) //Initialize
 	Logic->SetBackground(BackGround);
 
 	float multi = 7.0f;
-	FieldSize = { GetScreenWidth() * multi, (float)GetScreenHeight() };
+	FieldSize = { (float)GetScreenWidth() * multi, (float)GetScreenHeight() };
 
 	//Any Entities added after this point need this method fired manually.
 	return true;

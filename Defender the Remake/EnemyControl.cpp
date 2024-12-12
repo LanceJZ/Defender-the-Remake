@@ -301,7 +301,8 @@ void EnemyControl::RestartWave()
 	SpawnBomber(NumberBombers);
 	SpawnPod(NumberPods);
 
-	Vector3 position = { GameWindowHalfWidth * 4, -GameWindowHalfHeight, 0.0f };
+	Vector3 position = { (float)GameWindowHalfWidth * 4,
+		-(float)GameWindowHalfHeight, 0.0f };
 
 	SpawnSwarmers(position, NumberSwarmers);
 
@@ -376,23 +377,23 @@ void EnemyControl::PlayerHitReset()
 void EnemyControl::SmartBomb()
 {
 	Player->SmartBombFired = false;
-	float width = GetScreenWidth() / 1.4f;
+	float width = WindowWidth / 1.4f;
 	float x = Player->X();
 	float max = x + width;
 	float min = x - width;
 
 	SmartBomb(min, max);
 
-	if (max > GetScreenWidth() * 3.5f)
+	if (max > WindowWidth * 3.5f)
 	{
-		x = Player->X() - GetScreenWidth() * 7;
+		x = Player->X() - WindowWidth * 7;
 		max = x + width;
 		min = x - width;
 		SmartBomb(min, max);
 	}
-	else if (min < -GetScreenWidth() * 3.5f)
+	else if (min < -WindowWidth * 3.5f)
 	{
-		x = Player->X() + GetScreenWidth() * 7;
+		x = Player->X() + WindowWidth * 7;
 		max = x + width;
 		min = x - width;
 		SmartBomb(min, max);

@@ -21,7 +21,7 @@ bool Model3D::Initialize(Utilities* utilities)
 {
 	Entity::Initialize(utilities);
 
-	ViewableArea = { WindowWidth, WindowHeight };
+	HalfViewableArea = { (float)GameWindowHalfWidth, (float)GameWindowHalfHeight };
 
 	return false;
 }
@@ -86,16 +86,16 @@ void Model3D::Draw3D()
 			Vector3 parentTest = GetWorldPosition();
 
 			if (TheCamera3D->position.x > parentTest.x + VerticesSize +
-				ViewableArea.x || TheCamera3D->position.x < parentTest.x +
-				-VerticesSize + -ViewableArea.x)
+				HalfViewableArea.x || TheCamera3D->position.x < parentTest.x +
+				-VerticesSize + -HalfViewableArea.x)
 			{
 				WasCulled = true;
 				return;
 			}
 
 			if (TheCamera3D->position.y > parentTest.y + VerticesSize +
-				ViewableArea.y || TheCamera3D->position.y < parentTest.y +
-				-VerticesSize + -ViewableArea.y)
+				HalfViewableArea.y || TheCamera3D->position.y < parentTest.y +
+				-VerticesSize + -HalfViewableArea.y)
 			{
 				WasCulled = true;
 				return;
@@ -104,18 +104,18 @@ void Model3D::Draw3D()
 		else
 		{
 			if (TheCamera3D->position.x > GetWorldPosition().x + VerticesSize +
-				ViewableArea.x
+				HalfViewableArea.x
 				|| TheCamera3D->position.x < GetWorldPosition().x + -VerticesSize +
-				-ViewableArea.x)
+				-HalfViewableArea.x)
 			{
 				WasCulled = true;
 				return;
 			}
 
 			if (TheCamera3D->position.y > GetWorldPosition().y + VerticesSize +
-				ViewableArea.y ||
+				HalfViewableArea.y ||
 				TheCamera3D->position.y < GetWorldPosition().y + -VerticesSize +
-				-ViewableArea.y)
+				-HalfViewableArea.y)
 			{
 				WasCulled = true;
 				return;

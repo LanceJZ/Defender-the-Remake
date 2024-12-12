@@ -5,7 +5,7 @@ class Model3D : public Entity
 {
 public:
 	bool Cull = true;
-	Vector2 ViewableArea = { 0 };
+	Vector2 HalfViewableArea = { 0 };
 	Vector3 ModelPosition = { 0 };
 	Color ModelColor = WHITE;
 

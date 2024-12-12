@@ -87,6 +87,7 @@ private:
 	void SetupPersonMan();
 	void PlayerHitReset();
 	void GameInPlay();
+	void NewWaveUpdate();
 	void WaveStarting();
 	void ResetField();
 	void LivesDisplay();

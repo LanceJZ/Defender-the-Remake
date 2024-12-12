@@ -79,19 +79,19 @@ bool TheBackground::BeginRun()
 			LandRadarScale);
 	}
 
-	float landY = (GetScreenHeight() / 2.0f) - 160.0f;
+	float landY = (GameWindowHalfHeight) - 160.0f;
 
 	for (int i = 0; i < 7; i++)
 	{
-		LandParts[i]->Position = { (-GetScreenWidth() * 3.0f) + (GetScreenWidth() * i),
+		LandParts[i]->Position = { (-WindowWidth * 3.0f) + (WindowWidth * i),
 			landY, 40.0f};
 	}
 
-	LandParts[7]->Position = { GetScreenWidth() * 4.0f, landY, 40.0f};
-	LandParts[8]->Position = { -GetScreenWidth() * 4.0f, landY, 40.0f};
+	LandParts[7]->Position = { WindowWidth * 4.0f, landY, 40.0f};
+	LandParts[8]->Position = { -WindowWidth * 4.0f, landY, 40.0f};
 
 	float y = ((LandParts[0]->Position.y * 0.158f) +
-		(-GetScreenHeight() * 0.4376f)) + 10.0f;
+		(-WindowHeight * 0.4376f)) + 10.0f;
 
 	for (auto &radar : RadarLandParts)
 	{
@@ -101,16 +101,16 @@ bool TheBackground::BeginRun()
 
 	float UIZ = -50.0f;
 
-	UIBackfaceL->Position = { 0.0f , -GetScreenHeight() / 2.333f, UIZ };
+	UIBackfaceL->Position = { 0.0f , -WindowHeight / 2.333f, UIZ };
 	UIBackfaceL->HideCollision = true;
 	UIBackfaceR->Position = UIBackfaceL->Position;
 	UIBackfaceR->RotationZ = PI;
 	UIBackfaceR->HideCollision = true;
 
-	RadarTop->Position = { 0.0f, -GetScreenHeight() / 2.02f, UIZ };
+	RadarTop->Position = { 0.0f, -WindowHeight / 2.02f, UIZ };
 	RadarTop->HideCollision = true;
 	RadarBottom->RotationX = PI;
-	RadarBottom->Position = { 0.0f, -GetScreenHeight() / 2.79f, UIZ };
+	RadarBottom->Position = { 0.0f, -WindowHeight / 2.79f, UIZ };
 	RadarBottom->HideCollision = true;
 	RadarLeft->Position = RadarBottom->Position;
 	RadarLeft->HideCollision = true;
@@ -143,14 +143,12 @@ void TheBackground::Update()
 {
 	Common::Update();
 
-	int sWidth = GetScreenWidth();
-
 	RadarBottom->X(TheCamera.position.x);
 	RadarTop->X(TheCamera.position.x);
-	UIBackfaceL->X(TheCamera.position.x - (sWidth / 2.790f));
-	UIBackfaceR->X(TheCamera.position.x + (sWidth / 2.790f));
-	RadarLeft->X(TheCamera.position.x - (sWidth / 2.3f));
-	RadarRight->X(TheCamera.position.x + (sWidth / 2.3f));
+	UIBackfaceL->X(TheCamera.position.x - (WindowWidth / 2.790f));
+	UIBackfaceR->X(TheCamera.position.x + (WindowWidth / 2.790f));
+	RadarLeft->X(TheCamera.position.x - (WindowWidth / 2.3f));
+	RadarRight->X(TheCamera.position.x + (WindowWidth / 2.3f));
 
 	if (AllNotDead)
 	{
@@ -162,13 +160,13 @@ void TheBackground::Update()
 		for (int i = 7; i < 11; i++)
 		{
 			RadarLandParts[i]->X(UpdateRadar(LandParts[i - 7]->X() +
-				(GetScreenWidth() * 7)));
+				(WindowWidth * 7)));
 		}
 
 		for (int i = 11; i < 14; i++)
 		{
 			RadarLandParts[i]->X(UpdateRadar(LandParts[i - 7]->X() -
-				(GetScreenWidth() * 7)));
+				(WindowWidth * 7)));
 		}
 	}
 
@@ -183,19 +181,19 @@ void TheBackground::PlaceAllTheStars()
 {
 	for (const auto& star : AllTheStars)
 	{
-		float x = GetRandomFloat((float)(-GetScreenWidth()),
-			(float)(GetScreenWidth()));
+		float x = GetRandomFloat((float)(-WindowWidth),
+			(float)(WindowWidth));
 		float y = 0.0f;
 
 		if (AllNotDead)
 		{
-			y = GetRandomFloat((float)(-GetScreenHeight() * 0.3f),
-				(float)(GetScreenHeight() * 0.15f));
+			y = GetRandomFloat((float)(-WindowHeight * 0.3f),
+				(float)(WindowHeight * 0.15f));
 		}
 		else
 		{
-			y = GetRandomFloat((float)(-GetScreenHeight() * 0.3f),
-				(float)(GetScreenHeight()));
+			y = GetRandomFloat((float)(-WindowHeight * 0.3f),
+				(float)(GameWindowHalfHeight));
 		}
 
 		star->Position = { x, y, 100.0f };
@@ -233,16 +231,16 @@ void TheBackground::WorldExplode()
 	AllThePersonManDead();
 	PlaceAllTheStars();
 
-	float yTop = (float)(GetScreenHeight() * 0.15f);
-	float yBottom = (float)(GetScreenHeight() * 0.9f);
+	float yTop = (float)(WindowWidth * 0.15f);
+	float yBottom = (float)(WindowHeight * 0.9f);
 
 	for (int i = 0; i < 50; i++)
 	{
 		Vector3 position = Vector3();
 		Color color = Color();
 
-		position.x = GetRandomFloat((float)(-GetScreenWidth()),
-			(float)(GetScreenWidth()));
+		position.x = GetRandomFloat((float)(-WindowWidth),
+			(float)(WindowWidth)) + TheCamera.position.x;
 		position.y = GetRandomFloat(yTop, yBottom);
 
 		color.r = (unsigned char)GetRandomValue(10, 200);
@@ -292,18 +290,18 @@ void TheBackground::ParallaxTheStars()
 		if (sideWarped)
 		{
 			if (Player->X() > 0.0f) star->X((star->X()) +
-				(GetScreenWidth() * 7.0f));
-			else star->X((star->X()) - (GetScreenWidth() * 7.0f));
+				(WindowWidth * 7.0f));
+			else star->X((star->X()) - (WindowWidth * 7.0f));
 		}
 		else
 		{
-			if (star->X() > GetScreenWidth() + TheCamera.position.x)
+			if (star->X() > WindowWidth + TheCamera.position.x)
 			{
-				star->X(-GetScreenWidth() + TheCamera.position.x);
+				star->X(-WindowWidth + TheCamera.position.x);
 			}
-			else if (star->X() < -GetScreenWidth() + TheCamera.position.x)
+			else if (star->X() < -WindowWidth + TheCamera.position.x)
 			{
-				star->X(GetScreenWidth() + TheCamera.position.x);
+				star->X(WindowWidth + TheCamera.position.x);
 			}
 		}
 	}
@@ -313,7 +311,7 @@ float TheBackground::UpdateRadar(float x)
 {
 	float comp = 0.064f;
 	float ww = 7.0f;
-	float swww = (GetScreenWidth() * ww);
+	float swww = (WindowWidth * ww);
 	float swcalc = (swww * comp);
 	float swwwcalc = (swww * 2) * comp;
 

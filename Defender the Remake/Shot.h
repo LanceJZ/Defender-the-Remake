@@ -24,7 +24,7 @@ public:
 
 private:
 	size_t LifeTimerID = 0;
-	float WindowHeight = 0;
+	float GameWindowHalfHeight = 0;
 
 	Model3D* MirrorR = {};
 	Model3D* MirrorL = {};

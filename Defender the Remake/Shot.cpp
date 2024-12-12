@@ -39,7 +39,7 @@ bool Shot::Initialize(Utilities* utilities)
 	MirrorL->Initialize(utilities);
 	MirrorR->Initialize(utilities);
 
-	WindowHeight = GetScreenHeight() * 0.5f;
+	GameWindowHalfHeight = GetScreenHeight() * 0.5f;
 
 	return true;
 }
@@ -78,7 +78,7 @@ void Shot::FixedUpdate(float deltaTime)
 
 	if (EM.TimerElapsed(LifeTimerID)) Destroy();
 
-	if (Y() > WindowHeight || Y() < -WindowHeight * 0.685f)	Destroy();
+	if (Y() > GameWindowHalfHeight || Y() < -GameWindowHalfHeight * 0.685f)	Destroy();
 }
 
 void Shot::Reset()

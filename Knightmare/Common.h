@@ -13,8 +13,11 @@ class Common //Version 2.0.0 of Knightmare Arcade Engine.
 public:
 	const float TwoPi = 6.283185307179586476925286766559f;
 	const float HalfPi = 1.5707963267948966192313216916398f;
-	float GameWindowHalfWidth = { 0 };
-	float GameWindowHalfHeight = { 0 };
+
+	int WindowWidth = 0;
+	int WindowHeight = 0;
+	int GameWindowHalfWidth = { 0 };
+	int GameWindowHalfHeight = { 0 };
 
 	Utilities* TheUtilities = {};
 

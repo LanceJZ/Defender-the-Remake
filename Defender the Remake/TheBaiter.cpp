@@ -68,7 +68,7 @@ void TheBaiter::Spawn(Vector3 position)
 	ChangeSpeed();
 
 	Position.x = Player->X();
-	Position.y = -WindowHeight - Radius;
+	Position.y = -GameWindowHalfHeight - Radius;
 
 	Velocity.y = YVelocity;
 	Velocity.x = (Player->X() + 0.1f) * -1;
@@ -82,20 +82,20 @@ void TheBaiter::AfterSpawn()
 {
 	float percentChange = 0.35f;
 
-	if (Player->X() + (WindowWidth * percentChange) < X())
+	if (Player->X() + (GameWindowHalfWidth * percentChange) < X())
 	{
 		Velocity.x = -XVelocity;
 	}
-	else if (Player->X() - (WindowWidth * percentChange) > X())
+	else if (Player->X() - (GameWindowHalfWidth * percentChange) > X())
 	{
 		Velocity.x = XVelocity;
 	}
 
-	if (Player->Position.y + (WindowHeight * percentChange) < Position.y)
+	if (Player->Position.y + (GameWindowHalfHeight * percentChange) < Position.y)
 	{
 		Velocity.y = -YVelocity;
 	}
-	else if (Player->Position.y - (WindowHeight * percentChange) > Position.y)
+	else if (Player->Position.y - (GameWindowHalfHeight * percentChange) > Position.y)
 	{
 		Velocity.y = YVelocity;
 	}

@@ -70,9 +70,8 @@ void Enemy::FireShot()
 
 		if (!Player->GameOver)
 		{
-			if (X() < Player->X() + (WindowWidth * 2.0f) &&
-				X() > Player->X() - (WindowWidth * 2.0f))
-				PlaySound(FireSound);
+			if (X() < Player->X() + WindowWidth &&
+				X() > Player->X() - WindowWidth) PlaySound(FireSound);
 		}
 
 		shot->EnemySpawn(Position,

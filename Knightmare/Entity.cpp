@@ -15,9 +15,6 @@ bool Entity::Initialize(Utilities* utilities)
 {
 	Common::Initialize(utilities);
 
-	WindowWidth = (float)(GetScreenWidth() * 0.5f);
-	WindowHeight = (float)(GetScreenHeight() * 0.5f);
-
 	return true;
 }
 
@@ -224,14 +221,14 @@ bool Entity::ScreenEdgeBoundY()
 {
 	bool hitBound = false;
 
-	if (Y() > WindowHeight - VerticesSize)
+	if (Y() > GameWindowHalfHeight - VerticesSize)
 	{
-		Y(WindowHeight);
+		Y((float)GameWindowHalfHeight);
 		hitBound = true;
 	}
-	else if (Y() < -WindowHeight + VerticesSize)
+	else if (Y() < -GameWindowHalfHeight + VerticesSize)
 	{
-		Y(-WindowHeight);
+		Y((float)-GameWindowHalfHeight);
 		hitBound = true;
 	}
 
@@ -253,14 +250,14 @@ bool Entity::ScreenEdgeBoundY(float topOffset, float bottomOffset)
 	float top = topOffset + Radius;
 	float bottom = bottomOffset + Radius;
 
-	if (Y() > WindowHeight - bottom)
+	if (Y() > GameWindowHalfHeight - bottom)
 	{
-		Y(WindowHeight - bottom);
+		Y((float)GameWindowHalfHeight - bottom);
 		hitBound = true;
 	}
-	else if (Y() < -WindowHeight + top)
+	else if (Y() < -GameWindowHalfHeight + top)
 	{
-		Y(-WindowHeight + top);
+		Y((float)-GameWindowHalfHeight + top);
 		hitBound = true;
 	}
 
@@ -279,14 +276,14 @@ bool Entity::ScreenEdgeBoundX()
 {
 	bool hitBound = false;
 
-	if (X() > WindowWidth - VerticesSize)
+	if (X() > GameWindowHalfWidth - VerticesSize)
 	{
-		X(WindowWidth - VerticesSize);
+		X((float)GameWindowHalfWidth - VerticesSize);
 		hitBound = true;
 	}
-	else if (X() < -WindowWidth + VerticesSize)
+	else if (X() < -GameWindowHalfWidth + VerticesSize)
 	{
-		X(-WindowWidth + VerticesSize);
+		X((float)-GameWindowHalfWidth + VerticesSize);
 		hitBound = true;
 	}
 
@@ -305,14 +302,14 @@ bool Entity::ScreenEdgeBoundX(float leftOffset, float rightOffset)
 {
 	bool hitBound = false;
 
-	if (X() > WindowWidth - rightOffset - VerticesSize)
+	if (X() > GameWindowHalfWidth - rightOffset - VerticesSize)
 	{
-		X(WindowWidth - rightOffset);
+		X((float)GameWindowHalfWidth - rightOffset);
 		hitBound = true;
 	}
-	else if (X() < -WindowWidth + leftOffset - VerticesSize)
+	else if (X() < -GameWindowHalfWidth + leftOffset - VerticesSize)
 	{
-		X(-WindowWidth + leftOffset);
+		X((float)-GameWindowHalfWidth + leftOffset);
 		hitBound = true;
 	}
 
@@ -334,17 +331,16 @@ bool Entity::IsOffScreen()
 
 bool Entity::IsOffScreenSide()
 {
-	if (X() - VerticesSize > WindowWidth || X() + VerticesSize < -WindowWidth) return true;
+	if (X() - VerticesSize > GameWindowHalfWidth ||
+		X() + VerticesSize < -GameWindowHalfWidth) return true;
 
 	return false;
 }
 
 bool Entity::IsOffScreenTopBottom()
 {
-	if (Y() - VerticesSize > WindowHeight || Y() + VerticesSize < -WindowHeight)
-	{
-		return true;
-	}
+	if (Y() - VerticesSize > GameWindowHalfHeight ||
+		Y() + VerticesSize < -GameWindowHalfHeight)	return true;
 
 	return false;
 }
@@ -424,7 +420,8 @@ Vector3 Entity::GetWorldPosition()
 
 void Entity::SetRotationZTowardsTargetZ(Vector3& target, float magnitude)
 {
-	RotationZ = Common::GetRotationTowardsTargetZ(Position, target, RotationZ, magnitude);
+	RotationZ = Common::GetRotationTowardsTargetZ(Position, target,
+		RotationZ, magnitude);
 }
 
 //Sets Acceleration based on acceleration amount this frame,
@@ -450,8 +447,8 @@ void Entity::SetAccelerationToZero(float decelerationAmount)
 
 void Entity::SetRotateVelocity(Vector3& position, float turnSpeed, float speed)
 {
-	RotationVelocityZ = Common::GetRotationTowardsTargetZ(Position, position, RotationZ,
-		turnSpeed);
+	RotationVelocityZ = Common::GetRotationTowardsTargetZ(Position,
+		position, RotationZ, turnSpeed);
 	Velocity = GetVelocityFromAngleZ(RotationZ, speed);
 }
 
@@ -616,27 +613,27 @@ void Entity::CheckScreenEdge()
 
 void Entity::CheckScreenEdgeX()
 {
-	if (X() > WindowWidth)
+	if (X() > GameWindowHalfWidth)
 	{
-		X(-WindowWidth);
+		X((float) -GameWindowHalfWidth);
 	}
 
-	if (X() < -WindowWidth)
+	if (X() < -GameWindowHalfWidth)
 	{
-		X(WindowWidth);
+		X((float)GameWindowHalfWidth);
 	}
 }
 
 void Entity::CheckScreenEdgeY()
 {
-	if (Y() > WindowHeight)
+	if (Y() > GameWindowHalfHeight)
 	{
-		Y(-WindowHeight);
+		Y((float)-GameWindowHalfHeight);
 	}
 
-	if (Y() < -WindowHeight)
+	if (Y() < -GameWindowHalfHeight)
 	{
-		Y(WindowHeight);
+		Y((float)GameWindowHalfHeight);
 	}
 }
 
@@ -647,20 +644,20 @@ void Entity::LeavePlay(float turnSpeed, float speed)
 
 	if (Position.x > 0)
 	{
-		stageLeft = WindowWidth;
+		stageLeft = (float)GameWindowHalfWidth;
 	}
 	else
 	{
-		stageLeft = -WindowWidth;
+		stageLeft = (float)-GameWindowHalfWidth;
 	}
 
 	if (Position.y > 0)
 	{
-		stageDown = WindowHeight;
+		stageDown = (float)GameWindowHalfHeight;
 	}
 	else
 	{
-		stageDown = -WindowHeight;
+		stageDown = (float)-GameWindowHalfHeight;
 	}
 
 	Vector3 position = { stageLeft, stageDown, 0 };
@@ -670,23 +667,23 @@ void Entity::LeavePlay(float turnSpeed, float speed)
 
 void Entity::CheckPlayfieldSidesWarp()
 {
-	if (X() > WindowWidth) X(-WindowWidth);
+	if (X() > (float)GameWindowHalfWidth) X((float)-GameWindowHalfWidth);
 
-	if (X() < -WindowWidth) X(WindowWidth);
+	if (X() < (float)-GameWindowHalfWidth) X((float)GameWindowHalfWidth);
 }
 
 bool Entity::CheckPlayfieldSidesWarp(float left, float right)
 {
 	bool warped = false;
 
-	if (X() > WindowWidth * right)
+	if (X() > GameWindowHalfWidth * right)
 	{
-		X(-WindowWidth * left);
+		X((float)-GameWindowHalfWidth * left);
 		warped = true;
 	}
-	else if (X() < -WindowWidth * left)
+	else if (X() < -GameWindowHalfWidth * left)
 	{
-		X(WindowWidth * right);
+		X((float)GameWindowHalfWidth * right);
 		warped = true;
 	}
 
@@ -695,13 +692,13 @@ bool Entity::CheckPlayfieldSidesWarp(float left, float right)
 
 void Entity::CheckPlayfieldHeightWarp(float top, float bottom)
 {
-	if (Y() > WindowHeight * bottom)
+	if (Y() > GameWindowHalfHeight * bottom)
 	{
-		Y(-WindowHeight * top);
+		Y((float)-GameWindowHalfHeight * top);
 	}
-	else if (Y() < -WindowHeight * top)
+	else if (Y() < -GameWindowHalfHeight * top)
 	{
-		Y(WindowHeight * bottom);
+		Y((float)GameWindowHalfHeight * bottom);
 	}
 }
 
