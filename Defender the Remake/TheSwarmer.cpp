@@ -4,6 +4,7 @@ TheSwarmer::TheSwarmer()
 {
 	AfterSpawnTimerID = EM.AddTimer();
 	DistanceTimerID = EM.AddTimer();
+	ChasePlayerTimerID = EM.AddTimer();
 }
 
 TheSwarmer::~TheSwarmer()
@@ -52,7 +53,14 @@ void TheSwarmer::FixedUpdate(float deltaTime)
 
 	CheckPlayfieldHeightWarp(0.679f, 1.0f);
 
-	if (AfterSpawnTimer) AfterSpawn();
+	if (AfterSpawnTimer)
+	{
+		if (EM.TimerElapsed(ChasePlayerTimerID))
+		{
+			EM.ResetTimer(ChasePlayerTimerID, GetRandomFloat(0.25f, 0.75f));
+			AfterSpawn();
+		}
+	}
 }
 
 void TheSwarmer::Spawn(Vector3 position)

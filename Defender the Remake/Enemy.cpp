@@ -68,7 +68,12 @@ void Enemy::FireShot()
 	{
 		if (shot->Enabled) continue;
 
-		if (!Player->GameOver) PlaySound(FireSound);
+		if (!Player->GameOver)
+		{
+			if (X() < Player->X() + (WindowWidth * 2.0f) &&
+				X() > Player->X() - (WindowWidth * 2.0f))
+				PlaySound(FireSound);
+		}
 
 		shot->EnemySpawn(Position,
 			GetVelocityFromAngleZ(GetShotAngle(Position), 125.0f), 8.0f);

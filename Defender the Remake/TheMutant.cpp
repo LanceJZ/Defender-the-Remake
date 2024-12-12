@@ -3,6 +3,7 @@
 TheMutant::TheMutant()
 {
 	ChangeSpeedTimerID = EM.AddTimer();
+	ChasePlayerTimerID = EM.AddTimer();
 }
 
 TheMutant::~TheMutant()
@@ -37,7 +38,13 @@ void TheMutant::FixedUpdate(float deltaTime)
 	Enemy::FixedUpdate(deltaTime);
 
 	ScreenEdgeBoundY(GetScreenHeight() * 0.15f, VerticesSize * 0.5f);
-	ChasePlayer();
+
+	if (EM.TimerElapsed(ChasePlayerTimerID))
+	{
+		EM.ResetTimer(ChasePlayerTimerID, GetRandomFloat(0.25f, 1.75f));
+		ChasePlayer();
+
+	}
 
 	if (EM.TimerElapsed(ShotTimerID))
 	{

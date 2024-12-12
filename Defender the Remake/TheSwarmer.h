@@ -22,6 +22,7 @@ private:
 
 	size_t AfterSpawnTimerID = 0;
 	size_t DistanceTimerID = 0;
+	size_t ChasePlayerTimerID = 0;
 
 	float XVelocity = 0;
 	float YVelocity = 0;

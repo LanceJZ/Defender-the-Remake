@@ -125,6 +125,7 @@ void GameLogic::Update()
 
 			for (size_t i = 0; i < 10; i++)
 			{
+				People[i]->TurnOnRadar();
 				People[i]->Position = PersonManPosition[i];
 			}
 		}
@@ -206,6 +207,7 @@ void GameLogic::EndOfWave()
 	for (size_t i = 0; i < 10; i++)
 	{
 		PersonManPosition[i] = People[i]->Position;
+		People[i]->TurnOffRadar();
 	}
 
 	for (const auto& person : People)

@@ -65,6 +65,16 @@ void ThePerson::FixedUpdate(float deltaTime)
 	}
 }
 
+void ThePerson::TurnOffRadar()
+{
+	Radar->Enabled = false;
+}
+
+void ThePerson::TurnOnRadar()
+{
+	Radar->Enabled = true;
+}
+
 void ThePerson::Spawn(Vector3 position)
 {
 	MirrorRadar::Spawn(position);

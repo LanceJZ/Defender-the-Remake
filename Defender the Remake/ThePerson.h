@@ -28,6 +28,8 @@ public:
 
 	void Update(float deltaTime);
 	void FixedUpdate(float deltaTime);
+	void TurnOffRadar();
+	void TurnOnRadar();
 
 	void Spawn(Vector3 position);
 	void Dropped();

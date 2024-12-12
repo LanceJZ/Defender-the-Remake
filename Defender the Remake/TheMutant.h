@@ -20,6 +20,7 @@ private:
 	bool BackToTopOrBottom = false;
 
 	size_t ChangeSpeedTimerID = 0;
+	size_t ChasePlayerTimerID = 0;
 
 	float Speed = 100;
 	float DistanceY = 100;
