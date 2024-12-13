@@ -65,7 +65,7 @@ public:
 
 	void Update();
 
-	void StartNewWave();
+	int StartNewWave();
 	void AllDead();
 	void NewGame();
 	void ResetField();

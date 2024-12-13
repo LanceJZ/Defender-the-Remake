@@ -122,12 +122,8 @@ void ThePlayer::Input()
 {
 	Model3D::Input();
 
-	Keyboard();
-
-	if (IsGamepadAvailable(0))
-	{
-		Gamepad();
-	}
+	if (IsGamepadAvailable(0)) Gamepad();
+	else Keyboard();
 }
 
 void ThePlayer::Update(float deltaTime)
@@ -473,42 +469,50 @@ void ThePlayer::RadarMovement(float deltaTime)
 
 void ThePlayer::Gamepad()
 {
-	//Button B is 6 for Shield //Button A is 7 for Fire //Button Y is 8 for Hyperspace
-	//Button X is 5	//Left bumper is 9 //Right bumper is 11 for Shield //Left Trigger is 10
-	//Right Trigger is 12 for Thrust //Dpad Up is 1 for	//Dpad Down is 3 for
-	//Dpad Left is 4 for rotate left //Dpad Right is 2 for rotate right
-	//Axis 1 is -1 for , 1 for  on left stick.
-	//Axis 0 is -1 for Left, 1 for right on left stick.
+	//Button B is 6 //Button A is 7 //Button Y is 8 //Button X is 5
+	//Left bumper is 9 //Right bumper is 11 //Left Trigger is 10
+	//Right Trigger is 12 //Dpad Up is 1 for //Dpad Down is 3
+	//Dpad Left is 4 //Dpad Right is 2
+	//Axis 1 is -1 on Left stick, 1 down, -1 up
+	//Axis 0 is -1 on Left stick, -1 left, 1 for right
 
-	if (IsGamepadButtonDown(0, 12))
+	if (IsGamepadButtonDown(0, 10))
 	{
+		Thrust();
 	}
 	else
 	{
+		ThrustOff();
 	}
 
-	if (IsGamepadButtonDown(0, 4) || GetGamepadAxisMovement(0, 0) < -0.25f)
+	if (IsGamepadButtonPressed(0, 12) || IsGamepadButtonPressed(0, 7))
 	{
-	}
-	else if (IsGamepadButtonDown(0, 2) || GetGamepadAxisMovement(0, 0) > 0.25f)
-	{
+		Fire();
 	}
 
-	if (IsGamepadButtonPressed(0, 7))
+	if (GetGamepadAxisMovement(0, 1) < -0.25f || IsGamepadButtonDown(0,1))
 	{
+		MoveUp();
+	}
+	else if (GetGamepadAxisMovement(0, 1) > 0.25f || IsGamepadButtonDown(0,3))
+	{
+		MoveDown();
 	}
 
-	if (IsGamepadButtonDown(0, 11) || IsGamepadButtonDown(0, 6))
+	if (IsGamepadButtonPressed(0, 8) || IsGamepadButtonPressed(0, 9))
 	{
+		SmartBomb();
 	}
-	else
+
+	if (IsGamepadButtonPressed(0, 11) || IsGamepadButtonPressed(0, 6))
 	{
+		Reverse();
 	}
 }
 
 void ThePlayer::Keyboard()
 {
-	if (IsKeyDown(KEY_UP))
+	if (IsKeyDown(KEY_UP) || IsKeyDown(KEY_W))
 	{
 		MoveUp();
 	}
@@ -516,7 +520,7 @@ void ThePlayer::Keyboard()
 	{
 	}
 
-	if (IsKeyDown(KEY_DOWN))
+	if (IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S))
 	{
 		MoveDown();
 	}
@@ -533,7 +537,8 @@ void ThePlayer::Keyboard()
 		ThrustOff();
 	}
 
-	if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_LEFT))
+	if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_LEFT) ||
+		IsKeyPressed(KEY_A) || IsKeyPressed(KEY_D))
 	{
 		Reverse();
 	}
@@ -544,7 +549,7 @@ void ThePlayer::Keyboard()
 		Fire();
 	}
 
-	if (IsKeyPressed(KEY_RIGHT_CONTROL))
+	if (IsKeyPressed(KEY_RIGHT_CONTROL) || IsKeyPressed(KEY_E))
 	{
 		SmartBomb();
 	}
@@ -558,7 +563,7 @@ void ThePlayer::Keyboard()
 	}
 
 #ifdef _DEBUG
-	if (IsKeyPressed(KEY_D))
+	if (IsKeyPressed(KEY_F))
 	{
 		DebugMode = !DebugMode;
 	}

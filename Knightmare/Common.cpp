@@ -4,8 +4,8 @@ bool Common::Initialize(Utilities* utilities)
 {
 	WindowWidth = GetScreenWidth();
 	WindowHeight = GetScreenHeight();
-	GameWindowHalfHeight = (int)GetScreenHeight() * 0.5f;
-	GameWindowHalfWidth = (int)GetScreenWidth() * 0.5f;
+	GameWindowHalfHeight = (int)(GetScreenHeight() * 0.5f);
+	GameWindowHalfWidth = (int)(GetScreenWidth() * 0.5f);
 
 	TheUtilities = utilities;
 
@@ -35,12 +35,12 @@ void Common::Draw2D()
 
 float Common::GetRandomScreenY()
 {
-	return GetRandomFloat(-GameWindowHalfHeight, GameWindowHalfHeight);
+	return GetRandomFloat((float)-GameWindowHalfHeight, (float)GameWindowHalfHeight);
 }
 
 float Common::GetRandomScreenX()
 {
-	return GetRandomFloat(-GameWindowHalfWidth, GameWindowHalfWidth);
+	return GetRandomFloat((float)-GameWindowHalfWidth, (float)GameWindowHalfWidth);
 }
 
 float Common::GetRandomFloat(float min, float max)

@@ -199,7 +199,7 @@ void EnemyControl::Update()
 	}
 }
 
-void EnemyControl::StartNewWave()
+int EnemyControl::StartNewWave()
 {
 	WaveEnded = false;
 
@@ -207,12 +207,13 @@ void EnemyControl::StartNewWave()
 
 	NumberSpawned = 0;
 	Wave++;
+
 	EM.ResetTimer(SpawnTimerID, 1.0f);
 
 	SpawnBomber(Wave);
 	SpawnPod(Wave);
 
-	Player->Reset();
+	return Wave;
 }
 
 void EnemyControl::AllDead()

@@ -158,7 +158,7 @@ void GameLogic::Draw2D()
 		std::string bonus = "Bonus X " + std::to_string(NumberOfPersonManAlive * 150);
 
 		DrawText(wave.c_str(),
-			(int)(GameWindowHalfWidth - (40 * 12) * 0.25f),
+			(int)(GameWindowHalfWidth - (40 * 13) * 0.25f),
 			(int)(GameWindowHalfHeight - (40 * 3.5f)), 40, GRAY);
 
 		DrawText("Completed", (int)(GameWindowHalfWidth - (40 * 9) * 0.25f),
@@ -334,8 +334,8 @@ void GameLogic::WaveStarting()
 	if (EM.TimerElapsed(WaveStartTimerID))
 	{
 		State = InPlay;
-		Enemies->StartNewWave();
 		Player->Reset();
+		Wave = Enemies->StartNewWave() + 1;
 	}
 }
 
