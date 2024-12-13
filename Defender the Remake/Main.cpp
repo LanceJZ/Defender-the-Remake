@@ -34,7 +34,7 @@ int WinMain()
 	int windowHeight = 960; //height
 	int windowWidth = 1280; //width
 
-	InitWindow(windowWidth, windowHeight, "Defender The Remake - Alpha 0.0");
+	InitWindow(windowWidth, windowHeight, "Defender The Remake - Alpha 1.0");
 	InitAudioDevice();
 
 	Image icon = LoadImage("icon.png");

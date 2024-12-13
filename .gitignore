@@ -10,7 +10,6 @@ resources
 *.TMP
 /Knightmare/~AutoRecover.Knightmare Engine.vcxproj
 /build/Release
-/Release
 /raylib/projects/VS2022/raylib/~AutoRecover.raylib.vcxproj
 /raylib/projects/VS2022/raylib/~AutoRecover.raylib.vcxproj4
 /Defender the Remake/~AutoRecover.Defender the Remake.vcxproj

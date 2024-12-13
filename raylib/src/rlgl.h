@@ -1257,7 +1257,7 @@ void rlTranslatef(float x, float y, float z)
 }
 
 // Multiply the current matrix by a rotation matrix
-// NOTE: The provided angle must be in degrees
+// NOTE: The provided angle must be in radians
 void rlRotatef(float angle, float x, float y, float z)
 {
     Matrix matRotation = rlMatrixIdentity();
@@ -1273,8 +1273,8 @@ void rlRotatef(float angle, float x, float y, float z)
     }
 
     // Rotation matrix generation
-    float sinres = sinf(DEG2RAD*angle);
-    float cosres = cosf(DEG2RAD*angle);
+    float sinres = sinf(angle);
+    float cosres = cosf(angle);
     float t = 1.0f - cosres;
 
     matRotation.m0 = x*x*t + cosres;
@@ -3417,9 +3417,9 @@ unsigned int rlLoadTextureCubemap(const void *data, int size, int format, int mi
             {
                 if (format < RL_PIXELFORMAT_COMPRESSED_DXT1_RGB)
                 {
-                    if ((format == RL_PIXELFORMAT_UNCOMPRESSED_R32) || 
+                    if ((format == RL_PIXELFORMAT_UNCOMPRESSED_R32) ||
                         (format == RL_PIXELFORMAT_UNCOMPRESSED_R32G32B32A32) ||
-                        (format == RL_PIXELFORMAT_UNCOMPRESSED_R16) || 
+                        (format == RL_PIXELFORMAT_UNCOMPRESSED_R16) ||
                         (format == RL_PIXELFORMAT_UNCOMPRESSED_R16G16B16A16)) TRACELOG(RL_LOG_WARNING, "TEXTURES: Cubemap requested format not supported");
                     else glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + face, mipmapLevel, glInternalFormat, mipSize, mipSize, 0, glFormat, glType, NULL);
                 }
