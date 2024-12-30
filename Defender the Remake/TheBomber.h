@@ -8,7 +8,7 @@ public:
 	TheBomber();
 	virtual ~TheBomber();
 
-	bool Initialize(Utilities* utilities);
+	bool Initialize();
 	bool BeginRun();
 
 	void Update(float deltaTime);

@@ -28,9 +28,9 @@ void ThePerson::SetDroppedSound(Sound sound)
 	DroppedSound = sound;
 }
 
-bool ThePerson::Initialize(Utilities* utilities)
+bool ThePerson::Initialize()
 {
-	MirrorRadar::Initialize(utilities);
+	MirrorRadar::Initialize();
 
 	return false;
 }

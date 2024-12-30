@@ -15,7 +15,7 @@ public:
 	bool SetCamera(Camera* camera);
 	void SetModelWithTexture(Model &model, Texture2D &texture);
 	void Input();
-	bool Initialize(Utilities* utilities);
+	bool Initialize();
 	bool BeginRun();
 	void Update(float deltaTime);
 	void AlwaysUpdate(float deltaTime);

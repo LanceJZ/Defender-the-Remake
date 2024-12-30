@@ -7,7 +7,7 @@ public:
 	OnScreenText();
 	virtual ~OnScreenText();
 
-	bool Initialize(Utilities* utilities);
+	bool Initialize();
 
 	void FixedUpdate();
 	void Draw2D();

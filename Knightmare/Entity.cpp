@@ -11,9 +11,9 @@ Entity::~Entity()
 	Parents->clear();
 }
 
-bool Entity::Initialize(Utilities* utilities)
+bool Entity::Initialize()
 {
-	Common::Initialize(utilities);
+	Common::Initialize();
 
 	return true;
 }
@@ -375,18 +375,6 @@ float Entity::GetAngleFromVectors(Vector3& target)
 	return (atan2f(target.y - Position.y, target.x - Position.x));
 }
 
-Vector3 Entity::GetRandomVelocity(float magnitude)
-{
-	float ang = GetRandomFloat(0, PI * 2);
-
-	return GetVelocityFromAngleZ(ang, magnitude);
-}
-
-Vector3 Entity::GetVelocityFromAngleZ(float angle, float magnitude)
-{
-	return { cosf(angle) * magnitude, sinf(angle) * magnitude, 0 };
-}
-
 Vector3 Entity::GetVelocityFromAngleZ(float magnitude)
 {
 	return { cosf(RotationZ) * magnitude, sinf(RotationZ) * magnitude, 0 };
@@ -418,81 +406,6 @@ Vector3 Entity::GetWorldPosition()
 	return worldPosition;
 }
 
-void Entity::SetRotationZTowardsTargetZ(Vector3& target, float magnitude)
-{
-	RotationZ = Common::GetRotationTowardsTargetZ(Position, target,
-		RotationZ, magnitude);
-}
-
-//Sets Acceleration based on acceleration amount this frame,
-//up to a max amount based on top speed.
-void Entity::SetAccelerationToMaxAtRotation(float accelerationAmount, float topSpeed)
-{
-	Acceleration = GetAccelerationToMaxAtRotation(accelerationAmount, topSpeed);
-}
-
-//Sets Acceleration down to zero over time based on deceleration amount.
-void Entity::SetAccelerationToZero(float decelerationAmount)
-{
-	if (Velocity.x > 0.01 || Velocity.y > 0.01 ||
-		Velocity.x < -0.01 || Velocity.y < -0.01)
-	{
-		Acceleration = (Velocity * -decelerationAmount) * DeltaTime;
-	}
-	else
-	{
-		Velocity = { 0, 0, 0 };
-	}
-}
-
-void Entity::SetRotateVelocity(Vector3& position, float turnSpeed, float speed)
-{
-	RotationVelocityZ = Common::GetRotationTowardsTargetZ(Position,
-		position, RotationZ, turnSpeed);
-	Velocity = GetVelocityFromAngleZ(RotationZ, speed);
-}
-
-void Entity::SetRotationZFromVector(Vector3& target)
-{
-	RotationZ = GetAngleFromVectors(target);
-}
-
-void Entity::SetHeading(Vector3& waypoint, float rotationSpeed)
-{
-	SetAimAtTargetZ(waypoint, RotationZ, rotationSpeed);
-}
-
-//Sets Rotation Velocity Z to Aim at the Target.
-void Entity::SetAimAtTargetZ(Vector3& target, float facingAngle, float magnitude)
-{
-	float turnVelocity = 0;
-	float targetAngle = GetAngleFromVectors(target); //This is why it is here.
-	float targetLessFacing = targetAngle - facingAngle;
-	float facingLessTarget = facingAngle - targetAngle;
-
-	if (abs(targetLessFacing) > PI)
-	{
-		if (facingAngle > targetAngle)
-		{
-			facingLessTarget = ((TwoPi - facingAngle) + targetAngle) * -1;
-		}
-		else
-		{
-			facingLessTarget = (TwoPi - targetAngle) + facingAngle;
-		}
-	}
-
-	if (facingLessTarget > 0)
-	{
-		turnVelocity = -magnitude;
-	}
-	else
-	{
-		turnVelocity = magnitude;
-	}
-
-	RotationVelocityZ = turnVelocity;
-}
 
 void Entity::SetParent(Entity& parent)
 {
@@ -635,34 +548,6 @@ void Entity::CheckScreenEdgeY()
 	{
 		Y((float)GameWindowHalfHeight);
 	}
-}
-
-void Entity::LeavePlay(float turnSpeed, float speed)
-{
-	float stageLeft = 0;
-	float stageDown = 0;
-
-	if (Position.x > 0)
-	{
-		stageLeft = (float)GameWindowHalfWidth;
-	}
-	else
-	{
-		stageLeft = (float)-GameWindowHalfWidth;
-	}
-
-	if (Position.y > 0)
-	{
-		stageDown = (float)GameWindowHalfHeight;
-	}
-	else
-	{
-		stageDown = (float)-GameWindowHalfHeight;
-	}
-
-	Vector3 position = { stageLeft, stageDown, 0 };
-
-	SetRotateVelocity(position, turnSpeed, speed);
 }
 
 void Entity::CheckPlayfieldSidesWarp()

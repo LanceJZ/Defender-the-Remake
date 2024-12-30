@@ -9,9 +9,9 @@ OnScreenText::~OnScreenText()
 {
 }
 
-bool OnScreenText::Initialize(Utilities* utilities)
+bool OnScreenText::Initialize()
 {
-	Common::Initialize(TheUtilities);
+	Common::Initialize();
 
 	return false;
 }

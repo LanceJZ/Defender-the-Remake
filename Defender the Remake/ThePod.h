@@ -7,7 +7,7 @@ public:
 	ThePod();
 	virtual ~ThePod();
 
-	bool Initialize(Utilities* utilities);
+	bool Initialize();
 	bool BeginRun();
 
 	void Update(float deltaTime);

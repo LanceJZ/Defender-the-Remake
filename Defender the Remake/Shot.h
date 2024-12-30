@@ -10,7 +10,7 @@ public:
 
 	void SetPlayerShotTailModel(Model model);
 
-	bool Initialize(Utilities* utilities);
+	bool Initialize();
 	bool BeginRun();
 
 	void EnemySpawn(Vector3 position, Vector3 velocity, float lifeTime);

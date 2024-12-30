@@ -60,7 +60,7 @@ public:
 	void SetPersonGrabbedSound(Sound sound);
 	void SetPersonDroppedSound(Sound sound);
 
-	bool Initialize(Utilities* utilities);
+	bool Initialize();
 	bool BeginRun();
 
 	void Update();

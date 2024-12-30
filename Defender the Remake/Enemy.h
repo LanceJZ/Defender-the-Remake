@@ -17,7 +17,7 @@ public:
 	void SetFireSound(Sound sound);
 	void SetExplodeSound(Sound sound);
 
-	bool Initialize(Utilities* utilities);
+	bool Initialize();
 	bool BeginRun();
 
 	void Spawn(Vector3 position);
@@ -26,6 +26,7 @@ public:
 	void AlwaysUpdate(float deltaTime);
 	void FixedUpdate(float deltaTime);
 
+	void LeavePlay(float turnSpeed, float speed);
 	void Hit();
 	void Reset();
 	void Destroy();

@@ -13,9 +13,9 @@ Game::~Game()
 {
 }
 
-bool Game::Initialize(Utilities* utilities) //Initialize
+bool Game::Initialize() //Initialize
 {
-	Common::Initialize(utilities);
+	Common::Initialize();
 
 	Logic->SetPlayer(Player);
 	Logic->SetEnemies(Enemies);

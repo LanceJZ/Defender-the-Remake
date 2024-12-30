@@ -23,7 +23,7 @@ public:
 	void SetLandedSound(Sound sound);
 	void SetDroppedSound(Sound sound);
 
-	bool Initialize(Utilities* utilities);
+	bool Initialize();
 	bool BeginRun();
 
 	void Update(float deltaTime);

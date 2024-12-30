@@ -73,15 +73,15 @@ void GameLogic::SetPersonSplatSound(Sound sound)
 	PersonSplatSound = sound;
 }
 
-bool GameLogic::Initialize(Utilities* utilities)
+bool GameLogic::Initialize()
 {
-	Common::Initialize(utilities);
+	Common::Initialize();
 
 	AdjustedFieldSize = Vector2Multiply(FieldSize, { 0.5f, 0.5f });
 
 	for (const auto& person : People)
 	{
-		person->Initialize(utilities);
+		person->Initialize();
 	}
 
 	return true;
@@ -235,7 +235,7 @@ void GameLogic::SpawnPersonMan(int count)
 {
 	for (int i = 0; i < count; i++)
 	{
-		float x = GetRandomFloat(-AdjustedFieldSize.x, AdjustedFieldSize.x);
+		float x = M.GetRandomFloat(-AdjustedFieldSize.x, AdjustedFieldSize.x);
 		float y = GameWindowHalfHeight - (People[i]->VerticesSize * 2.0f);
 		People[i]->Spawn({x, y, 0.0f});
 	}
@@ -359,7 +359,7 @@ void GameLogic::LivesDisplay()
 			PlayerLives.push_back(DBG_NEW Model3D());
 			EM.AddModel3D(PlayerLives.back(), Player->Get3DModel(),
 				Player->ModelScale * 0.5f);
-			PlayerLives.back()->Initialize(TheUtilities);
+			PlayerLives.back()->Initialize();
 			PlayerLives.back()->HideCollision = true;
 			PlayerLives.back()->Position = { 0.0f , row, -200.0f };
 			PlayerLives.back()->BeginRun();
@@ -399,7 +399,7 @@ void GameLogic::SmartbombsDisplay()
 		{
 			SmartbombIcons.push_back(DBG_NEW Model3D());
 			EM.AddModel3D(SmartbombIcons.back(), SmartBombModel);
-			SmartbombIcons.back()->Initialize(TheUtilities);
+			SmartbombIcons.back()->Initialize();
 			SmartbombIcons.back()->HideCollision = true;
 			SmartbombIcons.back()->Position = { 0.0f , row, -200.0f };
 			SmartbombIcons.back()->BeginRun();

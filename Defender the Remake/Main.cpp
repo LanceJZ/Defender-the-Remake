@@ -19,6 +19,7 @@
 
 ContentManager CM = {};
 EntityManager EM = {};
+KnightMath M = {};
 ParticleManager Particles = {};
 Camera TheCamera = {};
 Vector2 FieldSize = {};
@@ -29,12 +30,14 @@ int main()
 int WinMain()
 #endif
 {
+	SetTraceLogLevel(LOG_ERROR);
+
 	static Game game;
 
 	int windowHeight = 960; //height
 	int windowWidth = 1280; //width
 
-	InitWindow(windowWidth, windowHeight, "Defender The Remake - Alpha 1.0");
+	InitWindow(windowWidth, windowHeight, "Defender The Remake - Alpha 1.1");
 	InitAudioDevice();
 
 	Image icon = LoadImage("icon.png");
@@ -45,10 +48,7 @@ int WinMain()
 	glfwSwapInterval(0);
 	SetTargetFPS(120);
 
-	static Utilities TheUtilities = {};
-
-	EM.SetUtilities(&TheUtilities);
-	Particles.Initialize(&TheUtilities);
+	Particles.Initialize();
 	Particles.SetManagers(EM);
 
 	// Define the camera to look into our 3D world
@@ -65,7 +65,7 @@ int WinMain()
 	// The Managers needs a reference to The Camera
 	EM.SetCamera(TheCamera);
 
-	game.Initialize(&TheUtilities);
+	game.Initialize();
 	EM.Initialize();
 	game.Load();
 	game.BeginRun();
@@ -75,7 +75,13 @@ int WinMain()
 	while (!WindowShouldClose())
 	{
 		game.Input();
-		game.Update(GetFrameTime());
+		float deltaTime = GetFrameTime();
+
+#if _DEBUG
+		if (deltaTime > 0.05f) deltaTime = 0.05f;
+#endif
+
+		game.Update(deltaTime);
 
 		if (game.Logic->State != GameState::Pause &&
 			game.Logic->State != GameState::GameOver)
@@ -85,8 +91,8 @@ int WinMain()
 			float deltaTime = GetFrameTime();
 
 			EM.FixedUpdate(deltaTime);
-			EM.Update(deltaTime);
 			EM.AlwaysUpdate(deltaTime);
+			EM.Update(deltaTime);
 		}
 
 		BeginDrawing();

@@ -15,7 +15,7 @@ public:
 	ExplosionControl();
 	virtual ~ExplosionControl();
 
-	bool Initialize(Utilities* utilities);
+	bool Initialize();
 	bool BeginRun();
 
 	void FixedUpdate();

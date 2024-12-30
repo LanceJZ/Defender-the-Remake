@@ -10,9 +10,9 @@ TheBaiter::~TheBaiter()
 {
 }
 
-bool TheBaiter::Initialize(Utilities* utilities)
+bool TheBaiter::Initialize()
 {
-	Enemy::Initialize(utilities);
+	Enemy::Initialize();
 
 	WorldWidth = FieldSize.x * 0.5f;
 
@@ -53,7 +53,7 @@ void TheBaiter::FixedUpdate(float deltaTime)
 	if (EM.TimerElapsed(ShotTimerID))
 	{
 		FireShot();
-		EM.ResetTimer(ShotTimerID, GetRandomFloat(0.15f, 0.25f));
+		EM.ResetTimer(ShotTimerID, M.GetRandomFloat(0.15f, 0.25f));
 	}
 }
 
@@ -108,17 +108,17 @@ void TheBaiter::AfterSpawn()
 
 void TheBaiter::ChangeSpeed()
 {
-	EM.ResetTimer(SpeedChangeTimerID, GetRandomFloat(2.75f, 5.5f));
+	EM.ResetTimer(SpeedChangeTimerID, M.GetRandomFloat(2.75f, 5.5f));
 	float multiplier = 1.2f;
 	XVelocity = (Player->Velocity.x + 0.1f) * multiplier;
-	YVelocity = GetRandomFloat(20, 80);
+	YVelocity = M.GetRandomFloat(20, 80);
 }
 
 void TheBaiter::FireShot()
 {
 	Enemy::FireShot();
 
-	EM.ResetTimer(ShotTimerID, GetRandomFloat(0.25f, 0.5f));
+	EM.ResetTimer(ShotTimerID, M.GetRandomFloat(0.25f, 0.5f));
 }
 
 bool TheBaiter::CheckCollision()

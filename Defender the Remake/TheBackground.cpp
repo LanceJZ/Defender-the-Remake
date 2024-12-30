@@ -59,9 +59,9 @@ void TheBackground::SetPlayer(ThePlayer* player)
 	Player = player;
 }
 
-bool TheBackground::Initialize(Utilities* utilities)
+bool TheBackground::Initialize()
 {
-	Common::Initialize(utilities);
+	Common::Initialize();
 
 	return false;
 }
@@ -126,7 +126,7 @@ bool TheBackground::BeginRun()
 		AllTheStars[i]->SetModel(StarModel);
 		AllTheStars[i]->HideCollision = true;
 		AllTheStars[i]->Scale = 2.5f;
-		AllTheStars[i]->RelativeVelocity = GetRandomFloat(0.85f, 0.99f);
+		AllTheStars[i]->RelativeVelocity = M.GetRandomFloat(0.85f, 0.99f);
 	}
 
 	PlaceAllTheStars();
@@ -172,7 +172,7 @@ void TheBackground::Update()
 
 	if (EM.TimerElapsed(StarsTimerID))
 	{
-		EM.ResetTimer(StarsTimerID, GetRandomFloat(0.15f, 0.5f));
+		EM.ResetTimer(StarsTimerID, M.GetRandomFloat(0.15f, 0.5f));
 		BlinkTheStars();
 	}
 }
@@ -181,18 +181,18 @@ void TheBackground::PlaceAllTheStars()
 {
 	for (const auto& star : AllTheStars)
 	{
-		float x = GetRandomFloat((float)(-WindowWidth),
+		float x = M.GetRandomFloat((float)(-WindowWidth),
 			(float)(WindowWidth));
 		float y = 0.0f;
 
 		if (AllNotDead)
 		{
-			y = GetRandomFloat((float)(-WindowHeight * 0.3f),
+			y = M.GetRandomFloat((float)(-WindowHeight * 0.3f),
 				(float)(WindowHeight * 0.15f));
 		}
 		else
 		{
-			y = GetRandomFloat((float)(-WindowHeight * 0.3f),
+			y = M.GetRandomFloat((float)(-WindowHeight * 0.3f),
 				(float)(GameWindowHalfHeight));
 		}
 
@@ -200,9 +200,9 @@ void TheBackground::PlaceAllTheStars()
 		star->ModelColor.r = (unsigned char)GetRandomValue(10, 200);
 		star->ModelColor.g = (unsigned char)GetRandomValue(10, 200);
 		star->ModelColor.b = (unsigned char)GetRandomValue(10, 200);
-		star->RotationVelocityX = GetRandomFloat(-16.66f, 16.66f);
-		star->RotationVelocityY = GetRandomFloat(-16.66f, 16.66f);
-		star->RotationVelocityZ = GetRandomFloat(-16.66f, 16.66f);
+		star->RotationVelocityX = M.GetRandomFloat(-16.66f, 16.66f);
+		star->RotationVelocityY = M.GetRandomFloat(-16.66f, 16.66f);
+		star->RotationVelocityZ = M.GetRandomFloat(-16.66f, 16.66f);
 	}
 }
 
@@ -239,9 +239,9 @@ void TheBackground::WorldExplode()
 		Vector3 position = Vector3();
 		Color color = Color();
 
-		position.x = GetRandomFloat((float)(-WindowWidth),
+		position.x = M.GetRandomFloat((float)(-WindowWidth),
 			(float)(WindowWidth)) + TheCamera.position.x;
-		position.y = GetRandomFloat(yTop, yBottom);
+		position.y = M.GetRandomFloat(yTop, yBottom);
 
 		color.r = (unsigned char)GetRandomValue(10, 200);
 		color.g = (unsigned char)GetRandomValue(10, 200);

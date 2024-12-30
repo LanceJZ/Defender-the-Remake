@@ -12,7 +12,7 @@ public:
 	void SetPlayer(ThePlayer* player);
 	void SetRadarModel(Model model);
 
-	bool Initialize(Utilities* utilities);
+	bool Initialize();
 	bool BeginRun();
 
 	void Update(float deltaTime);

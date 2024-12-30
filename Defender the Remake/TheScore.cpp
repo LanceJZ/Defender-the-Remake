@@ -9,9 +9,9 @@ TheScore::~TheScore()
 {
 }
 
-bool TheScore::Initialize(Utilities* utilities)
+bool TheScore::Initialize()
 {
-	OnScreenText::Initialize(TheUtilities);
+	OnScreenText::Initialize();
 
 	return false;
 }

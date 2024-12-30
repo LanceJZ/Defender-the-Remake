@@ -25,19 +25,19 @@ void Shot::SetPlayerShotTailModel(Model model)
 	PlayerShotTailMirrorR->SetParent(*this);
 }
 
-bool Shot::Initialize(Utilities* utilities)
+bool Shot::Initialize()
 {
-	Model3D::Initialize(utilities);
+	Model3D::Initialize();
 
 	EM.AddModel3D(MirrorL = DBG_NEW Model3D());
 	EM.AddModel3D(MirrorR = DBG_NEW Model3D());
 
-	if (PlayerShotTail != nullptr) PlayerShotTail->Initialize(utilities);
-	if (PlayerShotTailMirrorL != nullptr) PlayerShotTailMirrorL->Initialize(utilities);
-	if (PlayerShotTailMirrorR != nullptr) PlayerShotTailMirrorR->Initialize(utilities);
+	if (PlayerShotTail != nullptr) PlayerShotTail->Initialize();
+	if (PlayerShotTailMirrorL != nullptr) PlayerShotTailMirrorL->Initialize();
+	if (PlayerShotTailMirrorR != nullptr) PlayerShotTailMirrorR->Initialize();
 
-	MirrorL->Initialize(utilities);
-	MirrorR->Initialize(utilities);
+	MirrorL->Initialize();
+	MirrorR->Initialize();
 
 	GameWindowHalfHeight = GetScreenHeight() * 0.5f;
 

@@ -11,6 +11,13 @@ public:
 
 	bool WorldGone = false;
 
+	Model3D* UIBackfaceR = nullptr;
+	Model3D* UIBackfaceL = nullptr;
+	Model3D* RadarBottom = nullptr;
+	Model3D* RadarTop = nullptr;
+	Model3D* RadarLeft = nullptr;
+	Model3D* RadarRight = nullptr;
+
 	void SetLandPartsModel(Model landPart, Model radarLandPart, size_t index);
 	void SetUIBackfaceModel(Model model);
 	void SetRadarModel(Model horizontal, Model side);
@@ -18,7 +25,7 @@ public:
 
 	void SetPlayer(ThePlayer* player);
 
-	bool Initialize(Utilities* utilities);
+	bool Initialize();
 	bool BeginRun();
 
 	void Update();
@@ -46,12 +53,6 @@ private:
 
 	Model3D* LandParts[9] = { nullptr };
 	Model3D* RadarLandParts[14] = { nullptr };
-	Model3D* UIBackfaceR = nullptr;
-	Model3D* UIBackfaceL = nullptr;
-	Model3D* RadarBottom = nullptr;
-	Model3D* RadarTop = nullptr;
-	Model3D* RadarLeft = nullptr;
-	Model3D* RadarRight = nullptr;
 
 	std::vector<Star*> AllTheStars;
 

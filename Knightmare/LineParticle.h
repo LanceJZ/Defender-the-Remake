@@ -1,6 +1,7 @@
 #pragma once
 #include "LineModel.h"
 #include "EntityManager.h"
+#include "KnightMath.h"
 
 class LineParticle : public LineModel
 {
@@ -10,7 +11,7 @@ public:
 
 	void SetEntityManager(EntityManager* entityManager);
 
-	bool Initialize(Utilities* utilities);
+	bool Initialize();
 	bool BeginRun();
 
 	void Update(float deltaTime);
@@ -24,4 +25,5 @@ private:
 	size_t LifeTimerID = 0;
 
 	EntityManager* EM = nullptr;
+	KnightMath M = {};
 };

@@ -17,9 +17,9 @@ Model3D::~Model3D()
 	}
 }
 
-bool Model3D::Initialize(Utilities* utilities)
+bool Model3D::Initialize()
 {
-	Entity::Initialize(utilities);
+	Entity::Initialize();
 
 	HalfViewableArea = { (float)GameWindowHalfWidth, (float)GameWindowHalfHeight };
 

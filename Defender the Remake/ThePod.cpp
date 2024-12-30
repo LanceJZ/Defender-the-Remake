@@ -8,9 +8,9 @@ ThePod::~ThePod()
 {
 }
 
-bool ThePod::Initialize(Utilities* utilities)
+bool ThePod::Initialize()
 {
-	Enemy::Initialize(utilities);
+	Enemy::Initialize();
 
 	return false;
 }
@@ -43,30 +43,30 @@ void ThePod::Spawn(Vector3 position)
 
 	if (GetRandomValue(0, 1) == 0)
 	{
-		Position.x = GetRandomFloat(-GetScreenWidth() * 3.5f,
+		Position.x = M.GetRandomFloat(-GetScreenWidth() * 3.5f,
 			-GetScreenWidth() * 1.5f);
 
 
-		Velocity.x = GetRandomFloat(35.0f, 55.0f);
+		Velocity.x = M.GetRandomFloat(35.0f, 55.0f);
 	}
 	else
 	{
-		Position.x = GetRandomFloat(GetScreenWidth() * 1.5f,
+		Position.x = M.GetRandomFloat(GetScreenWidth() * 1.5f,
 			GetScreenWidth()	* 3.5f);
 
-		Velocity.x = -GetRandomFloat(35.0f, 55.0f);
+		Velocity.x = -M.GetRandomFloat(35.0f, 55.0f);
 	}
 
 	if (GetRandomValue(0, 1) == 0)
 	{
-		Velocity.y = GetRandomFloat(25.0f, 35.0f);
+		Velocity.y = M.GetRandomFloat(25.0f, 35.0f);
 	}
 	else
 	{
-		Velocity.y = -GetRandomFloat(25.0f, 35.0f);
+		Velocity.y = -M.GetRandomFloat(25.0f, 35.0f);
 	}
 
-	Position.y = GetRandomFloat(-GetScreenHeight() * 0.5f, GetScreenHeight() * 0.5f);
+	Position.y = M.GetRandomFloat(-GetScreenHeight() * 0.5f, GetScreenHeight() * 0.5f);
 }
 
 void ThePod::Reset()

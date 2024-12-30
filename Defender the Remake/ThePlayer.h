@@ -1,7 +1,6 @@
 #pragma once
 #include "Globals.h"
 #include "Common.h"
-#include "Utilities.h"
 #include "Shot.h"
 #include "TheScore.h"
 
@@ -42,7 +41,7 @@ public:
 	void SetSmartbombSound(Sound sound);
 	void SetBonusSound(Sound sound);
 
-	bool Initialize(Utilities* utilities);
+	bool Initialize();
 	bool BeginRun();
 
 	void Input();

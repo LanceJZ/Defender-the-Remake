@@ -1,6 +1,7 @@
 #pragma once
 #include "Model3D.h"
 #include "EntityManager.h"
+#include "KnightMath.h"
 
 class ParticleCube : public Model3D
 {
@@ -9,7 +10,7 @@ public:
 	virtual ~ParticleCube();
 	void SetManagers(EntityManager* entityManager);
 
-	bool Initialize(Utilities* utilities);
+	bool Initialize();
 	bool BeginRun();
 
 	void Update(float deltaTime);
@@ -23,4 +24,5 @@ private:
 	size_t LifeTimerID = 0;
 
 	EntityManager* EM= nullptr;
+	KnightMath M = {};
 };

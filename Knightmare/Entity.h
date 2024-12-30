@@ -1,4 +1,6 @@
 #pragma once
+#include <vector>
+#include "raylib.h"
 #include "Common.h"
 #include "ContentManager.h"
 
@@ -52,7 +54,7 @@ public:
 	Entity();
 	virtual ~Entity();
 
-	bool Initialize(Utilities* utilities);
+	bool Initialize();
 	virtual void Update(float deltaTime);
 	virtual void AlwaysUpdate(float deltaTime);
 	virtual void FixedUpdate(float deltaTime);
@@ -87,20 +89,10 @@ public:
 	float GetAngleFromWorldVectorZ(Vector3 target);
 	float GetAngleFromVectors(Vector3& target);
 
-	Vector3 GetRandomVelocity(float magnitude);
-	Vector3 GetVelocityFromAngleZ(float angle, float magnitude);
 	Vector3 GetVelocityFromAngleZ(float magnitude);
 	Vector3 GetAccelerationToMaxAtRotation(float accelerationAmount, float topSpeed);
 	Vector3 GetWorldPosition();
 
-	void SetRotationZTowardsTargetZ(Vector3& target, float magnitude);
-	void SetAccelerationToMaxAtRotation(float accelerationAmount, float topSpeed);
-	void SetAccelerationToZero(float decelerationAmount);
-	void SetRotateVelocity(Vector3& position, float turnSpeed, float speed);
-	void SetRotationZFromVector(Vector3& target);
-	void SetHeading(Vector3& waypoint, float rotationSpeed);
-	void SetAimAtTargetZ(Vector3& target, float facingAngle, float magnitute);
-	void SetParent(Entity& parent);
 	virtual bool SetCamera(Camera* camera);
 	virtual void SetModel(Model &model, float scale);
 	virtual void SetModel(Model &model);
@@ -113,12 +105,12 @@ public:
 	virtual void SetModel(LineModelPoints lines, float scale);
 	virtual Model& Get3DModel();
 	virtual void Reset();
+	void SetParent(Entity& parent);
 	void RemoveParent(Entity* parent);
 	void ClearParents();
 	void CheckScreenEdge();
 	void CheckScreenEdgeX();
 	void CheckScreenEdgeY();
-	void LeavePlay(float turnSpeed, float speed);
 	void CheckPlayfieldSidesWarp();
 	bool CheckPlayfieldSidesWarp(float left, float right);
 	void CheckPlayfieldHeightWarp(float top, float bottom);

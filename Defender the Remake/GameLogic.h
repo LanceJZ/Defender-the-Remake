@@ -1,7 +1,6 @@
 #pragma once
 #include "Globals.h"
 #include "Common.h"
-#include "Utilities.h"
 #include "TheBackground.h"
 #include "ThePlayer.h"
 #include "EnemyControl.h"
@@ -41,7 +40,7 @@ public:
 	void SetPersonLandedSound(Sound sound);
 	void SetPersonSplatSound(Sound sound);
 
-	bool Initialize(Utilities* utilities);
+	bool Initialize();
 	bool BeginRun();
 
 	void Input();

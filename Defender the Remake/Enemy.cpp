@@ -27,9 +27,9 @@ void Enemy::SetExplodeSound(Sound sound)
 	ExplodeSound = sound;
 }
 
-bool Enemy::Initialize(Utilities* utilities)
+bool Enemy::Initialize()
 {
-	MirrorRadar::Initialize(utilities);
+	MirrorRadar::Initialize();
 
 	return true;
 }
@@ -75,7 +75,7 @@ void Enemy::FireShot()
 		}
 
 		shot->EnemySpawn(Position,
-			GetVelocityFromAngleZ(GetShotAngle(Position), 125.0f), 8.0f);
+			M.GetVelocityFromAngleZ(GetShotAngle(Position), 125.0f), 8.0f);
 
 		return;
 	}
@@ -118,7 +118,7 @@ float Enemy::GetShotAngle(Vector3 position)
 	}
 	else
 	{
-		angle = GetRandomRadian();
+		angle = M.GetRandomRadian();
 	}
 
 	return angle;
@@ -126,7 +126,7 @@ float Enemy::GetShotAngle(Vector3 position)
 
 float Enemy::AimedShot(Vector3 position)
 {
-	float percentChance = GetRandomFloat(0.0f, 0.05f);
+	float percentChance = M.GetRandomFloat(0.0f, 0.05f);
 
 	Vector3 aimXVelocity = Player->Position;
 	aimXVelocity.x += Player->Velocity.x;
@@ -137,7 +137,35 @@ float Enemy::AimedShot(Vector3 position)
 	}
 
 	return GetAngleFromVectorZ(aimXVelocity) +
-		GetRandomFloat(-percentChance, percentChance);
+		M.GetRandomFloat(-percentChance, percentChance);
+}
+
+void Enemy::LeavePlay(float turnSpeed, float speed)
+{
+	float stageLeft = 0;
+	float stageDown = 0;
+
+	if (Position.x > 0)
+	{
+		stageLeft = (float)GameWindowHalfWidth;
+	}
+	else
+	{
+		stageLeft = (float)-GameWindowHalfWidth;
+	}
+
+	if (Position.y > 0)
+	{
+		stageDown = (float)GameWindowHalfHeight;
+	}
+	else
+	{
+		stageDown = (float)-GameWindowHalfHeight;
+	}
+
+	Vector3 position = { stageLeft, stageDown, 0 };
+
+	M.SetRotateVelocity(position, turnSpeed, speed);
 }
 
 void Enemy::Hit()

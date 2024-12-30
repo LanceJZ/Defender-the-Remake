@@ -21,9 +21,9 @@ void MirrorRadar::SetRadarModel(Model model)
 	Radar->SetModel(model);
 }
 
-bool MirrorRadar::Initialize(Utilities* utilities)
+bool MirrorRadar::Initialize()
 {
-	Model3D::Initialize(utilities);
+	Model3D::Initialize();
 
 	return true;
 }

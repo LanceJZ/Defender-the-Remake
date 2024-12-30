@@ -23,7 +23,7 @@ public:
 	void SetMutateSound(Sound sound);
 
 	void SetPeople(ThePerson* people[10]);
-	bool Initialize(Utilities* utilities);
+	bool Initialize();
 	bool BeginRun();
 
 	void Update(float deltaTime);

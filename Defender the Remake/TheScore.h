@@ -8,7 +8,7 @@ public:
 	TheScore();
 	virtual ~TheScore();
 
-	bool Initialize(Utilities* utilities);
+	bool Initialize();
 	bool BeginRun();
 
 	void Update();

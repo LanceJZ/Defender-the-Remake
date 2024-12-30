@@ -152,9 +152,9 @@ void EnemyControl::SetPersonDroppedSound(Sound sound)
 	PersonDroppedSound = sound;
 }
 
-bool EnemyControl::Initialize(Utilities* utilities)
+bool EnemyControl::Initialize()
 {
-	Common::Initialize(utilities);
+	Common::Initialize();
 
 	AdjustedFieldSize = Vector2Multiply(FieldSize, { 0.5f, 0.5f });
 

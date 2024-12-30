@@ -27,7 +27,7 @@ void ThePlayer::SetShotModels(Model shotModel, Model tailModel)
 	for(auto shot : Shots)
 	{
 		shot->SetPlayerShotTailModel(tailModel);
-		shot->Initialize(TheUtilities);
+		shot->Initialize();
 	}
 }
 
@@ -66,9 +66,9 @@ void ThePlayer::SetBonusSound(Sound sound)
 	BonusSound = sound;
 }
 
-bool ThePlayer::Initialize(Utilities* utilities)
+bool ThePlayer::Initialize()
 {
-	Model3D::Initialize(utilities);
+	Model3D::Initialize();
 
 	RadarModifier = GetScreenHeight() * 0.4374f;
 	CameraFacingOffset = GetScreenWidth() * 0.2f;

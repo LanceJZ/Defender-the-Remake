@@ -2,7 +2,6 @@
 #include <memory>
 #include "Globals.h"
 #include "Common.h"
-#include "Utilities.h"
 #include "GameLogic.h"
 #include "ThePlayer.h"
 #include "EnemyControl.h"
@@ -17,7 +16,7 @@ public:
 	bool PlayBackgroundMusic = true;
 	GameLogic* Logic = {};
 
-	bool Initialize(Utilities* utilities);
+	bool Initialize();
 	bool Load();
 	bool BeginRun();
 	void Input();

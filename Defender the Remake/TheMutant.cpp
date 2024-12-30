@@ -10,9 +10,9 @@ TheMutant::~TheMutant()
 {
 }
 
-bool TheMutant::Initialize(Utilities* utilities)
+bool TheMutant::Initialize()
 {
-	Enemy::Initialize(utilities);
+	Enemy::Initialize();
 
 	WorldWidth = FieldSize.x * 0.5f;
 	Points = 150;
@@ -41,7 +41,7 @@ void TheMutant::FixedUpdate(float deltaTime)
 
 	if (EM.TimerElapsed(ChasePlayerTimerID))
 	{
-		EM.ResetTimer(ChasePlayerTimerID, GetRandomFloat(0.25f, 1.75f));
+		EM.ResetTimer(ChasePlayerTimerID, M.GetRandomFloat(0.25f, 1.75f));
 		ChasePlayer();
 
 	}
@@ -49,7 +49,7 @@ void TheMutant::FixedUpdate(float deltaTime)
 	if (EM.TimerElapsed(ShotTimerID))
 	{
 		FireShot();
-		EM.ResetTimer(ShotTimerID, GetRandomFloat(0.25f, 0.5f));
+		EM.ResetTimer(ShotTimerID, M.GetRandomFloat(0.25f, 0.5f));
 	}
 }
 
@@ -67,9 +67,9 @@ void TheMutant::ChasePlayer()
 
 	if (EM.TimerElapsed(ChangeSpeedTimerID))
 	{
-		EM.ResetTimer(ChangeSpeedTimerID, GetRandomFloat(0.3f, 2.5f));
-		Speed = GetRandomFloat(150.0f, 350.0f);
-		DistanceY = GetRandomFloat(100.0f, 150.0f);
+		EM.ResetTimer(ChangeSpeedTimerID, M.GetRandomFloat(0.3f, 2.5f));
+		Speed = M.GetRandomFloat(150.0f, 350.0f);
+		DistanceY = M.GetRandomFloat(100.0f, 150.0f);
 	}
 
 	if (mutantX - playerX > WorldWidth || playerX - mutantX > WorldWidth)
@@ -131,7 +131,7 @@ void TheMutant::ChasePlayer()
 		}
 	}
 
-	float distanceX = GetRandomFloat(75.0f, 100.0f);
+	float distanceX = M.GetRandomFloat(75.0f, 100.0f);
 
 	if (playerX < mutantX + distanceX && playerX > mutantX - distanceX)
 	{
