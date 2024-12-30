@@ -209,6 +209,7 @@
   <ItemGroup>
     <ClInclude Include="Common.h" />
     <ClInclude Include="ContentManager.h" />
+    <ClInclude Include="Globals.h" />
     <ClInclude Include="LineModelParticle.h">
       <SubType>
       </SubType>

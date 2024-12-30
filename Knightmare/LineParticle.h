@@ -1,7 +1,7 @@
 #pragma once
 #include "LineModel.h"
 #include "EntityManager.h"
-#include "KnightMath.h"
+#include "Globals.h"
 
 class LineParticle : public LineModel
 {
@@ -25,5 +25,4 @@ private:
 	size_t LifeTimerID = 0;
 
 	EntityManager* EM = nullptr;
-	KnightMath M = {};
 };

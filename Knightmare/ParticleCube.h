@@ -1,7 +1,7 @@
 #pragma once
 #include "Model3D.h"
 #include "EntityManager.h"
-#include "KnightMath.h"
+#include "Globals.h"
 
 class ParticleCube : public Model3D
 {
@@ -24,5 +24,4 @@ private:
 	size_t LifeTimerID = 0;
 
 	EntityManager* EM= nullptr;
-	KnightMath M = {};
 };

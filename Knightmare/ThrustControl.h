@@ -1,7 +1,7 @@
 #pragma once
 #include "Common.h"
 #include "ParticleManager.h"
-#include "KnightMath.h"
+#include "Globals.h"
 
 #ifdef _DEBUG
 	#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
@@ -26,6 +26,5 @@ public:
 		float length,  int count, float time, Color color);
 
 private:
-	KnightMath M = {};
 };
 
